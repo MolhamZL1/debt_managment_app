@@ -1,3 +1,5 @@
+import 'package:debt_managment_app/core/functions/on_generate_route.dart';
+import 'package:debt_managment_app/features/auth/presentation/views/sign_in_view.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -9,6 +11,10 @@ class DebtManagmentApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp();
+    return MaterialApp(
+      onGenerateRoute: onGenerateRoute,
+      initialRoute: SignInView.routename,
+      home: SignInView(),
+    );
   }
 }
