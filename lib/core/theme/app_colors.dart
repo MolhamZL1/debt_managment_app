@@ -1,14 +1,23 @@
 import 'package:flutter/material.dart';
 
-class AppColors {
-  static const Color darkModeGreenBlack = Color(0xFF031314);
-  static const Color backgroundDarkModeAndLetters = Color(0xFF052224);
-  static const Color lettersAndIcons = Color(0xFF093030);
-  static const Color darkModeGreenBar = Color(0xFF0E3E3E);
-  static const Color mainGreen = Color(0xFF00D09E);
-  static const Color lightGreen = Color(0xFFDFF7E2);
-  static const Color backgroundGreenWhiteAndLetters = Color(0xFFF1FFF3);
-  static const Color lightBlueButton = Color(0xFF6DB6FE);
-  static const Color blueButton = Color(0xFF3299FF);
-  static const Color oceanBlueButton = Color(0xFF0068FF);
+abstract class AppColors {
+  // اللون الأساسي (ثقة / مال)
+  static const Color primary = Color(0xFF16A34A); // أخضر رئيسي
+
+  // للخلفيات
+  static const Color background = Color(0xFFF9FAFB); // رمادي فاتح جداً
+  static const Color form = Color(0xFFF3F4F6); // رمادي فاتح للفورم
+
+  // البطاقات
+  static const Color cardLight = Colors.white;
+  static const Color cardDark = Color(0xFF1E293B);
+
+  // النصوص
+  static const Color textDark = Color(0xFF111827); // أسود غامق
+  static const Color textGrey = Color(0xFF6B7280); // رمادي للنصوص الثانوية
+
+  // الحالات
+  static const Color success = Color(0xFF22C55E); // أخضر فاتح (مدفوع)
+  static const Color warning = Color(0xFFFACC15); // أصفر (تنبيه)
+  static const Color error = Color(0xFFDC2626); // أحمر (دين متأخر)
 }
