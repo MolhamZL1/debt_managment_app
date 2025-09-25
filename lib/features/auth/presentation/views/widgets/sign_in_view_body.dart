@@ -1,54 +1,95 @@
+import 'package:debt_managment_app/core/theme/app_text_styles.dart';
+import 'package:debt_managment_app/core/utils/app_images.dart';
 import 'package:debt_managment_app/features/auth/presentation/views/sign_up_view.dart';
 import 'package:flutter/material.dart';
-
 class SignInViewBody extends StatelessWidget {
   const SignInViewBody({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        // Image.asset(''),
-        const Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Text(
-            'Sing Ip',
-            style: TextStyle(
-              fontSize: 24,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 48),
+      child: ListView(
+        children: [
+          AuthImage(),
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 32),
+            child: Text('تسجيل الدخول', style: AppTextStyles.headlineSmall),
+          ),
+
+          Text(
+            'البريد الالكتروني',
+            style: AppTextStyles.bodyMedium.copyWith(
               fontWeight: FontWeight.bold,
-              color: Colors.blue,
             ),
           ),
-        ),
-        const Text(
-          'Please enter your details',
-          style: TextStyle(fontSize: 12, color: Colors.blue),
-        ),
-        TextField(decoration: const InputDecoration(label: Text('Name'))),
-        TextField(decoration: const InputDecoration(label: Text('Email'))),
-        SizedBox(
-          width: 200,
-          child: ElevatedButton(onPressed: () {}, child: const Text('Sing In')),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              'Dont have an account?',
-              style: TextStyle(color: Colors.grey),
+          SizedBox(height: 8),
+          TextField(
+            decoration: const InputDecoration(label: Text('البريدالكتروني')),
+          ),
+          SizedBox(height: 16),
+          Text(
+            ' كلمة المرور',
+            style: AppTextStyles.bodyMedium.copyWith(
+              fontWeight: FontWeight.bold,
             ),
-            TextButton(
-              onPressed: () {
-                Navigator.pushNamed(context, SignUpView.routename);
+          ),
+          SizedBox(height: 8),
+          TextField(
+            decoration: const InputDecoration(label: Text('كلمة المرور')),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 24),
+            child: GestureDetector(
+              onTap: () {
+              
               },
-              child: const Text(
-                'Sign Up',
-                style: TextStyle(color: Colors.blue, fontSize: 18),
+              child: Text(
+                ' هل نسيت كلمة المرور؟',
+                style: AppTextStyles.bodyMedium.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
-          ],
-        ),
-      ],
+          ),
+          SizedBox(
+            width: 200,
+            child: ElevatedButton(
+              onPressed: () {},
+              child: const Text('تسجيل الدخول'),
+            ),
+          ),
+          SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                'ليس لديك حساب؟',
+                style: TextStyle(color: Colors.grey),
+              ),
+              GestureDetector(
+                onTap: () => Navigator.pushNamed(context, SignUpView.routename),
+                child: const Text('إنشاء حساب'),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class AuthImage extends StatelessWidget {
+  const AuthImage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return CircleAvatar(
+      radius: 50,
+      child: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Image.asset(AppImages.imagesAppIcon),
+      ),
     );
   }
 }
