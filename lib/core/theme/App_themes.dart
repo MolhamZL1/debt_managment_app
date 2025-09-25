@@ -1,3 +1,4 @@
+import 'package:debt_managment_app/core/theme/app_text_styles.dart';
 import 'package:flutter/material.dart';
 
 import 'app_colors.dart';
@@ -6,7 +7,7 @@ const kFontFamily = 'Cairo';
 
 //const kFontFamily = 'Poppins';
 class AppTheme {
-  final ThemeData lightTheme = ThemeData(
+  static final ThemeData lightTheme = ThemeData(
     fontFamily: kFontFamily,
     brightness: Brightness.light,
     primaryColor: AppColors.primary,
@@ -149,31 +150,11 @@ class AppTheme {
     ),
 
     textTheme: TextTheme(
-      headlineSmall: TextStyle(
-        fontSize: 22,
-        fontWeight: FontWeight.w600,
-        color: AppColors.textDark,
-      ),
-      titleMedium: TextStyle(
-        fontSize: 18,
-        fontWeight: FontWeight.w600,
-        color: AppColors.textDark,
-      ),
-      bodyMedium: TextStyle(
-        fontSize: 14,
-        fontWeight: FontWeight.normal,
-        color: Colors.black87,
-      ),
-      bodySmall: TextStyle(
-        fontSize: 12,
-        fontWeight: FontWeight.normal,
-        color: AppColors.textGrey,
-      ),
-      labelSmall: TextStyle(
-        fontSize: 10,
-        fontWeight: FontWeight.w500,
-        color: AppColors.textGrey,
-      ),
+      headlineSmall: AppTextStyles.headlineSmall,
+      titleMedium: AppTextStyles.titleMedium,
+      bodyMedium: AppTextStyles.bodyMedium,
+      bodySmall: AppTextStyles.bodySmall,
+      labelSmall: AppTextStyles.labelSmall,
     ),
   );
   static final darkTheme = ThemeData(
