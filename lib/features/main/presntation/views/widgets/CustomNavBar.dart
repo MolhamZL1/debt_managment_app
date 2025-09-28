@@ -28,7 +28,7 @@ class CustomNavBar extends StatelessWidget {
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.settings_outlined),
-          label: "الاعدادات",
+          label: "الإعدادات",
         ),
       ],
     );

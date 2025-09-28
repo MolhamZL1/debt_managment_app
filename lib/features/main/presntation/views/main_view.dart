@@ -25,7 +25,7 @@ class MainView extends StatelessWidget {
             ),
             appBar: AppBar(
               title: Text(
-                ["الصفحة الرئيسية", "العملاء", "التحويلات", "الاعدادات"][state],
+                ["الصفحة الرئيسية", "العملاء", "التحويلات", "الإعدادات"][state],
               ),
             ),
             bottomNavigationBar: CustomNavBar(),
