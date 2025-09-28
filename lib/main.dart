@@ -1,5 +1,6 @@
 import 'package:debt_managment_app/core/routing/routing.dart';
 import 'package:debt_managment_app/features/auth/presentation/views/sign_in_view.dart';
+import 'package:debt_managment_app/features/main/presntation/views/main_view.dart';
 import 'package:debt_managment_app/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -21,7 +22,7 @@ class DebtManagmentApp extends StatelessWidget {
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.light,
       onGenerateRoute: onGenerateRoute,
-      initialRoute: SignInView.routename,
+      initialRoute: MainView.routename,
       localizationsDelegates: [
         S.delegate,
         GlobalMaterialLocalizations.delegate,
@@ -30,7 +31,7 @@ class DebtManagmentApp extends StatelessWidget {
       ],
       supportedLocales: S.delegate.supportedLocales,
       locale: Locale("ar"),
-      home: SignInView(),
+      home: MainView(),
     );
   }
 }

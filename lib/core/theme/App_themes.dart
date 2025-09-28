@@ -1,14 +1,15 @@
 import 'package:debt_managment_app/core/theme/app_text_styles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'app_colors.dart';
 
-const kFontFamily = 'Cairo';
+const kArabicFontFamily = 'Cairo';
 
 //const kFontFamily = 'Poppins';
 class AppTheme {
   static final ThemeData lightTheme = ThemeData(
-    fontFamily: kFontFamily,
+    fontFamily: kArabicFontFamily,
     brightness: Brightness.light,
     primaryColor: AppColors.primary,
     scaffoldBackgroundColor: AppColors.background,
@@ -18,7 +19,6 @@ class AppTheme {
       space: 0,
     ),
 
-    // نبني ColorScheme من البذرة ونعدل الخطأ والألوان الثانوية
     colorScheme: ColorScheme.fromSeed(
       seedColor: AppColors.primary,
       brightness: Brightness.light,
@@ -26,17 +26,35 @@ class AppTheme {
       surface: Colors.white,
     ).copyWith(error: AppColors.error, secondary: AppColors.success),
 
-    appBarTheme: const AppBarTheme(
+    appBarTheme: AppBarTheme(
       elevation: 0,
+      scrolledUnderElevation: 0,
       backgroundColor: Colors.white,
-      foregroundColor: Colors.black,
+      foregroundColor: const Color(0xFF111827),
       centerTitle: true,
-      titleTextStyle: TextStyle(
-        fontSize: 22,
+      surfaceTintColor: Colors.transparent,
+      toolbarHeight: 56,
+      titleSpacing: 0,
+      titleTextStyle: const TextStyle(
+        fontFamily: kArabicFontFamily,
+        fontSize: 20,
         fontWeight: FontWeight.w600,
-        color: Colors.black,
+        letterSpacing: 0.5,
+        color: Color(0xFF111827),
       ),
-      iconTheme: IconThemeData(color: Colors.black),
+      iconTheme: const IconThemeData(color: Color(0xFF374151), size: 22),
+      actionsIconTheme: const IconThemeData(color: Color(0xFF374151), size: 22),
+
+      shape: const Border(
+        bottom: BorderSide(color: Color(0xFFE5E7EB), width: 0.8),
+      ),
+      systemOverlayStyle: const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.dark,
+        statusBarBrightness: Brightness.light,
+        systemNavigationBarColor: Colors.white,
+        systemNavigationBarIconBrightness: Brightness.dark,
+      ),
     ),
 
     cardTheme: CardTheme(
@@ -136,10 +154,11 @@ class AppTheme {
       elevation: 8,
     ),
 
-    floatingActionButtonTheme: const FloatingActionButtonThemeData(
-      backgroundColor: Color(0xFF16A34A),
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      backgroundColor: AppColors.primary,
       foregroundColor: Colors.white,
       elevation: 2,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(99)),
     ),
 
     snackBarTheme: const SnackBarThemeData(
