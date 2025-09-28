@@ -7,7 +7,7 @@ abstract class AppColors {
   // للخلفيات
   static const Color background = Color(0xFFF9FAFB); // رمادي فاتح جداً
   static const Color form = Color(0xFFF3F4F6); // رمادي فاتح للفورم
-
+  static const Color border = Colors.grey;
   // البطاقات
   static const Color cardLight = Colors.white;
   static const Color cardDark = Color(0xFF1E293B);
