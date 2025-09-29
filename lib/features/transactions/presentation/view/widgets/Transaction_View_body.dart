@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'Transaction_Item.dart';
-import 'transaction_filtr.dart';
+import 'HeaderTransactionSection.dart';
 
 class TransactionViewBody extends StatelessWidget {
   const TransactionViewBody({super.key});
