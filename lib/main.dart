@@ -26,7 +26,7 @@ class DebtManagmentApp extends StatelessWidget {
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.light,
       onGenerateRoute: onGenerateRoute,
-      initialRoute: SignInView.routename,
+      initialRoute: MainView.routename,
       localizationsDelegates: [
         S.delegate,
         GlobalMaterialLocalizations.delegate,
