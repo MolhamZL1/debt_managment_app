@@ -28,7 +28,7 @@ class SegmentedTabs extends StatelessWidget {
                 tabs[index],
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
-                  color: isSelected ? Colors.green : Colors.black,
+                  color: isSelected ? Colors.green : Colors.grey,
                 ),
               ),
               const SizedBox(height: 4),

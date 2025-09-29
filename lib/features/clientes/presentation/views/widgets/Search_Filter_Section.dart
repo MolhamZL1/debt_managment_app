@@ -34,12 +34,14 @@ class _SearchFilterSectionState extends State<SearchFilterSection> {
       children: [
         CustomSerchTextFaild(hintText: "البحث بالاسم أو رقم الهاتف..."),
         FilterChipsWidget(
+
           selectedIndex: selectedFilter,
           onSelected: (index) {
             setState(() {
               selectedFilter = index;
             });
           },
+           filters: ["الكل", "مدين", "متأخر", "صافي"],
         ),
       ],
     )

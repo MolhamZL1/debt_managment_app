@@ -104,14 +104,6 @@ class _ContactHeaderCardState extends State<ContactHeaderCard> {
                 });
               },
             ),
-            Expanded(
-              child: Center(
-                child: Text(
-                  "المحتوى: ${["الديون", "الدفعات", "كشف الحساب"][selectedTab]}",
-                  style: const TextStyle(fontSize: 20),
-                ),
-              ),
-            ),
           ],
         ),
       ),

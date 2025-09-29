@@ -4,17 +4,17 @@ import 'package:flutter/material.dart';
 class FilterChipsWidget extends StatelessWidget {
   final int selectedIndex;
   final Function(int) onSelected;
+  final List<String> filters; // ✅ صارت بارامتر
 
   const FilterChipsWidget({
     super.key,
     required this.selectedIndex,
     required this.onSelected,
+    required this.filters, // ✅ لازم تمررها عند الاستدعاء
   });
 
   @override
   Widget build(BuildContext context) {
-    final filters = ["الكل", "مدين", "متأخر", "صافي"];
-
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: Row(
