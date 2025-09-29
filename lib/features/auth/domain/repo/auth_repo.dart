@@ -11,4 +11,5 @@ abstract class AuthRepo {
     String passwordConfirmation,
   );
   Future<Either<Failure, void>> signOut();
+  Future<Either<Failure, String>> refresh();
 }

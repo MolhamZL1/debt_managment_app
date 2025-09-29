@@ -6,11 +6,6 @@ import '../../../../core/errors/failures.dart';
 abstract class ClientesRepo {
   Future<Either<Failure, void>> addCliente(ClientEntity cliente);
   Future<Either<Failure, void>> deleteCliente(int clienteId);
-  Future<Either<Failure, void>> updateCliente(
-    int clienteId,
-    String name,
-    String phoneNumber,
-    String email,
-  );
+  Future<Either<Failure, void>> updateCliente(int clienteId);
   Future<Either<Failure, List<ClientEntity>>> getAllClientes();
 }

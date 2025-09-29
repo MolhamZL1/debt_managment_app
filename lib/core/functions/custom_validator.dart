@@ -1,49 +1,49 @@
+import 'package:form_builder_validators/form_builder_validators.dart';
+
 class CustomValidator {
   static String? emailValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Email is required';
-    }
-
-    final emailRegExp = RegExp(
-      r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$",
-    );
-
-    if (!emailRegExp.hasMatch(value)) {
-      return 'Enter a valid email address';
-    }
-
-    return null;
+    return FormBuilderValidators.compose([
+      FormBuilderValidators.required(),
+      FormBuilderValidators.email(),
+    ])(value);
   }
 
   static String? passwordValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Password is required';
-    }
+    return FormBuilderValidators.compose([
+      FormBuilderValidators.required(),
+      FormBuilderValidators.minLength(8),
+    ])(value);
+  }
 
-    if (value.length < 8) {
-      return 'Password must be at least 8 characters long';
-    }
-
-    return null;
+  static String? confirmPasswordValidator(
+    String? password,
+    String? confirmPassword,
+  ) {
+    return FormBuilderValidators.compose([
+      FormBuilderValidators.required(),
+      FormBuilderValidators.match(
+        RegExp('^${RegExp.escape(password ?? '')}\$'),
+        errorText: 'كلمتا المرور غير متطابقتين',
+      ),
+    ])(confirmPassword);
   }
 
   static String? nameValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Name is required';
-    }
-
-    if (value.length < 3) {
-      return 'Name must be at least 3 characters long';
-    }
-
-    return null;
+    return FormBuilderValidators.compose([
+      FormBuilderValidators.required(),
+      FormBuilderValidators.minLength(3),
+    ])(value);
   }
 
   static String? addressValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Address is required';
-    }
+    return FormBuilderValidators.required()(value);
+  }
 
-    return null;
+  static String? phoneValidator(String? value) {
+    return FormBuilderValidators.compose([
+      FormBuilderValidators.required(),
+      FormBuilderValidators.numeric(),
+      FormBuilderValidators.minLength(9),
+    ])(value);
   }
 }

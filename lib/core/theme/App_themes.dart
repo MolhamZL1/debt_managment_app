@@ -120,7 +120,7 @@ class AppTheme {
         (states) =>
             states.contains(WidgetState.selected)
                 ? AppColors.primary
-                : AppColors.textGrey.withOpacity(.3),
+                : Colors.transparent,
       ),
     ),
 

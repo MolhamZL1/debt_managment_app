@@ -1,5 +1,8 @@
+import 'package:debt_managment_app/core/services/get_it_service.dart';
+import 'package:debt_managment_app/core/utils/token_storage.dart';
+import 'package:debt_managment_app/features/auth/data/repo/auth_repo_imp.dart';
+import 'package:debt_managment_app/features/auth/domain/repo/auth_repo.dart';
 import 'package:dio/dio.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../utils/backend_endpoints.dart';
 import 'database_service.dart';
 
@@ -17,22 +20,53 @@ class ApiService implements DatabaseService {
     dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) async {
-          final prefs = await SharedPreferences.getInstance();
-          final token = prefs.getString('token');
-
+          final accessToken = await TokenStorage().readAccess();
           final p = options.path;
+
           final isAuthCall =
-              p.contains('/auth/login') ||
-              p.contains('/auth/register') ||
-              p.contains('/auth/refresh');
+              p.contains(BackendEndPoint.signIn) ||
+              p.contains(BackendEndPoint.signUp);
 
           if (!isAuthCall &&
-              token != null &&
-              token.isNotEmpty &&
+              accessToken != null &&
+              accessToken.isNotEmpty &&
               options.headers['Authorization'] == null) {
-            options.headers['Authorization'] = 'Bearer $token';
+            options.headers['Authorization'] = 'Bearer $accessToken';
           }
+
           handler.next(options);
+        },
+        onError: (DioException err, handler) async {
+          if (err.response?.statusCode == 401 &&
+              !err.requestOptions.path.contains(BackendEndPoint.signIn) &&
+              !err.requestOptions.path.contains(BackendEndPoint.signUp)) {
+            try {
+              final tokenStorage = TokenStorage();
+              final oldToken = await tokenStorage.readAccess();
+
+              if (oldToken == null) {
+                return handler.next(err);
+              }
+              AuthRepo authRepo = AuthRepoImp(
+                databaseService: getIt.get<DatabaseService>(),
+              );
+              final result = await authRepo.refresh();
+              result.fold(
+                (failure) {
+                  throw Exception(failure);
+                },
+                (newToken) async {
+                  final reqOptions = err.requestOptions;
+                  reqOptions.headers['Authorization'] = 'Bearer $newToken';
+                  final cloneResponse = await dio.fetch(reqOptions);
+                  return handler.resolve(cloneResponse);
+                },
+              );
+            } catch (e) {
+              return handler.next(err);
+            }
+          }
+          handler.next(err);
         },
       ),
     );
