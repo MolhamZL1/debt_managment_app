@@ -3,6 +3,7 @@ import 'package:debt_managment_app/features/auth/presentation/views/verf_code_vi
 import 'package:flutter/material.dart';
 
 import '../../features/auth/presentation/views/sign_up_view.dart';
+import '../../features/clientes/presentation/views/client_detelies_view.dart';
 import '../../features/main/presntation/views/main_view.dart';
 
 Route<dynamic>? onGenerateRoute(RouteSettings settings) {
@@ -15,6 +16,8 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (_) => const VerfCodeView());
     case MainView.routename:
       return MaterialPageRoute(builder: (_) => const MainView());
+         case  ClientDeteliesView.routename:
+      return MaterialPageRoute(builder: (_) => const ClientDeteliesView());
     default:
       return MaterialPageRoute(builder: (context) => Scaffold());
   }
