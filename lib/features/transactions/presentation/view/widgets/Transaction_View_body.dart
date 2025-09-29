@@ -10,7 +10,7 @@ class TransactionViewBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        TransactionSearchFilterSection(),
+        HeaderTransactionSection(),
         Expanded(child: TransactionItem()),
       ],
     );

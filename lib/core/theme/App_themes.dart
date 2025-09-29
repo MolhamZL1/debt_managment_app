@@ -14,7 +14,7 @@ class AppTheme {
     primaryColor: AppColors.primary,
     scaffoldBackgroundColor: AppColors.background,
     dividerTheme: const DividerThemeData(
-      color: Color(0xFFE5E7EB),
+      color: Colors.grey,
       thickness: .8,
       space: 0,
     ),
@@ -63,6 +63,13 @@ class AppTheme {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       margin: const EdgeInsets.all(8),
     ),
+    tabBarTheme: TabBarTheme(
+      labelColor: AppColors.primary,
+      unselectedLabelColor: Colors.grey,
+      indicator: const UnderlineTabIndicator(
+        borderSide: BorderSide(color: AppColors.primary, width: 2.0),
+      ),
+    ),
 
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
@@ -80,6 +87,7 @@ class AppTheme {
         textStyle: const TextStyle(fontWeight: FontWeight.bold),
         side: const BorderSide(color: Color(0xFF16A34A)),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       ),
     ),
 

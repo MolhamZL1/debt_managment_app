@@ -1,21 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/widgets/custom_serch_text_faild.dart';
-import 'client_filter.dart';
+import '../../../../../core/widgets/category_list.dart';
 
-class SearchFilterSection extends StatefulWidget {
+class HeaderClientsSection extends StatelessWidget {
+  const HeaderClientsSection({super.key});
 
-
-  const SearchFilterSection({
-    super.key,
-  
-  });
-
-  @override
-  State<SearchFilterSection> createState() => _SearchFilterSectionState();
-}
-
-class _SearchFilterSectionState extends State<SearchFilterSection> {
-    int selectedFilter = 0;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -31,20 +19,25 @@ class _SearchFilterSectionState extends State<SearchFilterSection> {
         ],
       ),
       child: Column(
-      children: [
-        CustomSerchTextFaild(hintText: "البحث بالاسم أو رقم الهاتف..."),
-        FilterChipsWidget(
-
-          selectedIndex: selectedFilter,
-          onSelected: (index) {
-            setState(() {
-              selectedFilter = index;
-            });
-          },
-           filters: ["الكل", "مدين", "متأخر", "صافي"],
-        ),
-      ],
-    )
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: TextField(
+              decoration: InputDecoration(
+                hintText: 'البحث بالاسم أو رقم الهاتف...',
+                prefixIcon: const Icon(Icons.search),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 52,
+            child: CategoriesList(
+              categories: ["الكل", "مدين", "متأخر", "صافي"],
+              onCategorySelected: (selectedIndex) {},
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

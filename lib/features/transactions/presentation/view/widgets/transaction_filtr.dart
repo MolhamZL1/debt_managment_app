@@ -1,16 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/widgets/custom_serch_text_faild.dart';
-import '../../../../clientes/presentation/views/widgets/client_filter.dart';
+import '../../../../../core/widgets/category_list.dart';
 
-class TransactionSearchFilterSection extends StatefulWidget {
-  const TransactionSearchFilterSection({super.key});
-
-  @override
-  State<TransactionSearchFilterSection> createState() => _TransactionSearchFilterSectionState();
-}
-
-class _TransactionSearchFilterSectionState extends State<TransactionSearchFilterSection> {
-  int selectedFilter = 0;
+class HeaderTransactionSection extends StatelessWidget {
+  const HeaderTransactionSection({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,19 +20,24 @@ class _TransactionSearchFilterSectionState extends State<TransactionSearchFilter
       ),
       child: Column(
         children: [
-          CustomSerchTextFaild(hintText: "البحث بالحركات..."),
-          FilterChipsWidget(
-            selectedIndex: selectedFilter,
-            onSelected: (index) {
-              setState(() {
-                selectedFilter = index;
-              });
-            },
-            filters: ["الكل", "ديون", "دفعات"],
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: TextField(
+              decoration: InputDecoration(
+                hintText: 'البحث في التحويلات...',
+                prefixIcon: const Icon(Icons.search),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 52,
+            child: CategoriesList(
+              categories: ["الكل", "ديون", "دفعات"],
+              onCategorySelected: (selectedIndex) {},
+            ),
           ),
         ],
       ),
     );
   }
-
 }
