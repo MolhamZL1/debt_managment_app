@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'Search_Filter_Section.dart';
-import 'client_contact.dart';
+import 'HeaderClientsSection.dart';
+import 'clients_list.dart';
 
 class ClientViewBody extends StatelessWidget {
   const ClientViewBody({super.key});
@@ -11,7 +11,7 @@ class ClientViewBody extends StatelessWidget {
     return CustomScrollView(
       slivers: [
         SliverToBoxAdapter(child: HeaderClientsSection()),
-        ClientContact(),
+        ClientsList(),
       ],
     );
   }

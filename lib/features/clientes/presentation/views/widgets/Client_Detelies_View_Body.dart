@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../domain/entities/client_entity.dart';
-import 'Action_Buttons_Row.dart';
+import 'ActionButtonsClientDetails.dart';
 import 'Debt_Item_Card.dart';
 import 'contact_header_card.dart';
 
@@ -20,7 +20,10 @@ class ClientDeteliesViewBody extends StatelessWidget {
                 child: ClientDetailsHeaderCard(clientEntity: clientEntity),
               ),
               SliverToBoxAdapter(
-                child: ActionButtonsRow(onAddDebt: () {}, onAddPayment: () {}),
+                child: ActionButtonsClientDetails(
+                  onAddDebt: () {},
+                  onAddPayment: () {},
+                ),
               ),
               SliverPersistentHeader(
                 pinned: true,

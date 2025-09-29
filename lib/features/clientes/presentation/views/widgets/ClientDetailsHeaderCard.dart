@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../core/functions/call_number.dart';
 import '../../../domain/entities/client_entity.dart';
-import 'Stats_Row.dart';
+import 'ClientStatus.dart';
 
 class ClientDetailsHeaderCard extends StatelessWidget {
   const ClientDetailsHeaderCard({super.key, required this.clientEntity});

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class ActionButtonsRow extends StatelessWidget {
+class ActionButtonsClientDetails extends StatelessWidget {
   final VoidCallback onAddDebt;
   final VoidCallback onAddPayment;
 
-  const ActionButtonsRow({
+  const ActionButtonsClientDetails({
     super.key,
     required this.onAddDebt,
     required this.onAddPayment,

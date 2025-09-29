@@ -33,7 +33,7 @@ class ClientStatus extends StatelessWidget {
                     style: TextStyle(color: AppColors.primary),
                   ),
         ),
-        SizedBox(width: 24),
+        Spacer(),
         isDebt
             ? _item(
               "الديون",

@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 
 import 'client_item_list.dart';
 
-class ClientContact extends StatefulWidget {
-  const ClientContact({super.key});
+class ClientsList extends StatefulWidget {
+  const ClientsList({super.key});
 
   @override
-  State<ClientContact> createState() => _ClientContactState();
+  State<ClientsList> createState() => _ClientsListState();
 }
 
-class _ClientContactState extends State<ClientContact> {
+class _ClientsListState extends State<ClientsList> {
   @override
   Widget build(BuildContext context) {
     return SliverList.builder(
