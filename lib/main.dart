@@ -29,7 +29,7 @@ class DebtManagmentApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             theme: AppTheme.lightTheme,
             darkTheme: AppTheme.darkTheme,
-            themeMode: ThemeMode.light,
+            themeMode: state,
             onGenerateRoute: onGenerateRoute,
             initialRoute: MainView.routename,
             localizationsDelegates: const [
