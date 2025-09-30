@@ -3,7 +3,7 @@ import 'package:dartz/dartz.dart';
 import 'package:debt_managment_app/core/errors/failures.dart';
 import 'package:debt_managment_app/core/services/database_service.dart';
 import 'package:debt_managment_app/core/utils/backend_endpoints.dart';
-import 'package:debt_managment_app/core/utils/token_storage.dart';
+import 'package:debt_managment_app/core/services/token_storage.dart';
 
 import 'package:dio/dio.dart';
 

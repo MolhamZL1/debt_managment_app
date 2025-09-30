@@ -1,5 +1,5 @@
 import 'package:debt_managment_app/core/services/get_it_service.dart';
-import 'package:debt_managment_app/core/utils/token_storage.dart';
+import 'package:debt_managment_app/core/services/token_storage.dart';
 import 'package:debt_managment_app/features/auth/data/repo/auth_repo_imp.dart';
 import 'package:debt_managment_app/features/auth/domain/repo/auth_repo.dart';
 import 'package:dio/dio.dart';

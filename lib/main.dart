@@ -1,59 +1,49 @@
 import 'package:debt_managment_app/core/routing/routing.dart';
 import 'package:debt_managment_app/core/services/get_it_service.dart';
+import 'package:debt_managment_app/core/theme/App_themes.dart';
 import 'package:debt_managment_app/features/main/presntation/views/main_view.dart';
+import 'package:debt_managment_app/features/settings/presentation/cubits/theme/theme_cubit.dart';
 import 'package:debt_managment_app/generated/l10n.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:form_builder_validators/localization/l10n.dart';
-import 'package:animated_theme_switcher/animated_theme_switcher.dart';
-
-import 'core/theme/App_themes.dart'; // يحتوي AppTheme.lightTheme و AppTheme.darkTheme
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   setupSingltonGetIt();
 
-  runApp(
-    ThemeProvider(
-      initTheme: AppTheme.lightTheme, // الثيم الابتدائي
-      builder: (context, currentTheme) {
-        return DebtManagmentApp(theme: currentTheme);
-      },
-    ),
-  );
+  runApp(DebtManagmentApp());
 }
 
 class DebtManagmentApp extends StatelessWidget {
-  final ThemeData theme;
-  const DebtManagmentApp({super.key, required this.theme});
+  const DebtManagmentApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-
-      // ✅ ناخد الثيم من animated_theme_switcher
-      theme: theme,
-
-      // ما منحتاج darkTheme/themeMode لأننا عم نبدّل الـ ThemeData نفسه
-      // darkTheme: AppTheme.darkTheme,
-      // themeMode: ThemeMode.light,
-
-      onGenerateRoute: onGenerateRoute,
-      initialRoute: MainView.routename,
-
-      // خلي الـ ThemeSwitchingArea متاح لكل الشجرة
-      builder: (context, child) => ThemeSwitchingArea(child: child!),
-
-      localizationsDelegates: const [
-        S.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-        FormBuilderLocalizations.delegate,
-      ],
-      supportedLocales: S.delegate.supportedLocales,
-      locale: const Locale("ar"),
+    return BlocProvider(
+      create: (context) => ThemeCubit(),
+      child: BlocBuilder<ThemeCubit, ThemeMode>(
+        builder: (context, state) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            theme: AppTheme.lightTheme,
+            darkTheme: AppTheme.darkTheme,
+            themeMode: ThemeMode.light,
+            onGenerateRoute: onGenerateRoute,
+            initialRoute: MainView.routename,
+            localizationsDelegates: const [
+              S.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+              FormBuilderLocalizations.delegate,
+            ],
+            supportedLocales: S.delegate.supportedLocales,
+            locale: const Locale("ar"),
+          );
+        },
+      ),
     );
   }
 }

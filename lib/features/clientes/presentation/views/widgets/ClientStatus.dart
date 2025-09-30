@@ -60,7 +60,7 @@ class ClientStatus extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 4),
-        Text(title, style: const TextStyle(color: Colors.black54)),
+        Text(title),
       ],
     );
   }

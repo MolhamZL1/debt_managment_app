@@ -9,7 +9,7 @@ class HeaderClientsSection extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 8),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).scaffoldBackgroundColor,
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.1),

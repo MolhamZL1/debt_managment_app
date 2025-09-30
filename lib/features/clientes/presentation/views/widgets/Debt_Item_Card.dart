@@ -1,4 +1,3 @@
-import 'package:debt_managment_app/core/theme/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import '../../../../../core/theme/app_colors.dart';
 
@@ -15,16 +14,11 @@ class DebtItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Card(
       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(color: AppColors.border),
-        borderRadius: BorderRadius.circular(12),
-      ),
+
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(16.0),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -49,20 +43,13 @@ class DebtItemCard extends StatelessWidget {
                   const SizedBox(height: 8),
                   Row(
                     children: [
-                      Icon(
-                        Icons.calendar_month_outlined,
-                        color: Colors.black87,
-                      ),
-                      Text(
-                        "استحقاق: ${debt.dueHijri}",
-                        style: AppTextStyles.bodyMedium,
-                      ),
+                      Icon(Icons.calendar_month_outlined),
+                      const SizedBox(width: 4),
+                      Text("استحقاق: ${debt.dueHijri}"),
                     ],
                   ),
-                  Text(
-                    "  فاتورة رقم ${debt.invoiceNo}",
-                    style: AppTextStyles.bodyMedium,
-                  ),
+                  const SizedBox(height: 8),
+                  Text("  فاتورة رقم ${debt.invoiceNo}"),
                 ],
               ),
             ),

@@ -17,7 +17,7 @@ abstract class AppTextStyles {
   static const TextStyle bodyMedium = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.normal,
-    color: Colors.black87,
+    color: Colors.black54,
   );
 
   static const TextStyle bodySmall = TextStyle(

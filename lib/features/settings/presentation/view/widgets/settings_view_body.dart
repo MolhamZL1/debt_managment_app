@@ -1,10 +1,12 @@
+import 'package:debt_managment_app/features/settings/presentation/cubits/theme/theme_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/theme/app_colors.dart';
-import 'ThemeToggleAction.dart';
 import 'card_section.dart';
-import 'section_header.dart';
+import 'TextHeaderSettings.dart';
 import 'settings_tile.dart';
+import 'package:day_night_switch/day_night_switch.dart';
 
 class SettingsViewBody extends StatelessWidget {
   const SettingsViewBody({super.key});
@@ -15,69 +17,81 @@ class SettingsViewBody extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.all(12),
       children: [
-        const SectionHeader('الحساب'),
+        const TextHeaderSettings('الحساب'),
         CardSection(
           children: [
             SettingsTile(
               title: 'معلومات الحساب',
               subtitle: 'mohammed@example.com',
-              trailingIcon: Icons.person_outline,
-              leading: Text(
-                'محمد السعدي',
-                style: TextStyle(color: Colors.black54),
-              ),
+              leadingIcon: Icons.person_outline,
+              trailingWidget: Text('محمد السعدي'),
             ),
           ],
         ),
 
         SizedBox(height: 16),
-        const SectionHeader('التفضيلات'),
+        const TextHeaderSettings('التفضيلات'),
         CardSection(
           children: [
             const SettingsTile(
               title: 'اللغة',
               subtitle: 'العربية',
-              trailingIcon: Icons.public,
+              leadingIcon: Icons.public,
             ),
-            const Divider(),
+            Divider(),
             SettingsTile(
               title: 'الثيم',
               subtitle: isDark ? 'داكن' : 'فاتح',
-              trailingWidget: const ThemeToggleAction(),
+              leadingIcon: Icons.brightness_6_outlined,
+              trailingWidget: CustomThemeModeSwitcher(),
             ),
           ],
         ),
         SizedBox(height: 16),
-        const SectionHeader('المساعدة والدعم'),
-        const CardSection(
+        const TextHeaderSettings('المساعدة والدعم'),
+        CardSection(
           children: [
-            SettingsTile(title: 'المساعدة', trailingIcon: Icons.help_outline),
+            SettingsTile(title: 'المساعدة', leadingIcon: Icons.help_outline),
             Divider(),
-            SettingsTile(
-              title: 'حول التطبيق',
-              trailingIcon: Icons.info_outline,
-            ),
+            SettingsTile(title: 'حول التطبيق', leadingIcon: Icons.info_outline),
           ],
         ),
-
         SizedBox(height: 24),
-        SizedBox(
-          height: 48,
-          child: ElevatedButton.icon(
-            onPressed: null, // ❌ مافي لوجيك حالياً
-            icon: Icon(Icons.logout),
-            label: Text('تسجيل الخروج'),
-            style: ElevatedButton.styleFrom(backgroundColor: AppColors.error),
-          ),
+        ElevatedButton.icon(
+          onPressed: () {},
+          icon: Icon(Icons.logout),
+          label: Text('تسجيل الخروج'),
+          style: ElevatedButton.styleFrom(backgroundColor: AppColors.error),
         ),
         SizedBox(height: 12),
-        Center(
-          child: Text(
-            'سجلها الإصدار 1.0.0',
-            style: TextStyle(color: Colors.grey.shade600),
+        Center(child: Text('سجلها الإصدار 1.0.0')),
+      ],
+    );
+  }
+}
+
+class CustomThemeModeSwitcher extends StatelessWidget {
+  const CustomThemeModeSwitcher({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+      child: SizedBox(
+        height: 20,
+        width: 40,
+        child: FittedBox(
+          child: DayNightSwitch(
+            value: context.watch<ThemeCubit>().state == ThemeMode.dark,
+            dayColor: AppColors.primary.withOpacity(.6),
+            onChanged: (value) {
+              context.read<ThemeCubit>().setTheme(
+                value ? ThemeMode.dark : ThemeMode.light,
+              );
+            },
           ),
         ),
-      ],
+      ),
     );
   }
 }

@@ -30,9 +30,9 @@ class ClientItemList extends StatelessWidget {
           padding: const EdgeInsets.only(bottom: 8),
           child: Text(
             clientEntity.name,
-            style: AppTextStyles.titleMedium.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
+            style: TextTheme.of(
+              context,
+            ).titleMedium!.copyWith(fontWeight: FontWeight.bold),
           ),
         ),
         subtitle: Column(
@@ -40,14 +40,15 @@ class ClientItemList extends StatelessWidget {
           children: [
             Row(
               children: [
-                const Icon(
-                  Icons.phone_outlined,
-                  size: 16,
-                  color: Colors.black54,
-                ),
+                const Icon(Icons.phone_outlined, size: 16),
                 Text(
                   clientEntity.phoneNumber ?? "غير معروف",
-                  style: const TextStyle(color: Colors.black54),
+                  style: TextStyle(
+                    color:
+                        Theme.of(context).brightness == Brightness.dark
+                            ? null
+                            : Colors.black54,
+                  ),
                   textDirection: TextDirection.ltr,
                 ),
               ],
@@ -55,21 +56,27 @@ class ClientItemList extends StatelessWidget {
             SizedBox(height: 4),
             Row(
               children: [
-                const Icon(
-                  Icons.location_on_outlined,
-                  size: 16,
-                  color: Colors.black54,
-                ),
+                const Icon(Icons.location_on_outlined, size: 16),
                 Text(
                   clientEntity.address ?? "غير معروف",
-                  style: const TextStyle(color: Colors.black54),
+                  style: TextStyle(
+                    color:
+                        Theme.of(context).brightness == Brightness.dark
+                            ? null
+                            : Colors.black54,
+                  ),
                 ),
               ],
             ),
             SizedBox(height: 4),
             Text(
               "آخر حركة: ${clientEntity.lastTransaction}",
-              style: const TextStyle(color: Colors.black54),
+              style: TextStyle(
+                color:
+                    Theme.of(context).brightness == Brightness.dark
+                        ? null
+                        : Colors.black54,
+              ),
             ),
           ],
         ),
