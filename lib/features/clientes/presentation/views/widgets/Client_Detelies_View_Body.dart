@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../../domain/entities/client_entity.dart';
 import 'ActionButtonsClientDetails.dart';
+import 'ClientDetailsHeaderCard.dart';
 import 'Debt_Item_Card.dart';
-import 'contact_header_card.dart';
 
 class ClientDeteliesViewBody extends StatelessWidget {
   const ClientDeteliesViewBody({super.key, required this.clientEntity});
