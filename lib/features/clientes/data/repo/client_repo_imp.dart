@@ -1,13 +1,37 @@
 import 'package:dartz/dartz.dart';
 import 'package:debt_managment_app/core/errors/failures.dart';
+import 'package:debt_managment_app/core/utils/backend_endpoints.dart';
+import 'package:debt_managment_app/features/clientes/data/model/client_model.dart';
 import 'package:debt_managment_app/features/clientes/domain/entities/client_entity.dart';
 import 'package:debt_managment_app/features/clientes/domain/repo/clientes_repo.dart';
+import 'package:dio/dio.dart';
+
+import '../../../../core/services/database_service.dart';
 
 class ClientRepoImp implements ClientesRepo {
+  final DatabaseService databaseService;
+
+  ClientRepoImp({required this.databaseService});
   @override
-  Future<Either<Failure, void>> addCliente(ClientEntity cliente) {
-    // TODO: implement addCliente
-    throw UnimplementedError();
+  Future<Either<Failure, void>> addCliente({
+    required String name,
+    String? address,
+    String? phone,
+  }) async {
+    try {
+      await databaseService.addData(
+        endpoint: BackendEndPoint.addClient,
+        data: {"name": name, "address": address, "phone": phone},
+      );
+
+      return Right(null);
+    } catch (e) {
+      if (e is DioException) {
+        return Left(ServerFailure.fromDioError(e));
+      } else {
+        return Left(ServerFailure(errMessage: e.toString()));
+      }
+    }
   }
 
   @override
@@ -17,9 +41,21 @@ class ClientRepoImp implements ClientesRepo {
   }
 
   @override
-  Future<Either<Failure, List<ClientEntity>>> getAllClientes() {
-    // TODO: implement getAllClientes
-    throw UnimplementedError();
+  Future<Either<Failure, List<ClientEntity>>> getAllClientes() async {
+    try {
+      final data = await databaseService.getData(
+        endpoint: BackendEndPoint.clientes,
+      );
+      List<ClientEntity> clientes = List<ClientEntity>.from(
+        data["result"].map((e) => ClientModel.fromJson(e).toEntity()),
+      );
+      return Right(clientes);
+    } catch (e) {
+      if (e is DioException) {
+        return Left(ServerFailure.fromDioError(e));
+      }
+      return Left(ServerFailure(errMessage: e.toString()));
+    }
   }
 
   @override

@@ -11,7 +11,14 @@ class ClientDeteliesView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(clientEntity.name), centerTitle: false),
+      appBar: AppBar(
+        title: Text(clientEntity.name),
+        centerTitle: false,
+        actions: [
+          IconButton(onPressed: () {}, icon: const Icon(Icons.edit_outlined)),
+          IconButton(onPressed: () {}, icon: const Icon(Icons.delete_outlined)),
+        ],
+      ),
       body: ClientDeteliesViewBody(clientEntity: clientEntity),
     );
   }

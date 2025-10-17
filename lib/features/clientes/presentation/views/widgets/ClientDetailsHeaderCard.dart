@@ -1,3 +1,4 @@
+import 'package:debt_managment_app/core/functions/open_whatsapp.dart';
 import 'package:debt_managment_app/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
@@ -18,6 +19,7 @@ class ClientDetailsHeaderCard extends StatelessWidget {
         child: Column(
           children: [
             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
                   child: Column(
@@ -46,30 +48,55 @@ class ClientDetailsHeaderCard extends StatelessWidget {
                 ),
                 Visibility(
                   visible: clientEntity.phoneNumber != null,
-                  child: GestureDetector(
-                    onTap: () {
-                      callNumber(context, clientEntity.phoneNumber!);
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 6,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          callNumber(context, clientEntity.phoneNumber!);
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 6,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppColors.success.withAlpha(50),
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: const Text(
+                            "اتصال",
+                            style: TextStyle(color: AppColors.primary),
+                          ),
+                        ),
                       ),
-                      decoration: BoxDecoration(
-                        color: AppColors.success.withAlpha(50),
-                        borderRadius: BorderRadius.circular(16),
+                      SizedBox(height: 8),
+                      GestureDetector(
+                        onTap: () {
+                          openWhatsApp(context, clientEntity.phoneNumber!);
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 6,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppColors.success.withAlpha(50),
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: const Text(
+                            "واتساب",
+                            style: TextStyle(color: AppColors.primary),
+                          ),
+                        ),
                       ),
-                      child: const Text(
-                        "اتصال",
-                        style: TextStyle(color: AppColors.primary),
-                      ),
-                    ),
+                    ],
                   ),
                 ),
               ],
             ),
             Divider(height: 40),
-            ClientStatus(balance: -5),
+            ClientStatus(clientEntity: clientEntity),
           ],
         ),
       ),

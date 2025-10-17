@@ -1,4 +1,3 @@
-import 'package:debt_managment_app/core/theme/app_text_styles.dart';
 import 'package:debt_managment_app/features/clientes/domain/entities/client_entity.dart';
 import 'package:debt_managment_app/features/clientes/presentation/views/client_detelies_view.dart';
 import 'package:flutter/material.dart';
@@ -10,12 +9,11 @@ class ClientItemList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDebt = double.parse(clientEntity.amount) < 0;
-    final balanceColor = isDebt ? Colors.red[100] : Colors.green[100];
-    final textbalanceColor = isDebt ? Colors.red : Colors.green;
+    final balanceColor =
+        clientEntity.isDebt() ? Colors.red[100] : Colors.green[100];
+    final textbalanceColor = clientEntity.isDebt() ? Colors.red : Colors.green;
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: ListTile(
         onTap: () {
@@ -70,7 +68,7 @@ class ClientItemList extends StatelessWidget {
             ),
             SizedBox(height: 4),
             Text(
-              "آخر حركة: ${clientEntity.lastTransaction}",
+              "آخر حركة: ${clientEntity.lastTransaction ?? "لا يوجد بعد"}",
               style: TextStyle(
                 color:
                     Theme.of(context).brightness == Brightness.dark
@@ -87,8 +85,7 @@ class ClientItemList extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
           ),
           child: Text(
-            "${double.parse(clientEntity.amount.toString())} ل.س",
-            textDirection: TextDirection.ltr,
+            "${clientEntity.amount.abs()} ر.س ${clientEntity.isDebt() ? "دين" : "رصيد"}",
             style: TextStyle(
               color: textbalanceColor,
               fontSize: 14,

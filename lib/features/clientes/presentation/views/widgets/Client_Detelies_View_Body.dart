@@ -1,9 +1,13 @@
+import 'package:debt_managment_app/features/main/presntation/views/widgets/adddebtBottomSheet.dart';
+import 'package:debt_managment_app/features/main/presntation/views/widgets/addpaymentBottomSheet.dart';
 import 'package:flutter/material.dart';
 
 import '../../../domain/entities/client_entity.dart';
+import '../DebtsClientView.dart';
+import '../PaidClientsView.dart';
+import '../TransactionClientsView.dart';
 import 'ActionButtonsClientDetails.dart';
 import 'ClientDetailsHeaderCard.dart';
-import 'Debt_Item_Card.dart';
 
 class ClientDeteliesViewBody extends StatelessWidget {
   const ClientDeteliesViewBody({super.key, required this.clientEntity});
@@ -21,8 +25,12 @@ class ClientDeteliesViewBody extends StatelessWidget {
               ),
               SliverToBoxAdapter(
                 child: ActionButtonsClientDetails(
-                  onAddDebt: () {},
-                  onAddPayment: () {},
+                  onAddDebt: () {
+                    adddebtBottomSheet(context);
+                  },
+                  onAddPayment: () {
+                    addpaymentBottomSheet(context);
+                  },
                 ),
               ),
               SliverPersistentHeader(
@@ -38,11 +46,11 @@ class ClientDeteliesViewBody extends StatelessWidget {
                 ),
               ),
             ],
-        body: const TabBarView(
+        body: TabBarView(
           children: [
-            _DebtsClientView(),
-            _PaidClientsView(),
-            _TransactionClientsView(),
+            DebtsClientView(clientId: clientEntity.id),
+            PaidClientsView(clientId: clientEntity.id),
+            TransactionClientsView(clientId: clientEntity.id),
           ],
         ),
       ),
@@ -65,87 +73,24 @@ class _SliverTabBarDelegate extends SliverPersistentHeaderDelegate {
     double shrinkOffset,
     bool overlapsContent,
   ) {
-    return Material(
+    return Container(
       color: Theme.of(context).scaffoldBackgroundColor,
-      child: _tabBar,
+      child: Column(
+        children: [
+          Divider(
+            color:
+                Theme.of(context).brightness == Brightness.dark
+                    ? Colors.grey.shade800
+                    : Colors.grey.shade300,
+          ),
+          _tabBar,
+        ],
+      ),
     );
   }
 
   @override
   bool shouldRebuild(_SliverTabBarDelegate oldDelegate) {
     return false;
-  }
-}
-
-class _DebtsClientView extends StatefulWidget {
-  const _DebtsClientView();
-
-  @override
-  State<_DebtsClientView> createState() => _DebtsClientViewState();
-}
-
-class _DebtsClientViewState extends State<_DebtsClientView>
-    with AutomaticKeepAliveClientMixin {
-  @override
-  bool get wantKeepAlive => true;
-
-  @override
-  Widget build(BuildContext context) {
-    super.build(context);
-    return ListView.builder(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      itemCount: 10,
-      itemBuilder: (context, index) {
-        return DebtItemCard(
-          debt: Debt(
-            amount: 5000,
-            dueHijri: "1445/07/05 هـ",
-            invoiceNo: "1234",
-          ),
-          onDelete: () {},
-          onEdit: () {},
-        );
-      },
-    );
-  }
-}
-
-class _PaidClientsView extends StatefulWidget {
-  const _PaidClientsView();
-
-  @override
-  State<_PaidClientsView> createState() => _PaidClientsViewState();
-}
-
-class _PaidClientsViewState extends State<_PaidClientsView>
-    with AutomaticKeepAliveClientMixin {
-  @override
-  bool get wantKeepAlive => true;
-
-  @override
-  Widget build(BuildContext context) {
-    super.build(context);
-    return const Center(child: Text('لا توجد دفعات بعد'));
-  }
-}
-
-class _TransactionClientsView extends StatefulWidget {
-  const _TransactionClientsView();
-
-  @override
-  State<_TransactionClientsView> createState() =>
-      _TransactionClientsViewState();
-}
-
-class _TransactionClientsViewState extends State<_TransactionClientsView>
-    with AutomaticKeepAliveClientMixin {
-  @override
-  bool get wantKeepAlive => true;
-
-  @override
-  Widget build(BuildContext context) {
-    super.build(context);
-
-    return const Center(child: Text('لا يوجد كشف حساب بعد'));
   }
 }

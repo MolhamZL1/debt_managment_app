@@ -1,6 +1,7 @@
 import 'package:debt_managment_app/core/routing/routing.dart';
 import 'package:debt_managment_app/core/services/get_it_service.dart';
 import 'package:debt_managment_app/core/theme/App_themes.dart';
+import 'package:debt_managment_app/features/auth/presentation/views/sign_in_view.dart';
 import 'package:debt_managment_app/features/main/presntation/views/main_view.dart';
 import 'package:debt_managment_app/features/settings/presentation/cubits/theme/theme_cubit.dart';
 import 'package:debt_managment_app/generated/l10n.dart';

@@ -65,6 +65,7 @@ class AppTheme {
     ),
     tabBarTheme: TabBarTheme(
       labelColor: AppColors.primary,
+      indicatorSize: TabBarIndicatorSize.tab,
       unselectedLabelColor: Colors.grey,
       indicator: const UnderlineTabIndicator(
         borderSide: BorderSide(color: AppColors.primary, width: 2.0),
@@ -160,6 +161,12 @@ class AppTheme {
       unselectedItemColor: Color(0xFF9CA3AF),
       type: BottomNavigationBarType.fixed,
       elevation: 8,
+    ),
+    bottomSheetTheme: BottomSheetThemeData(
+      backgroundColor: AppColors.backgroundLight,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
     ),
 
     floatingActionButtonTheme: FloatingActionButtonThemeData(

@@ -46,4 +46,12 @@ class CustomValidator {
       FormBuilderValidators.minLength(9),
     ])(value);
   }
+
+  static String? amountValidator(String? value) {
+    return FormBuilderValidators.compose([
+      FormBuilderValidators.required(),
+      FormBuilderValidators.numeric(),
+      FormBuilderValidators.positiveNumber(),
+    ])(value);
+  }
 }

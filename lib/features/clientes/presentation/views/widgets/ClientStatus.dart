@@ -1,17 +1,16 @@
 import 'package:debt_managment_app/core/theme/app_text_styles.dart';
+import 'package:debt_managment_app/features/clientes/domain/entities/client_entity.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../core/theme/app_colors.dart';
 
 class ClientStatus extends StatelessWidget {
-  final double balance;
+  final ClientEntity clientEntity;
 
-  const ClientStatus({super.key, required this.balance});
+  const ClientStatus({super.key, required this.clientEntity});
 
   @override
   Widget build(BuildContext context) {
-    final isDebt = balance < 0;
-
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
@@ -20,13 +19,13 @@ class ClientStatus extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
           decoration: BoxDecoration(
             color:
-                isDebt
+                clientEntity.isDebt()
                     ? AppColors.error.withAlpha(50)
                     : AppColors.success.withAlpha(50),
             borderRadius: BorderRadius.circular(16),
           ),
           child:
-              isDebt
+              clientEntity.isDebt()
                   ? const Text("مدين", style: TextStyle(color: AppColors.error))
                   : const Text(
                     "غير مدين",
@@ -34,15 +33,15 @@ class ClientStatus extends StatelessWidget {
                   ),
         ),
         Spacer(),
-        isDebt
+        clientEntity.isDebt()
             ? _item(
               "الديون",
-              "ل.س ${balance.abs().toStringAsFixed(0)}",
+              "${clientEntity.amount.abs()} ل.س",
               color: Color(0xFFE11D48),
             )
             : _item(
               "الرصيد",
-              "ل.س ${balance.abs().toStringAsFixed(0)}",
+              "${clientEntity.amount.abs()} ل.س",
               color: Colors.green,
             ),
       ],
