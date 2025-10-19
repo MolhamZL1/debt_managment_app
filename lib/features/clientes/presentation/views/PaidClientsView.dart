@@ -6,7 +6,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/services/get_it_service.dart';
 
-import 'widgets/client_view_body.dart';
+import '../../../../core/widgets/CustomEmptyDataMessageCustomEmptyDataMessage.dart';
+import '../../../../core/widgets/CustomErrorMessage.dart';
+import '../../../../core/widgets/CustomLoading.dart';
 
 class PaidClientsView extends StatefulWidget {
   const PaidClientsView({super.key, required this.clientId});

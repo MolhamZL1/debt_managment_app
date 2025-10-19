@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:loading_indicator/loading_indicator.dart';
 
+import '../../../../../core/widgets/CustomEmptyDataMessageCustomEmptyDataMessage.dart';
+import '../../../../../core/widgets/CustomErrorMessage.dart';
+import '../../../../../core/widgets/CustomLoading.dart';
 import '../../cubits/fetch clients/fetch_clients_cubit.dart';
 import 'HeaderClientsSection.dart';
 import 'clients_list.dart';
@@ -41,50 +43,6 @@ class ClientViewBody extends StatelessWidget {
           },
         ),
       ],
-    );
-  }
-}
-
-class CustomEmptyDataMessage extends StatelessWidget {
-  const CustomEmptyDataMessage({super.key, required this.message});
-  final String message;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text(message, style: Theme.of(context).textTheme.titleLarge),
-    );
-  }
-}
-
-class CustomErrorMessage extends StatelessWidget {
-  const CustomErrorMessage({super.key, required this.message});
-  final String message;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        message,
-        style: Theme.of(
-          context,
-        ).textTheme.titleLarge!.copyWith(color: Colors.red),
-      ),
-    );
-  }
-}
-
-class CustomLoading extends StatelessWidget {
-  const CustomLoading({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: SizedBox(
-        width: 100,
-        height: 100,
-        child: LoadingIndicator(indicatorType: Indicator.cubeTransition),
-      ),
     );
   }
 }

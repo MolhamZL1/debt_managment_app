@@ -3,7 +3,6 @@ import 'package:debt_managment_app/features/auth/presentation/views/verf_code_vi
 import 'package:flutter/material.dart';
 
 import '../../features/auth/presentation/views/sign_up_view.dart';
-import '../../features/clientes/domain/entities/client_entity.dart';
 import '../../features/clientes/presentation/views/client_detelies_view.dart';
 import '../../features/main/presntation/views/main_view.dart';
 
@@ -20,8 +19,10 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
     case ClientDeteliesView.routename:
       return MaterialPageRoute(
         builder: (_) {
-          final clientEntity = settings.arguments;
-          return ClientDeteliesView(clientEntity: clientEntity as ClientEntity);
+          final data = settings.arguments as Map<String, dynamic>;
+          final id = data["id"];
+          final name = data["name"];
+          return ClientDeteliesView(clinetId: id as int, name: name as String);
         },
       );
     default:

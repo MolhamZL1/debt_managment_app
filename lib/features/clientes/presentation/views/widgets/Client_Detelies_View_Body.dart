@@ -23,16 +23,16 @@ class ClientDeteliesViewBody extends StatelessWidget {
               SliverToBoxAdapter(
                 child: ClientDetailsHeaderCard(clientEntity: clientEntity),
               ),
-              SliverToBoxAdapter(
-                child: ActionButtonsClientDetails(
-                  onAddDebt: () {
-                    adddebtBottomSheet(context);
-                  },
-                  onAddPayment: () {
-                    addpaymentBottomSheet(context);
-                  },
-                ),
-              ),
+              // SliverToBoxAdapter(
+              //   child: ActionButtonsClientDetails(
+              //     onAddDebt: () {
+              //       adddebtBottomSheet(context);
+              //     },
+              //     onAddPayment: () {
+              //       addpaymentBottomSheet(context);
+              //     },
+              //   ),
+              // ),
               SliverPersistentHeader(
                 pinned: true,
                 delegate: _SliverTabBarDelegate(

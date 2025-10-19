@@ -16,7 +16,7 @@ class TransactionClientRepoImp implements TransactionClientRepo {
   Future<Either<Failure, List>> getAllTransactionsOfClient(int clientId) async {
     try {
       final data = await databaseService.getData(
-        endpoint: BackendEndPoint.transactions,
+        endpoint: BackendEndPoint.transactionsClient,
         rowid: clientId.toString(),
       );
       List transactions = [];

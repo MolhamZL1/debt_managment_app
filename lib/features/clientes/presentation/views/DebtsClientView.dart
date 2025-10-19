@@ -1,10 +1,12 @@
 import 'package:debt_managment_app/core/services/get_it_service.dart';
 import 'package:debt_managment_app/features/clientes/domain/repo/debt_client_repo.dart';
 import 'package:debt_managment_app/features/clientes/presentation/cubits/fetch%20debts%20client/fetch_debts_client_cubit.dart';
-import 'package:debt_managment_app/features/clientes/presentation/views/widgets/client_view_body.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/widgets/CustomEmptyDataMessageCustomEmptyDataMessage.dart';
+import '../../../../core/widgets/CustomErrorMessage.dart';
+import '../../../../core/widgets/CustomLoading.dart';
 import 'widgets/Debt_Item_Card.dart';
 
 class DebtsClientView extends StatefulWidget {

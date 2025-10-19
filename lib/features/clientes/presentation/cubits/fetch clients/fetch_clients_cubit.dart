@@ -9,9 +9,9 @@ part 'fetch_clients_state.dart';
 class FetchClientsCubit extends Cubit<FetchClientsState> {
   FetchClientsCubit(this.clientesRepo) : super(FetchClientsInitial());
   final ClientesRepo clientesRepo;
-  Future<void> fetchClients() async {
+  Future<void> fetchClients({required String category}) async {
     emit(FetchClientsLoading());
-    final result = await clientesRepo.getAllClientes();
+    final result = await clientesRepo.getAllClientes(category: category);
     result.fold(
       (failure) => emit(FetchClientsError(failure: failure.errMessage)),
       (clients) => emit(FetchClientsSuccess(clients: clients)),

@@ -1,4 +1,6 @@
+import 'package:debt_managment_app/features/transactions/presentation/cubits/cubit/fetch_all_transactions_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/widgets/category_list.dart';
 
 class HeaderTransactionSection extends StatelessWidget {
@@ -20,20 +22,29 @@ class HeaderTransactionSection extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: TextField(
-              decoration: InputDecoration(
-                hintText: 'البحث في التحويلات...',
-                prefixIcon: const Icon(Icons.search),
-              ),
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          //   child: TextField(
+          //     decoration: InputDecoration(
+          //       hintText: 'البحث في التحويلات...',
+          //       prefixIcon: const Icon(Icons.search),
+          //     ),
+          //   ),
+          // ),
           SizedBox(
             height: 52,
             child: CategoriesList(
               categories: ["الكل", "ديون", "دفعات"],
-              onCategorySelected: (selectedIndex) {},
+              onCategorySelected: (selectedIndex) {
+                context.read<FetchAllTransactionsCubit>().getAllTransactions(
+                  category:
+                      selectedIndex == 0
+                          ? "all"
+                          : selectedIndex == 1
+                          ? "debt"
+                          : "payment",
+                );
+              },
             ),
           ),
         ],

@@ -2,6 +2,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class LocalStorageKeys {
   static const String themeMode = 'theme_mode';
+  static const String language = "language";
 }
 
 class LocalStorageService {

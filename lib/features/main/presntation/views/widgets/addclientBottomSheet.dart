@@ -64,7 +64,11 @@ Future<dynamic> addclientBottomSheet(BuildContext context) {
                       hintText: "( اختياري )",
                       prefixIcon: Icon(Icons.phone_outlined),
                     ),
-                    validator: CustomValidator.amountValidator,
+                    validator: (v) {
+                      return v == null
+                          ? CustomValidator.phoneValidator(v)
+                          : null;
+                    },
                   ),
 
                   const SizedBox(height: 12),
@@ -76,6 +80,11 @@ Future<dynamic> addclientBottomSheet(BuildContext context) {
                       hintText: "( اختياري )",
                       prefixIcon: Icon(Icons.location_on_outlined),
                     ),
+                    validator: (v) {
+                      return v == null
+                          ? CustomValidator.addressValidator(v)
+                          : null;
+                    },
                   ),
                   const SizedBox(height: 16),
                   Row(

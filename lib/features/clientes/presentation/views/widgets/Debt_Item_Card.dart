@@ -60,19 +60,19 @@ class DebtItemCard extends StatelessWidget {
                 ],
               ),
             ),
-            IconButton(
-              onPressed: onEdit,
-              icon: const Icon(Icons.edit_outlined, color: AppColors.primary),
-            ),
-            const SizedBox(width: 8),
-            IconButton(
-              onPressed: onDelete,
-              icon: const Icon(
-                Icons.delete_outline,
-                size: 18,
-                color: AppColors.error,
-              ),
-            ),
+            // IconButton(
+            //   onPressed: onEdit,
+            //   icon: const Icon(Icons.edit_outlined, color: AppColors.primary),
+            // ),
+            // const SizedBox(width: 8),
+            // IconButton(
+            //   onPressed: onDelete,
+            //   icon: const Icon(
+            //     Icons.delete_outline,
+            //     size: 18,
+            //     color: AppColors.error,
+            //   ),
+            // ),
           ],
         ),
       ),

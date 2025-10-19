@@ -20,7 +20,7 @@ class ClientItemList extends StatelessWidget {
           Navigator.pushNamed(
             context,
             ClientDeteliesView.routename,
-            arguments: clientEntity,
+            arguments: {"id": clientEntity.id, "name": clientEntity.name},
           );
         },
         contentPadding: const EdgeInsets.all(12),

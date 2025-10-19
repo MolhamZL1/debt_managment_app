@@ -11,5 +11,8 @@ abstract class ClientesRepo {
   });
   Future<Either<Failure, void>> deleteCliente(int clienteId);
   Future<Either<Failure, void>> updateCliente(int clienteId);
-  Future<Either<Failure, List<ClientEntity>>> getAllClientes();
+  Future<Either<Failure, List<ClientEntity>>> getAllClientes({
+    required String category,
+  });
+  Future<Either<Failure, ClientEntity>> getCliente({required int clientId});
 }

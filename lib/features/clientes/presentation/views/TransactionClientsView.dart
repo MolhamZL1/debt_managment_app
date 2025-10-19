@@ -5,9 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/services/get_it_service.dart';
-import '../cubits/fetch debts client/fetch_debts_client_cubit.dart';
+import '../../../../core/widgets/CustomEmptyDataMessageCustomEmptyDataMessage.dart';
+import '../../../../core/widgets/CustomErrorMessage.dart';
+import '../../../../core/widgets/CustomLoading.dart';
 import 'widgets/Debt_Item_Card.dart';
-import 'widgets/client_view_body.dart';
 import 'widgets/payment_item_card.dart';
 
 class TransactionClientsView extends StatefulWidget {
@@ -35,7 +36,7 @@ class _TransactionClientsViewState extends State<TransactionClientsView>
       child:
           BlocBuilder<FetchTransactionClientCubit, FetchTransactionClientState>(
             builder: (context, state) {
-              if (state is FetchDebtsClientLoading) {
+              if (state is FetchTransactionClientLoading) {
                 return CustomLoading();
               } else if (state is FetchTransactionClientError) {
                 return CustomErrorMessage(message: state.errMessage);
