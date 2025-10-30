@@ -1,10 +1,13 @@
 import 'package:debt_managment_app/features/auth/presentation/views/sign_in_view.dart';
 import 'package:debt_managment_app/features/auth/presentation/views/verf_code_view.dart';
+import 'package:debt_managment_app/features/settings/presentation/view/about_us_view.dart';
 import 'package:flutter/material.dart';
 
 import '../../features/auth/presentation/views/sign_up_view.dart';
 import '../../features/clientes/presentation/views/client_detelies_view.dart';
 import '../../features/main/presntation/views/main_view.dart';
+import '../../features/settings/presentation/view/help_view.dart';
+import '../../features/settings/presentation/view/profile_view.dart';
 
 Route<dynamic>? onGenerateRoute(RouteSettings settings) {
   switch (settings.name) {
@@ -25,6 +28,12 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
           return ClientDeteliesView(clinetId: id as int, name: name as String);
         },
       );
+    case HelpPage.routename:
+      return MaterialPageRoute(builder: (_) => const HelpPage());
+    case AboutUsPage.routename:
+      return MaterialPageRoute(builder: (_) => const AboutUsPage());
+    case ProfileView.routename:
+      return MaterialPageRoute(builder: (_) => const ProfileView());
     default:
       return MaterialPageRoute(builder: (context) => Scaffold());
   }

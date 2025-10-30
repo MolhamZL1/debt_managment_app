@@ -1,5 +1,8 @@
 import 'package:debt_managment_app/core/utils/show_question_dialog.dart';
 import 'package:debt_managment_app/features/settings/presentation/cubits/sign%20out/sign_out_cubit.dart';
+import 'package:debt_managment_app/features/settings/presentation/view/about_us_view.dart';
+import 'package:debt_managment_app/features/settings/presentation/view/help_view.dart';
+import 'package:debt_managment_app/features/settings/presentation/view/profile_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_indicator/loading_indicator.dart';
@@ -22,11 +25,15 @@ class SettingsViewBody extends StatelessWidget {
         const TextHeaderSettings('الحساب'),
         SettingsCardSection(
           children: [
-            SettingsTile(
-              title: 'معلومات الحساب',
-              subtitle: 'mohammed@example.com',
-              leadingIcon: Icons.person_outline,
-              trailingWidget: Text('محمد السعدي'),
+            GestureDetector(
+              onTap:
+                  () => {Navigator.pushNamed(context, ProfileView.routename)},
+              child: SettingsTile(
+                title: 'معلومات الحساب',
+                subtitle: 'mohammed@example.com',
+                leadingIcon: Icons.person_outline,
+                trailingWidget: Text('محمد السعدي'),
+              ),
             ),
           ],
         ),
@@ -53,9 +60,35 @@ class SettingsViewBody extends StatelessWidget {
         const TextHeaderSettings('المساعدة والدعم'),
         SettingsCardSection(
           children: [
-            SettingsTile(title: 'المساعدة', leadingIcon: Icons.help_outline),
+            SettingsTile(
+              title: "سياسة الخصوصية",
+              leadingIcon: Icons.privacy_tip_outlined,
+            ),
             Divider(),
-            SettingsTile(title: 'حول التطبيق', leadingIcon: Icons.info_outline),
+            SettingsTile(
+              title: "الشروط و الاحكام",
+              leadingIcon: Icons.gavel_outlined,
+            ),
+            Divider(),
+            GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, HelpPage.routename);
+              },
+              child: SettingsTile(
+                title: 'المساعدة',
+                leadingIcon: Icons.help_outline,
+              ),
+            ),
+            Divider(),
+            GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, AboutUsPage.routename);
+              },
+              child: SettingsTile(
+                title: 'من نحن',
+                leadingIcon: Icons.info_outline,
+              ),
+            ),
           ],
         ),
         SizedBox(height: 24),
