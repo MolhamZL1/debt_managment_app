@@ -16,13 +16,13 @@ import '../../features/clientes/domain/repo/payment_client_repo.dart';
 import '../../features/main/data/repo/ClientSearchDropDownRepoImp.dart';
 import '../../features/main/domain/repo/ClientSearchDropDown_repo.dart';
 import '../../features/transactions/domain/repo/transaction_repo.dart';
-import 'api_service.dart';
 import 'database_service.dart';
+import 'local_database_service.dart';
 
 final getIt = GetIt.instance;
 
 setupSingltonGetIt() async {
-  getIt.registerSingleton<DatabaseService>(ApiService());
+  getIt.registerSingleton<DatabaseService>(LocalDatabaseService());
   getIt.registerSingleton<AuthRepo>(
     AuthRepoImp(databaseService: getIt.get<DatabaseService>()),
   );

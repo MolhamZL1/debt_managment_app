@@ -18,8 +18,12 @@ abstract class BackendEndPoint {
   static const String debtsClient = '/api/debts/client/';
   static const String deleteClient = '/api/client/destroy/';
   static const String addDebt = '/api/debts/store';
+  static const String deleteDebt = '/local/debts/delete/';
+  static const String updateDebt = '/local/debts/update/';
   static const String paymentsClinet = '/api/payments/client/';
   static const String addPayment = '/api/payments/store';
+  static const String deletePayment = '/local/payments/delete/';
+  static const String updatePayment = '/local/payments/update/';
   static const String transactionsClient = '/api/clients/transactions/';
   static const String transaction = "/api/transactions/";
   static const String homeView = '/api/total_account';

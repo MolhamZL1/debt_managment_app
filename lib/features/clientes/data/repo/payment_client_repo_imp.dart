@@ -35,9 +35,21 @@ class PaymentClientRepoImp implements PaymentClientRepo {
   }
 
   @override
-  Future<Either<Failure, void>> deletePaymentFromClient(int paymentId) {
-    // TODO: implement deletePaymentFromClient
-    throw UnimplementedError();
+  Future<Either<Failure, void>> deletePaymentFromClient(int paymentId) async {
+    try {
+      await databaseService.deleteData(
+        endpoint: BackendEndPoint.deletePayment,
+        rowid: paymentId.toString(),
+      );
+
+      return Right(null);
+    } catch (e) {
+      if (e is DioException) {
+        return Left(ServerFailure.fromDioError(e));
+      } else {
+        return Left(ServerFailure(errMessage: e.toString()));
+      }
+    }
   }
 
   @override
@@ -68,8 +80,21 @@ class PaymentClientRepoImp implements PaymentClientRepo {
   Future<Either<Failure, void>> updatePaymentFromClient(
     int paymentId,
     double amount,
-  ) {
-    // TODO: implement updatePaymentFromClient
-    throw UnimplementedError();
+  ) async {
+    try {
+      await databaseService.updateData(
+        endpoint: BackendEndPoint.updatePayment,
+        rowid: paymentId.toString(),
+        data: {"amount": amount},
+      );
+
+      return Right(null);
+    } catch (e) {
+      if (e is DioException) {
+        return Left(ServerFailure.fromDioError(e));
+      } else {
+        return Left(ServerFailure(errMessage: e.toString()));
+      }
+    }
   }
 }

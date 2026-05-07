@@ -1,8 +1,8 @@
-import 'package:debt_managment_app/core/services/token_storage.dart';
+import 'package:debt_managment_app/core/services/local_storage_service.dart';
 import 'package:debt_managment_app/core/theme/app_colors.dart';
 import 'package:debt_managment_app/core/utils/app_images.dart';
-import 'package:debt_managment_app/features/auth/presentation/views/sign_in_view.dart';
 import 'package:debt_managment_app/features/main/presntation/views/main_view.dart';
+import 'package:debt_managment_app/features/onboarding/presentation/views/onboarding_view.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 
@@ -41,24 +41,16 @@ class _SplashViewState extends State<SplashView>
   }
 
   Future<void> _navigate() async {
-    final String? token = await TokenStorage().readAccess();
-
+    await Future<void>.delayed(const Duration(milliseconds: 1200));
+    final hasSeenOnboarding = await LocalStorageService.hasSeenOnboarding();
 
     if (!mounted) return;
 
-    if (token != null && token.isNotEmpty) {
-      Navigator.pushNamedAndRemoveUntil(
-        context,
-        MainView.routename,
-        (route) => false,
-      );
-    } else {
-      Navigator.pushNamedAndRemoveUntil(
-        context,
-        SignInView.routename,
-        (route) => false,
-      );
-    }
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      hasSeenOnboarding ? MainView.routename : OnboardingView.routename,
+      (route) => false,
+    );
   }
 
   @override

@@ -1,5 +1,6 @@
 import 'package:debt_managment_app/features/auth/presentation/views/sign_in_view.dart';
 import 'package:debt_managment_app/features/auth/presentation/views/verf_code_view.dart';
+import 'package:debt_managment_app/features/onboarding/presentation/views/onboarding_view.dart';
 import 'package:debt_managment_app/features/settings/presentation/view/about_us_view.dart';
 import 'package:debt_managment_app/features/settings/presentation/view/privacy_policy_view.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,8 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
   switch (settings.name) {
     case SplashView.routename:
       return MaterialPageRoute(builder: (_) => const SplashView());
+    case OnboardingView.routename:
+      return MaterialPageRoute(builder: (_) => const OnboardingView());
     case SignInView.routename:
       return MaterialPageRoute(builder: (_) => const SignInView());
     case SignUpView.routename:

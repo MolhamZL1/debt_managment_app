@@ -7,6 +7,8 @@ abstract class LocalStorageKeys {
 }
 
 class LocalStorageService {
+  static const String _onboardingSeenKey = "onboarding_seen";
+
   /// Stores a [value] with the given [key]
   static Future<void> setItem(String key, String value) async {
     final prefs = await SharedPreferences.getInstance();
@@ -35,6 +37,16 @@ class LocalStorageService {
   static Future<bool> containsKey(String key) async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.containsKey(key);
+  }
+
+  static Future<void> markOnboardingSeen() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_onboardingSeenKey, true);
+  }
+
+  static Future<bool> hasSeenOnboarding() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(_onboardingSeenKey) ?? false;
   }
 
   /// Returns all keys in the storage

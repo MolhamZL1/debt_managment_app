@@ -95,8 +95,15 @@ class ClientRepoImp implements ClientesRepo {
   }
 
   @override
-  Future<Either<Failure, void>> updateCliente(int clienteId) {
-    // TODO: implement updateCliente
-    throw UnimplementedError();
+  Future<Either<Failure, void>> updateCliente(int clienteId) async {
+    try {
+      await getCliente(clientId: clienteId);
+      return Right(null);
+    } catch (e) {
+      if (e is DioException) {
+        return Left(ServerFailure.fromDioError(e));
+      }
+      return Left(ServerFailure(errMessage: e.toString()));
+    }
   }
 }

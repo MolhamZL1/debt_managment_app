@@ -36,17 +36,6 @@ class TeamMember {
   const TeamMember({required this.name, required this.role, this.avatarUrl});
 }
 
-const List<TeamMember> kTeam = [
-  TeamMember(
-    name: 'Molham Sheikh',
-    role: 'Founder & Frontend Dev',
-    avatarUrl: null,
-  ),
-  TeamMember(name: 'Siba Ashoush', role: 'Frontend Dev', avatarUrl: null),
-  TeamMember(name: 'Loai Swede', role: 'Backend Dev', avatarUrl: null),
-  TeamMember(name: 'Marwan Ahmed', role: 'Backend Dev', avatarUrl: null),
-];
-
 /// ====== صفحة "من نحن" ======
 class AboutUsPage extends StatelessWidget {
   const AboutUsPage({super.key});
@@ -109,19 +98,6 @@ class AboutUsPage extends StatelessWidget {
               ],
             ),
           ),
-
-          if (kTeam.isNotEmpty) ...[
-            const SizedBox(height: 12),
-            _SectionCard(
-              title: 'الفريق',
-              child: Column(
-                children: [
-                  for (final m in kTeam)
-                    _TeamTile(member: m, color: AppColors.primary),
-                ],
-              ),
-            ),
-          ],
 
           const SizedBox(height: 12),
           _SectionCard(
