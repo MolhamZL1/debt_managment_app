@@ -2,7 +2,7 @@ import '../entities/debt_entity.dart';
 
 class DebtModel {
   final int id;
-  final String description;
+  final String? description;
   final double amount;
   final String date;
 
@@ -25,7 +25,7 @@ class DebtModel {
   factory DebtModel.fromJson(Map<String, dynamic> map) {
     return DebtModel(
       id: map['id'] as int,
-      description: map['description'] as String,
+      description: map['description'] as String?,
       amount: double.parse(map['amount']),
       date: map['debt_date'] as String,
     );

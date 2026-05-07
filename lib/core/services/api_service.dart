@@ -1,9 +1,7 @@
-import 'package:debt_managment_app/core/services/get_it_service.dart';
 import 'package:debt_managment_app/core/services/token_storage.dart';
-import 'package:debt_managment_app/features/auth/data/repo/auth_repo_imp.dart';
-import 'package:debt_managment_app/features/auth/domain/repo/auth_repo.dart';
 import 'package:dio/dio.dart';
 import '../utils/backend_endpoints.dart';
+import 'AuthInterceptor.dart';
 import 'database_service.dart';
 
 class ApiService implements DatabaseService {
@@ -13,69 +11,23 @@ class ApiService implements DatabaseService {
     : dio = Dio(
         BaseOptions(
           baseUrl: BackendEndPoint.url,
-          connectTimeout: const Duration(seconds: 30),
-          receiveTimeout: const Duration(seconds: 30),
+          connectTimeout: const Duration(seconds: 60),
+          receiveTimeout: const Duration(seconds: 60),
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          },
         ),
       ) {
     dio.interceptors.add(
-      InterceptorsWrapper(
-        onRequest: (options, handler) async {
-          final accessToken = await TokenStorage().readAccess();
-          final p = options.path;
-
-          final isAuthCall =
-              p.contains(BackendEndPoint.signIn) ||
-              p.contains(BackendEndPoint.signUp);
-
-          if (!isAuthCall &&
-              accessToken != null &&
-              accessToken.isNotEmpty &&
-              options.headers['Authorization'] == null) {
-            options.headers['Authorization'] = 'Bearer $accessToken';
-          }
-
-          handler.next(options);
-        },
-        onError: (DioException err, handler) async {
-          if (err.response?.statusCode == 401 &&
-              !err.requestOptions.path.contains(BackendEndPoint.signIn) &&
-              !err.requestOptions.path.contains(BackendEndPoint.signUp)) {
-            try {
-              final tokenStorage = TokenStorage();
-              final oldToken = await tokenStorage.readAccess();
-
-              if (oldToken == null) {
-                return handler.next(err);
-              }
-              AuthRepo authRepo = AuthRepoImp(
-                databaseService: getIt.get<DatabaseService>(),
-              );
-              final result = await authRepo.refresh();
-              result.fold(
-                (failure) {
-                  throw Exception(failure);
-                },
-                (newToken) async {
-                  final reqOptions = err.requestOptions;
-                  reqOptions.headers['Authorization'] = 'Bearer $newToken';
-                  final cloneResponse = await dio.fetch(reqOptions);
-                  return handler.resolve(cloneResponse);
-                },
-              );
-            } catch (e) {
-              return handler.next(err);
-            }
-          }
-          handler.next(err);
-        },
-      ),
+      AuthInterceptor(dio: dio, tokenStorage: TokenStorage()),
     );
   }
 
   @override
   Future addData({
     required String endpoint,
-    required Map<String, dynamic> data,
+    required Map<String, dynamic>? data,
     String? rowid,
   }) async {
     final Response res = await dio.post(endpoint + (rowid ?? ''), data: data);

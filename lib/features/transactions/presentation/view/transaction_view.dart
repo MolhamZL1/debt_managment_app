@@ -1,22 +1,27 @@
-import 'package:debt_managment_app/core/services/get_it_service.dart';
-import 'package:debt_managment_app/features/transactions/presentation/cubits/cubit/fetch_all_transactions_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../domain/repo/transaction_repo.dart';
+import '../cubits/cubit/fetch_all_transactions_cubit.dart';
 import 'widgets/Transaction_View_body.dart';
 
-class TransactionView extends StatelessWidget {
+class TransactionView extends StatefulWidget {
   const TransactionView({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create:
-          (context) =>
-              FetchAllTransactionsCubit(getIt.get<TransactionRepo>())
-                ..getAllTransactions(category: "all"),
-      child: TransactionViewBody(),
+  State<TransactionView> createState() => _TransactionViewState();
+}
+
+class _TransactionViewState extends State<TransactionView> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<FetchAllTransactionsCubit>().getAllTransactions(
+      category: "all",
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return TransactionViewBody();
   }
 }

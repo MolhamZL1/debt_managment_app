@@ -29,7 +29,7 @@ class PaymentItemCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: Text(
-                      "${paymentEntity.amount} ر.س دفعة",
+                      "${paymentEntity.amount} ل.س دفعة",
                       style: TextStyle(color: AppColors.success),
                     ),
                   ),
@@ -49,7 +49,9 @@ class PaymentItemCard extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 8),
-                  Text(paymentEntity.description ?? ""),
+                  paymentEntity.description == null
+                      ? SizedBox()
+                      : Text(paymentEntity.description!),
                 ],
               ),
             ),

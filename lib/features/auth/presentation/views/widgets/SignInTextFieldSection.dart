@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 import '../../../../../core/functions/custom_validator.dart';
-import '../../../../../core/theme/app_text_styles.dart';
 import 'CustomPasswordTextField.dart';
 
 class SignInTextFieldSection extends StatelessWidget {
@@ -22,32 +21,37 @@ class SignInTextFieldSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'البريد الالكتروني',
-            style: AppTextStyles.bodyMedium.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
+            'البريد الالكتروني أو الرقم',
+            style: Theme.of(
+              context,
+            ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
           ),
           SizedBox(height: 8),
           FormBuilderTextField(
             name: "email",
             keyboardType: TextInputType.emailAddress,
-            validator: CustomValidator.emailValidator,
+            validator: CustomValidator.emailOrPhoneNumberValidator,
             textInputAction: TextInputAction.next,
-            autofillHints: const [AutofillHints.email],
-            decoration: const InputDecoration(labelText: 'البريدالكتروني'),
+            autofillHints: const [
+              AutofillHints.email,
+              AutofillHints.telephoneNumber,
+            ],
+            decoration: const InputDecoration(
+              labelText: "البريد الالكتروني أو الرقم",
+            ),
           ),
           SizedBox(height: 16),
           Text(
             ' كلمة المرور',
-            style: AppTextStyles.bodyMedium.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
+            style: Theme.of(
+              context,
+            ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
           ),
           SizedBox(height: 8),
           CustomPasswordTextField(
             name: 'password',
             label: 'كلمة المرور',
-            textInputAction: TextInputAction.next,
+            textInputAction: TextInputAction.done,
             autofillHints: const [AutofillHints.newPassword],
           ),
         ],

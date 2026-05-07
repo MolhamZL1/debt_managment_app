@@ -1,4 +1,7 @@
+import 'package:debt_managment_app/core/theme/app_colors.dart';
+import 'package:debt_managment_app/core/utils/app_images.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 /// ====== معلومات قابلة للتعديل بسهولة ======
 class AppBrand {
@@ -17,12 +20,11 @@ class AppBrand {
     'التحسين المستمر بناءً على ملاحظاتكم',
   ];
 
-  static const String email = 'support@sajjilha.app';
-  static const String whatsapp = '+963 9XX XXX XXX';
-  static const String website = 'https://sajjilha.app';
+  static const String email = 'molhamsa49@gmail.com';
+  static const String whatsapp = '+963 988159532';
+  static const String website =
+      'https://sajilha.app'; // ضع رابط موقعك الرسمي أو صفحة التواصل الاجتماعي
   static const String version = '1.0.0';
-
-  static const int primaryColorHex = 0xFF16A34A;
 }
 
 /// يمكن عرض أعضاء الفريق (اختياري)
@@ -35,8 +37,14 @@ class TeamMember {
 }
 
 const List<TeamMember> kTeam = [
-  TeamMember(name: 'Molham', role: 'Founder & Flutter Dev', avatarUrl: null),
-  TeamMember(name: 'Saba', role: 'Product & QA', avatarUrl: null),
+  TeamMember(
+    name: 'Molham Sheikh',
+    role: 'Founder & Frontend Dev',
+    avatarUrl: null,
+  ),
+  TeamMember(name: 'Siba Ashoush', role: 'Frontend Dev', avatarUrl: null),
+  TeamMember(name: 'Loai Swede', role: 'Backend Dev', avatarUrl: null),
+  TeamMember(name: 'Marwan Ahmed', role: 'Backend Dev', avatarUrl: null),
 ];
 
 /// ====== صفحة "من نحن" ======
@@ -44,25 +52,19 @@ class AboutUsPage extends StatelessWidget {
   const AboutUsPage({super.key});
   static const String routename = '/about_us';
 
-  Color get primary => const Color(AppBrand.primaryColorHex);
-
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('من نحن'),
-        backgroundColor: primary,
-        foregroundColor: Colors.white,
-      ),
+      appBar: AppBar(title: const Text('من نحن')),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
           _Header(
             title: AppBrand.appName,
             subtitle: AppBrand.tagline,
-            color: primary,
+            color: AppColors.primary,
           ),
 
           const SizedBox(height: 16),
@@ -94,7 +96,11 @@ class AboutUsPage extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(vertical: 4),
                     child: Row(
                       children: [
-                        Icon(Icons.check_circle, color: primary, size: 20),
+                        Icon(
+                          Icons.check_circle,
+                          color: AppColors.primary,
+                          size: 20,
+                        ),
                         const SizedBox(width: 8),
                         Expanded(child: Text(v, style: textTheme.bodyMedium)),
                       ],
@@ -110,7 +116,8 @@ class AboutUsPage extends StatelessWidget {
               title: 'الفريق',
               child: Column(
                 children: [
-                  for (final m in kTeam) _TeamTile(member: m, color: primary),
+                  for (final m in kTeam)
+                    _TeamTile(member: m, color: AppColors.primary),
                 ],
               ),
             ),
@@ -126,18 +133,24 @@ class AboutUsPage extends StatelessWidget {
                   icon: Icons.email,
                   label: 'البريد الإلكتروني',
                   value: AppBrand.email,
+                  onTap: () => launchUrl(Uri.parse('mailto:${AppBrand.email}')),
                 ),
                 const SizedBox(height: 8),
                 _ContactRow(
                   icon: Icons.phone,
                   label: 'واتساب',
                   value: AppBrand.whatsapp,
+                  onTap:
+                      () => launchUrl(
+                        Uri.parse('https://wa.me/${AppBrand.whatsapp}'),
+                      ),
                 ),
                 const SizedBox(height: 8),
                 _ContactRow(
                   icon: Icons.language,
                   label: 'الموقع',
                   value: AppBrand.website,
+                  onTap: () => launchUrl(Uri.parse(AppBrand.website)),
                 ),
               ],
             ),
@@ -173,7 +186,7 @@ class _Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(18),
+      padding: EdgeInsets.all(18),
       decoration: BoxDecoration(
         color: color.withOpacity(0.06),
         borderRadius: BorderRadius.circular(16),
@@ -187,7 +200,7 @@ class _Header extends StatelessWidget {
               color: color.withOpacity(0.12),
               shape: BoxShape.circle,
             ),
-            child: Icon(Icons.menu_book_rounded, color: color, size: 28),
+            child: Image.asset(AppImages.imagesAppIcon, width: 32, height: 32),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -220,6 +233,7 @@ class _Header extends StatelessWidget {
 class _SectionCard extends StatelessWidget {
   final String title;
   final Widget child;
+
   const _SectionCard({required this.title, required this.child});
 
   @override
@@ -228,23 +242,25 @@ class _SectionCard extends StatelessWidget {
       context,
     ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700);
 
-    return Card(
-      elevation: 0,
-      clipBehavior: Clip.antiAlias,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.black12),
-          borderRadius: BorderRadius.circular(14),
-        ),
-        padding: const EdgeInsets.fromLTRB(14, 12, 14, 14),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(title, style: titleStyle),
-            const SizedBox(height: 8),
-            child,
-          ],
+    return GestureDetector(
+      child: Card(
+        elevation: 0,
+        clipBehavior: Clip.antiAlias,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+        child: Container(
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.black12),
+            borderRadius: BorderRadius.circular(14),
+          ),
+          padding: const EdgeInsets.fromLTRB(14, 12, 14, 14),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(title, style: titleStyle),
+              const SizedBox(height: 8),
+              child,
+            ],
+          ),
         ),
       ),
     );
@@ -281,24 +297,41 @@ class _ContactRow extends StatelessWidget {
   final IconData icon;
   final String label;
   final String value;
+  final VoidCallback? onTap;
+
   const _ContactRow({
     required this.icon,
     required this.label,
     required this.value,
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    final primary = const Color(AppBrand.primaryColorHex);
-    return Row(
+    final rowContent = Row(
       children: [
-        Icon(icon, color: primary, size: 20),
+        Icon(icon, color: AppColors.primary, size: 20),
         const SizedBox(width: 8),
         Text('$label: ', style: const TextStyle(fontWeight: FontWeight.w600)),
         Expanded(
-          child: SelectableText(value, style: const TextStyle(height: 1.4)),
+          child: SelectableText(
+            value,
+            maxLines: null,
+            style: const TextStyle(height: 1.4, color: Colors.blueAccent),
+          ),
         ),
       ],
     );
+
+    return onTap == null
+        ? rowContent
+        : InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(8),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 2),
+            child: rowContent,
+          ),
+        );
   }
 }

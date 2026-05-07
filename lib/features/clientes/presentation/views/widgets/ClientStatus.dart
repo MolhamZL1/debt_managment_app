@@ -51,11 +51,14 @@ class ClientStatus extends StatelessWidget {
   Widget _item(String title, String value, {Color? color}) {
     return Column(
       children: [
-        Text(
-          value,
-          style: AppTextStyles.titleMedium.copyWith(
-            color: color,
-            fontWeight: FontWeight.bold,
+        FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Text(
+            value,
+            style: AppTextStyles.titleMedium.copyWith(
+              color: color,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
         const SizedBox(height: 4),

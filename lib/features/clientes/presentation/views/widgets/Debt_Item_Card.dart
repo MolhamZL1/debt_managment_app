@@ -36,7 +36,7 @@ class DebtItemCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: Text(
-                      "${debtEntity.amount} ر.س دين",
+                      "${debtEntity.amount} ل.س دين",
                       style: TextStyle(color: AppColors.error),
                     ),
                   ),
@@ -56,7 +56,9 @@ class DebtItemCard extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 8),
-                  Text(debtEntity.description),
+                  debtEntity.description == null
+                      ? SizedBox()
+                      : Text(debtEntity.description!),
                 ],
               ),
             ),

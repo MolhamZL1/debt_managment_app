@@ -1,10 +1,12 @@
+import 'package:debt_managment_app/core/utils/data.dart';
 import 'package:debt_managment_app/features/auth/presentation/views/widgets/CustomPasswordTextField.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../../core/functions/custom_validator.dart';
-import '../../../../../core/theme/app_text_styles.dart';
 
 class SignUpTextFieldSection extends StatelessWidget {
   const SignUpTextFieldSection({
@@ -24,9 +26,9 @@ class SignUpTextFieldSection extends StatelessWidget {
         children: [
           Text(
             'الاسم',
-            style: AppTextStyles.bodyMedium.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
+            style: Theme.of(
+              context,
+            ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 8),
           FormBuilderTextField(
@@ -41,9 +43,9 @@ class SignUpTextFieldSection extends StatelessWidget {
           const SizedBox(height: 16),
           Text(
             ' رقم الهاتف',
-            style: AppTextStyles.bodyMedium.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
+            style: Theme.of(
+              context,
+            ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 8),
           FormBuilderTextField(
@@ -58,9 +60,9 @@ class SignUpTextFieldSection extends StatelessWidget {
           const SizedBox(height: 16),
           Text(
             'البريد الالكتروني',
-            style: AppTextStyles.bodyMedium.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
+            style: Theme.of(
+              context,
+            ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 8),
           FormBuilderTextField(
@@ -75,9 +77,9 @@ class SignUpTextFieldSection extends StatelessWidget {
           const SizedBox(height: 16),
           Text(
             ' كلمة المرور',
-            style: AppTextStyles.bodyMedium.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
+            style: Theme.of(
+              context,
+            ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 8),
 
@@ -91,9 +93,9 @@ class SignUpTextFieldSection extends StatelessWidget {
           const SizedBox(height: 16),
           Text(
             'تأكيد كلمة المرور',
-            style: AppTextStyles.bodyMedium.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
+            style: Theme.of(
+              context,
+            ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 8),
 
@@ -109,7 +111,44 @@ class SignUpTextFieldSection extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 8),
             child: FormBuilderCheckbox(
               name: 'accept_terms',
-              title: const Text('أوافق على الشروط والاحكام'),
+              title: RichText(
+                text: TextSpan(
+                  style: Theme.of(context).textTheme.bodyMedium,
+                  children: [
+                    const TextSpan(text: 'أوافق على '),
+                    TextSpan(
+                      text: 'الشروط والأحكام',
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        decoration: TextDecoration.underline,
+                        color: Colors.blue,
+                      ),
+
+                      recognizer:
+                          TapGestureRecognizer()
+                            ..onTap = () {
+                              launchUrl(Uri.parse(Data.termsAndConditionsUrl));
+                            },
+                    ),
+                    TextSpan(
+                      text: ' و ',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                    TextSpan(
+                      text: 'سياسة الخصوصية',
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        decoration: TextDecoration.underline,
+                        color: Colors.blue,
+                      ),
+                      recognizer:
+                          TapGestureRecognizer()
+                            ..onTap = () {
+                              launchUrl(Uri.parse(Data.privacyPolicyUrl));
+                            },
+                    ),
+                  ],
+                ),
+              ),
+
               initialValue: false,
               decoration: const InputDecoration(
                 border: InputBorder.none,

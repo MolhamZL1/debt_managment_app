@@ -47,15 +47,18 @@ class DebtClientRepoImp implements DebtClientRepo {
 
   @override
   Future<Either<Failure, List<DebtEntity>>> getAllDebtsOfClient(
-    int clientId,
-  ) async {
+    int clientId, {
+    int page = 1,
+  }) async {
     try {
       final data = await databaseService.getData(
         endpoint: BackendEndPoint.debtsClient,
         rowid: clientId.toString(),
+        quary: {"page": page},
       );
+
       List<DebtEntity> debts = List<DebtEntity>.from(
-        data["result"].map((e) => DebtModel.fromJson(e).toEntity()),
+        data["result"]["data"].map((e) => DebtModel.fromJson(e).toEntity()),
       );
       return Right(debts);
     } catch (e) {

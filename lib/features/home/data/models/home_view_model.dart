@@ -21,7 +21,7 @@ class HomeViewModel {
   });
   factory HomeViewModel.fromJson(Map<String, dynamic> json) {
     return HomeViewModel(
-      totalDebts: json['balance'],
+      totalDebts: double.parse(json['balance'].toString()),
       totalClients: json["clients_count"],
       indebtedClients: json['clients_in_debt'],
       nonIndebtedClients: json['clients_clear'],

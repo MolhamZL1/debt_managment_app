@@ -4,6 +4,7 @@ import '../../../../core/errors/failures.dart';
 
 abstract class TransactionClientRepo {
   Future<Either<Failure, List<dynamic>>> getAllTransactionsOfClient(
-    int clientId,
-  );
+    int clientId, {
+    int page = 1,
+  });
 }

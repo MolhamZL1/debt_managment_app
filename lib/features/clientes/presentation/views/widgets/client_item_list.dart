@@ -85,7 +85,10 @@ class ClientItemList extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
           ),
           child: Text(
-            "${clientEntity.amount.abs()} ر.س ${clientEntity.isDebt() ? "دين" : "رصيد"}",
+            "~"
+            "${clientEntity.getFormattedAmount()}"
+            " ل.س"
+            " ${clientEntity.isDebt() ? "دين" : "رصيد"}",
             style: TextStyle(
               color: textbalanceColor,
               fontSize: 14,

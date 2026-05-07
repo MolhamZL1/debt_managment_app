@@ -6,6 +6,13 @@ import 'package:debt_managment_app/features/transactions/presentation/view/trans
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/services/get_it_service.dart';
+import '../../../clientes/domain/repo/clientes_repo.dart';
+import '../../../clientes/presentation/cubits/fetch clients/fetch_clients_cubit.dart';
+import '../../../home/domain/repo/home_view_repo.dart';
+import '../../../home/presentation/cubits/cubit/home_view_cubit.dart';
+import '../../../transactions/domain/repo/transaction_repo.dart';
+import '../../../transactions/presentation/cubits/cubit/fetch_all_transactions_cubit.dart';
 import '../cubits/nav_bar/nav_bar_cubit.dart';
 import 'widgets/CustomNavBar.dart';
 import 'widgets/floatActionButtonBottomSheet.dart';
@@ -15,40 +22,56 @@ class MainView extends StatelessWidget {
   static const routename = "main";
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => NavBarCubit(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => FetchClientsCubit(getIt.get<ClientesRepo>()),
+        ),
+        BlocProvider(create: (context) => NavBarCubit()),
+        BlocProvider(
+          create: (context) => HomeViewCubit(getIt.get<HomeViewRepo>()),
+        ),
+        BlocProvider(
+          create:
+              (context) =>
+                  FetchAllTransactionsCubit(getIt.get<TransactionRepo>()),
+        ),
+      ],
       child: BlocBuilder<NavBarCubit, int>(
         builder: (context, state) {
-          return Scaffold(
-            floatingActionButton: FloatingActionButton(
-              onPressed: () {
-                floatActionButtonBottomSheet(context);
-              },
-              child: const Icon(Icons.add),
-            ),
-            appBar: AppBar(
-              title: Text(
-                ["سجلها", "العملاء", "التحويلات", "الإعدادات"][state],
+          return SafeArea(
+            top: false,
+            child: Scaffold(
+              floatingActionButton: FloatingActionButton(
+                onPressed: () {
+                  floatActionButtonBottomSheet(context);
+                },
+                child: const Icon(Icons.add),
               ),
-              leading: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Image.asset(AppImages.imagesAppIcon),
+              appBar: AppBar(
+                title: Text(
+                  ["سجلها", "العملاء", "التحويلات", "الإعدادات"][state],
+                ),
+                leading: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Image.asset(AppImages.imagesAppIcon),
+                ),
+                actions: [
+                  // IconButton(
+                  //   onPressed: () {},
+                  //   icon: Icon(Icons.notifications_outlined),
+                  // ),
+                ],
               ),
-              actions: [
-                // IconButton(
-                //   onPressed: () {},
-                //   icon: Icon(Icons.notifications_outlined),
-                // ),
-              ],
+              bottomNavigationBar: CustomNavBar(),
+              body:
+                  [
+                    HomeView(),
+                    ClientView(),
+                    TransactionView(),
+                    SettingsView(),
+                  ][state],
             ),
-            bottomNavigationBar: CustomNavBar(),
-            body:
-                [
-                  HomeView(),
-                  ClientView(),
-                  TransactionView(),
-                  SettingsView(),
-                ][state],
           );
         },
       ),

@@ -23,6 +23,18 @@ class _PaidClientsViewState extends State<PaidClientsView>
   @override
   bool get wantKeepAlive => true;
 
+  bool _onScroll(ScrollNotification notification, BuildContext context) {
+    final reachedThreshold =
+        notification.metrics.pixels >=
+        notification.metrics.maxScrollExtent - 200;
+
+    if (reachedThreshold) {
+      context.read<FetchPaymentsClientsCubit>().fetchMorePaymentsOfClient();
+    }
+
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -36,18 +48,57 @@ class _PaidClientsViewState extends State<PaidClientsView>
           if (state is FetchPaymentsClientsLoading) {
             return CustomLoading();
           } else if (state is FetchPaymentsClientsError) {
-            return CustomErrorMessage(message: state.errMessage);
-          } else if (state is FetchPaymentsClientsSuccess) {
+            return CustomErrorMessage(
+              message: state.errMessage,
+              onReload:
+                  () => context
+                      .read<FetchPaymentsClientsCubit>()
+                      .fetchPaymentsOfClient(widget.clientId),
+            );
+          } else if (state is FetchPaymentsClientsDataState) {
             if (state.payments.isEmpty) {
               return CustomEmptyDataMessage(message: "لا يوجد دفعات مسجلة");
             }
-            return ListView.builder(
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              itemCount: state.payments.length,
-              itemBuilder: (context, index) {
-                final debt = state.payments[index];
-                return PaymentItemCard(paymentEntity: debt);
-              },
+
+            final showFooter =
+                state is FetchPaymentsClientsLoadingMore ||
+                state is FetchPaymentsClientsLoadMoreError;
+
+            return NotificationListener<ScrollNotification>(
+              onNotification:
+                  (notification) => _onScroll(notification, context),
+              child: ListView.builder(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                itemCount: state.payments.length + (showFooter ? 1 : 0),
+                itemBuilder: (context, index) {
+                  if (index < state.payments.length) {
+                    final payment = state.payments[index];
+                    return PaymentItemCard(paymentEntity: payment);
+                  }
+
+                  if (state is FetchPaymentsClientsLoadingMore) {
+                    return const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 12),
+                      child: Center(child: CircularProgressIndicator()),
+                    );
+                  }
+
+                  if (state is FetchPaymentsClientsLoadMoreError) {
+                    return Center(
+                      child: TextButton(
+                        onPressed:
+                            () =>
+                                context
+                                    .read<FetchPaymentsClientsCubit>()
+                                    .fetchMorePaymentsOfClient(),
+                        child: const Text('إعادة المحاولة'),
+                      ),
+                    );
+                  }
+
+                  return const SizedBox.shrink();
+                },
+              ),
             );
           }
           return const SizedBox();

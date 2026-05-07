@@ -5,10 +5,40 @@ sealed class FetchAllTransactionsState {}
 
 final class FetchAllTransactionsInitial extends FetchAllTransactionsState {}
 
-final class FetchAllTransactionsSuccess extends FetchAllTransactionsState {
+sealed class FetchAllTransactionsDataState extends FetchAllTransactionsState {
   final List<TransactionEntity> transactions;
+  final bool hasMore;
 
-  FetchAllTransactionsSuccess({required this.transactions});
+  FetchAllTransactionsDataState({
+    required this.transactions,
+    required this.hasMore,
+  });
+}
+
+final class FetchAllTransactionsSuccess extends FetchAllTransactionsDataState {
+  FetchAllTransactionsSuccess({
+    required super.transactions,
+    required super.hasMore,
+  });
+}
+
+final class FetchAllTransactionsLoadingMore
+    extends FetchAllTransactionsDataState {
+  FetchAllTransactionsLoadingMore({
+    required super.transactions,
+    required super.hasMore,
+  });
+}
+
+final class FetchAllTransactionsLoadMoreError
+    extends FetchAllTransactionsDataState {
+  final String errMessage;
+
+  FetchAllTransactionsLoadMoreError({
+    required super.transactions,
+    required super.hasMore,
+    required this.errMessage,
+  });
 }
 
 final class FetchAllTransactionsLoading extends FetchAllTransactionsState {}

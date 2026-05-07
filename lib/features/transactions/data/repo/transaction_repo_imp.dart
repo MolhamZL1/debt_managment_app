@@ -17,11 +17,13 @@ class TransactionRepoImp implements TransactionRepo {
   @override
   Future<Either<Failure, List<TransactionEntity>>> getAllTransactions({
     required String category,
+    int page = 1,
   }) async {
     try {
       final data = await databaseService.getData(
         endpoint: BackendEndPoint.transaction,
         rowid: category,
+        quary: {"page": page},
       );
       List<TransactionEntity> transactions = List<TransactionEntity>.from(
         data["result"].map((e) => TransactionModel.fromJson(e).toEntity()),

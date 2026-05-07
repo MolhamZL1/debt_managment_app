@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class TransactionEntity {
   final int id;
   final int clientId;
@@ -16,4 +18,10 @@ class TransactionEntity {
     required this.description,
     required this.amount,
   });
+  getFormattedAmount() {
+    final formattedAmount = NumberFormat.compact(
+      locale: 'ar',
+    ).format(amount.abs());
+    return formattedAmount;
+  }
 }

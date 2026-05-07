@@ -24,6 +24,18 @@ class _TransactionClientsViewState extends State<TransactionClientsView>
   @override
   bool get wantKeepAlive => true;
 
+  bool _onScroll(ScrollNotification notification, BuildContext context) {
+    final reachedThreshold =
+        notification.metrics.pixels >=
+        notification.metrics.maxScrollExtent - 200;
+
+    if (reachedThreshold) {
+      context.read<FetchTransactionClientCubit>().fetchMoreTransactionClient();
+    }
+
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -39,28 +51,67 @@ class _TransactionClientsViewState extends State<TransactionClientsView>
               if (state is FetchTransactionClientLoading) {
                 return CustomLoading();
               } else if (state is FetchTransactionClientError) {
-                return CustomErrorMessage(message: state.errMessage);
-              } else if (state is FetchTransactionClientSuccess) {
+                return CustomErrorMessage(
+                  message: state.errMessage,
+                  onReload:
+                      () => context
+                          .read<FetchTransactionClientCubit>()
+                          .fetchTransactionClient(widget.clientId),
+                );
+              } else if (state is FetchTransactionClientDataState) {
                 if (state.transactions.isEmpty) {
                   return CustomEmptyDataMessage(
                     message: "لا يوجد ديون او دفعات مسجلة",
                   );
                 }
-                return ListView.builder(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  itemCount: state.transactions.length,
-                  itemBuilder: (context, index) {
-                    final transaction = state.transactions[index];
-                    if (transaction is DebtEntity) {
-                      return DebtItemCard(
-                        debtEntity: transaction,
-                        onDelete: () {},
-                        onEdit: () {},
-                      );
-                    } else {
-                      return PaymentItemCard(paymentEntity: transaction);
-                    }
-                  },
+
+                final showFooter =
+                    state is FetchTransactionClientLoadingMore ||
+                    state is FetchTransactionClientLoadMoreError;
+
+                return NotificationListener<ScrollNotification>(
+                  onNotification:
+                      (notification) => _onScroll(notification, context),
+                  child: ListView.builder(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    itemCount: state.transactions.length + (showFooter ? 1 : 0),
+                    itemBuilder: (context, index) {
+                      if (index < state.transactions.length) {
+                        final transaction = state.transactions[index];
+                        if (transaction is DebtEntity) {
+                          return DebtItemCard(
+                            debtEntity: transaction,
+                            onDelete: () {},
+                            onEdit: () {},
+                          );
+                        } else {
+                          return PaymentItemCard(paymentEntity: transaction);
+                        }
+                      }
+
+                      if (state is FetchTransactionClientLoadingMore) {
+                        return const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 12),
+                          child: Center(child: CircularProgressIndicator()),
+                        );
+                      }
+
+                      if (state is FetchTransactionClientLoadMoreError) {
+                        return Center(
+                          child: TextButton(
+                            onPressed:
+                                () =>
+                                    context
+                                        .read<FetchTransactionClientCubit>()
+                                        .fetchMoreTransactionClient(),
+                            child: const Text('إعادة المحاولة'),
+                          ),
+                        );
+                      }
+
+                      return const SizedBox.shrink();
+                    },
+                  ),
                 );
               }
               return const SizedBox();

@@ -1,20 +1,61 @@
+import 'dart:convert';
+
+import 'package:debt_managment_app/core/services/local_storage_service.dart';
+import 'package:debt_managment_app/core/utils/data.dart';
 import 'package:debt_managment_app/core/utils/show_question_dialog.dart';
+import 'package:debt_managment_app/features/auth/data/model/user_model.dart';
+import 'package:debt_managment_app/features/auth/domain/entity/user_entity.dart';
 import 'package:debt_managment_app/features/settings/presentation/cubits/sign%20out/sign_out_cubit.dart';
 import 'package:debt_managment_app/features/settings/presentation/view/about_us_view.dart';
 import 'package:debt_managment_app/features/settings/presentation/view/help_view.dart';
-import 'package:debt_managment_app/features/settings/presentation/view/profile_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_indicator/loading_indicator.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../../core/theme/app_colors.dart';
+
 import 'CustomThemeModeSwitcher.dart';
 import 'SettingsCardSection.dart';
 import 'TextHeaderSettings.dart';
 import 'settings_tile.dart';
 
-class SettingsViewBody extends StatelessWidget {
+class SettingsViewBody extends StatefulWidget {
   const SettingsViewBody({super.key});
+
+  @override
+  State<SettingsViewBody> createState() => _SettingsViewBodyState();
+}
+
+class _SettingsViewBodyState extends State<SettingsViewBody> {
+  UserEntity? userEntity;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUser();
+  }
+
+  Future<void> _loadUser() async {
+    final String? userData = await LocalStorageService.getItem(
+      LocalStorageKeys.user,
+    );
+
+    if (userData != null) {
+      try {
+        final Map<String, dynamic> json =
+            jsonDecode(userData) as Map<String, dynamic>;
+
+        final user = UserModel.fromJson(json).toEntity();
+
+        setState(() {
+          userEntity = user;
+        });
+      } catch (e) {
+        debugPrint('Error parsing user data: $e');
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,20 +66,16 @@ class SettingsViewBody extends StatelessWidget {
         const TextHeaderSettings('الحساب'),
         SettingsCardSection(
           children: [
-            GestureDetector(
-              onTap:
-                  () => {Navigator.pushNamed(context, ProfileView.routename)},
-              child: SettingsTile(
-                title: 'معلومات الحساب',
-                subtitle: 'mohammed@example.com',
-                leadingIcon: Icons.person_outline,
-                trailingWidget: Text('محمد السعدي'),
-              ),
+            SettingsTile(
+              title: 'معلومات الحساب',
+              subtitle: userEntity?.email ?? '...',
+              leadingIcon: Icons.person_outline,
+              trailingWidget: Text(userEntity?.name ?? '...'),
             ),
           ],
         ),
 
-        SizedBox(height: 16),
+        const SizedBox(height: 16),
         const TextHeaderSettings('التفضيلات'),
         SettingsCardSection(
           children: [
@@ -47,51 +84,63 @@ class SettingsViewBody extends StatelessWidget {
               subtitle: 'العربية',
               leadingIcon: Icons.public,
             ),
-            Divider(),
+            const Divider(),
             SettingsTile(
               title: 'الثيم',
               subtitle: isDark ? 'داكن' : 'فاتح',
               leadingIcon: Icons.brightness_6_outlined,
-              trailingWidget: CustomThemeModeSwitcher(),
+              trailingWidget: const CustomThemeModeSwitcher(),
             ),
           ],
         ),
-        SizedBox(height: 16),
+
+        const SizedBox(height: 16),
         const TextHeaderSettings('المساعدة والدعم'),
         SettingsCardSection(
           children: [
-            SettingsTile(
-              title: "سياسة الخصوصية",
-              leadingIcon: Icons.privacy_tip_outlined,
+            GestureDetector(
+              onTap: () {
+                launchUrl(Uri.parse(Data.privacyPolicyUrl));
+              },
+              child: const SettingsTile(
+                title: "سياسة الخصوصية",
+                leadingIcon: Icons.privacy_tip_outlined,
+              ),
             ),
-            Divider(),
-            SettingsTile(
-              title: "الشروط و الاحكام",
-              leadingIcon: Icons.gavel_outlined,
+            const Divider(),
+            GestureDetector(
+              onTap: () {
+                launchUrl(Uri.parse(Data.termsAndConditionsUrl));
+              },
+              child: const SettingsTile(
+                title: "الشروط و الاحكام",
+                leadingIcon: Icons.gavel_outlined,
+              ),
             ),
-            Divider(),
+            const Divider(),
             GestureDetector(
               onTap: () {
                 Navigator.pushNamed(context, HelpPage.routename);
               },
-              child: SettingsTile(
+              child: const SettingsTile(
                 title: 'المساعدة',
                 leadingIcon: Icons.help_outline,
               ),
             ),
-            Divider(),
+            const Divider(),
             GestureDetector(
               onTap: () {
                 Navigator.pushNamed(context, AboutUsPage.routename);
               },
-              child: SettingsTile(
+              child: const SettingsTile(
                 title: 'من نحن',
                 leadingIcon: Icons.info_outline,
               ),
             ),
           ],
         ),
-        SizedBox(height: 24),
+
+        const SizedBox(height: 24),
         ElevatedButton.icon(
           onPressed: () {
             showQuestionDialog(
@@ -103,11 +152,11 @@ class SettingsViewBody extends StatelessWidget {
               },
             );
           },
-          icon: Icon(Icons.logout),
+          icon: const Icon(Icons.logout),
           label: BlocBuilder<SignOutCubit, SignOutState>(
             builder: (context, state) {
               if (state is SignOutLoading) {
-                return SizedBox(
+                return const SizedBox(
                   width: 25,
                   child: LoadingIndicator(
                     indicatorType: Indicator.ballPulse,
@@ -116,13 +165,13 @@ class SettingsViewBody extends StatelessWidget {
                   ),
                 );
               }
-              return Text('تسجيل الخروج');
+              return const Text('تسجيل الخروج');
             },
           ),
           style: ElevatedButton.styleFrom(backgroundColor: AppColors.error),
         ),
-        SizedBox(height: 12),
-        Center(child: Text('سجلها الإصدار 1.0.0')),
+        const SizedBox(height: 12),
+        const Center(child: Text('سجلها الإصدار 1.0.0')),
       ],
     );
   }

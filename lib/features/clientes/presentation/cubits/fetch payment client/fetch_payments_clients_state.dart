@@ -12,7 +12,38 @@ final class FetchPaymentsClientsError extends FetchPaymentsClientsState {
   FetchPaymentsClientsError({required this.errMessage});
 }
 
-final class FetchPaymentsClientsSuccess extends FetchPaymentsClientsState {
+sealed class FetchPaymentsClientsDataState extends FetchPaymentsClientsState {
   final List<PaymentEntity> payments;
-  FetchPaymentsClientsSuccess({required this.payments});
+  final bool hasMore;
+
+  FetchPaymentsClientsDataState({
+    required this.payments,
+    required this.hasMore,
+  });
+}
+
+final class FetchPaymentsClientsSuccess extends FetchPaymentsClientsDataState {
+  FetchPaymentsClientsSuccess({
+    required super.payments,
+    required super.hasMore,
+  });
+}
+
+final class FetchPaymentsClientsLoadingMore
+    extends FetchPaymentsClientsDataState {
+  FetchPaymentsClientsLoadingMore({
+    required super.payments,
+    required super.hasMore,
+  });
+}
+
+final class FetchPaymentsClientsLoadMoreError
+    extends FetchPaymentsClientsDataState {
+  final String failure;
+
+  FetchPaymentsClientsLoadMoreError({
+    required super.payments,
+    required super.hasMore,
+    required this.failure,
+  });
 }

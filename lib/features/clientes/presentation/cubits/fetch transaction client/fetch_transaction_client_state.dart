@@ -12,7 +12,40 @@ final class FetchTransactionClientError extends FetchTransactionClientState {
   FetchTransactionClientError({required this.errMessage});
 }
 
-final class FetchTransactionClientSuccess extends FetchTransactionClientState {
+sealed class FetchTransactionClientDataState
+    extends FetchTransactionClientState {
   final List<dynamic> transactions;
-  FetchTransactionClientSuccess({required this.transactions});
+  final bool hasMore;
+
+  FetchTransactionClientDataState({
+    required this.transactions,
+    required this.hasMore,
+  });
+}
+
+final class FetchTransactionClientSuccess
+    extends FetchTransactionClientDataState {
+  FetchTransactionClientSuccess({
+    required super.transactions,
+    required super.hasMore,
+  });
+}
+
+final class FetchTransactionClientLoadingMore
+    extends FetchTransactionClientDataState {
+  FetchTransactionClientLoadingMore({
+    required super.transactions,
+    required super.hasMore,
+  });
+}
+
+final class FetchTransactionClientLoadMoreError
+    extends FetchTransactionClientDataState {
+  final String failure;
+
+  FetchTransactionClientLoadMoreError({
+    required super.transactions,
+    required super.hasMore,
+    required this.failure,
+  });
 }

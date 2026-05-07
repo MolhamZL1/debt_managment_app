@@ -22,6 +22,18 @@ class _DebtsClientViewState extends State<DebtsClientView>
   @override
   bool get wantKeepAlive => true;
 
+  bool _onScroll(ScrollNotification notification, BuildContext context) {
+    final reachedThreshold =
+        notification.metrics.pixels >=
+        notification.metrics.maxScrollExtent - 200;
+
+    if (reachedThreshold) {
+      context.read<FetchDebtsClientCubit>().fetchMoreDebtsClient();
+    }
+
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -35,22 +47,61 @@ class _DebtsClientViewState extends State<DebtsClientView>
           if (state is FetchDebtsClientLoading) {
             return CustomLoading();
           } else if (state is FetchDebtsClientError) {
-            return CustomErrorMessage(message: state.errMessage);
-          } else if (state is FetchDebtsClientSuccess) {
+            return CustomErrorMessage(
+              message: state.errMessage,
+              onReload:
+                  () => context.read<FetchDebtsClientCubit>().fetchDebtsClient(
+                    widget.clientId,
+                  ),
+            );
+          } else if (state is FetchDebtsClientDataState) {
             if (state.debts.isEmpty) {
               return CustomEmptyDataMessage(message: "لا يوجد ديون مسجلة");
             }
-            return ListView.builder(
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              itemCount: state.debts.length,
-              itemBuilder: (context, index) {
-                final debt = state.debts[index];
-                return DebtItemCard(
-                  debtEntity: debt,
-                  onDelete: () {},
-                  onEdit: () {},
-                );
-              },
+
+            final showFooter =
+                state is FetchDebtsClientLoadingMore ||
+                state is FetchDebtsClientLoadMoreError;
+
+            return NotificationListener<ScrollNotification>(
+              onNotification:
+                  (notification) => _onScroll(notification, context),
+              child: ListView.builder(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                itemCount: state.debts.length + (showFooter ? 1 : 0),
+                itemBuilder: (context, index) {
+                  if (index < state.debts.length) {
+                    final debt = state.debts[index];
+                    return DebtItemCard(
+                      debtEntity: debt,
+                      onDelete: () {},
+                      onEdit: () {},
+                    );
+                  }
+
+                  if (state is FetchDebtsClientLoadingMore) {
+                    return const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 12),
+                      child: Center(child: CircularProgressIndicator()),
+                    );
+                  }
+
+                  if (state is FetchDebtsClientLoadMoreError) {
+                    return Center(
+                      child: TextButton(
+                        onPressed:
+                            () =>
+                                context
+                                    .read<FetchDebtsClientCubit>()
+                                    .fetchMoreDebtsClient(),
+                        child: const Text('إعادة المحاولة'),
+                      ),
+                    );
+                  }
+
+                  return const SizedBox.shrink();
+                },
+              ),
             );
           }
           return const SizedBox();

@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class ClientEntity {
   final int id;
   final String name;
@@ -15,4 +17,10 @@ class ClientEntity {
     required this.amount,
   });
   bool isDebt() => amount > 0;
+  getFormattedAmount() {
+    final formattedAmount = NumberFormat.compact(
+      locale: 'ar',
+    ).format(amount.abs());
+    return formattedAmount;
+  }
 }

@@ -9,7 +9,10 @@ abstract class DebtClientRepo {
     double amount,
     String? description,
   );
-  Future<Either<Failure, List<DebtEntity>>> getAllDebtsOfClient(int clientId);
+  Future<Either<Failure, List<DebtEntity>>> getAllDebtsOfClient(
+    int clientId, {
+    int page = 1,
+  });
   Future<Either<Failure, void>> deleteDebtFromClient(int debtId);
   Future<Either<Failure, void>> updateDebtFromClient(int debtId, double amount);
 }

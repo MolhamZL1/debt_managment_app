@@ -12,4 +12,19 @@ abstract class AuthRepo {
   );
   Future<Either<Failure, void>> signOut();
   Future<Either<Failure, String>> refresh();
+  Future<Either<Failure, void>> verfyEmail({
+    required String code,
+    required String email,
+  });
+  Future<Either<Failure, void>> resendVerficationCode({required String email});
+  Future<Either<Failure, void>> resetPassword({
+    required String password,
+    required String passwordConfirmation,
+    required String email,
+  });
+  Future<Either<Failure, void>> checkCodeResetPassword({
+    required String code,
+    required String email,
+  });
+  Future<Either<Failure, void>> forgetPassword({required String email});
 }

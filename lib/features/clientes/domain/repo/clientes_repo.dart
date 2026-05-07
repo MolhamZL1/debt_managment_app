@@ -13,6 +13,7 @@ abstract class ClientesRepo {
   Future<Either<Failure, void>> updateCliente(int clienteId);
   Future<Either<Failure, List<ClientEntity>>> getAllClientes({
     required String category,
+    int page = 1,
   });
   Future<Either<Failure, ClientEntity>> getCliente({required int clientId});
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../transactions/presentation/view/widgets/Transaction_Item_Card.dart';
 import '../../../domain/entities/home_view_entity.dart';
 import 'ClientsSummaryRow.dart';
+import 'EmptyHomeStateSection.dart';
 import 'HomeHeader.dart';
 
 class HomeViewBody extends StatelessWidget {
@@ -11,44 +12,50 @@ class HomeViewBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final hasRecentDebts = homeViewEntity.recentDebts.isNotEmpty;
+    final hasRecentPayments = homeViewEntity.recentPayments.isNotEmpty;
+    final hasAnyActivity = hasRecentDebts || hasRecentPayments;
+
     return ListView(
       children: [
         HomeHeader(totalDebts: homeViewEntity.totalDebts),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-          child: Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ClientsSummaryRow(
-                  totalClients: homeViewEntity.totalClients,
-                  indebtedCount: homeViewEntity.indebtedClients,
-                  nonIndebtedCount: homeViewEntity.nonIndebtedClients,
-                ),
-                SizedBox(height: 8),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ClientsSummaryRow(
+                totalClients: homeViewEntity.totalClients,
+                indebtedCount: homeViewEntity.indebtedClients,
+                nonIndebtedCount: homeViewEntity.nonIndebtedClients,
+              ),
+              const SizedBox(height: 8),
+
+              if (!hasAnyActivity) const EmptyHomeStateSection(),
+
+              if (hasRecentDebts) ...[
                 Text(
                   'اخر الديون',
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
-                ...List.generate(
-                  homeViewEntity.recentDebts.length,
-                  (index) => TransactionDebtItem(
-                    tx: homeViewEntity.recentDebts[index],
-                  ),
+                const SizedBox(height: 4),
+                ...homeViewEntity.recentDebts.map(
+                  (tx) => TransactionDebtItem(tx: tx),
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
+              ],
+
+              if (hasRecentPayments) ...[
                 Text(
                   'اخر الدفعات',
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
-                ...List.generate(
-                  homeViewEntity.recentDebts.length,
-                  (index) => TransactionPaymentItem(
-                    tx: homeViewEntity.recentDebts[index],
-                  ),
+                const SizedBox(height: 4),
+                ...homeViewEntity.recentPayments.map(
+                  (tx) => TransactionPaymentItem(tx: tx),
                 ),
               ],
-            ),
+            ],
           ),
         ),
       ],

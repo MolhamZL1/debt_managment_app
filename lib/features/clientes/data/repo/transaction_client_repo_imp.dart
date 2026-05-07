@@ -13,11 +13,15 @@ class TransactionClientRepoImp implements TransactionClientRepo {
 
   TransactionClientRepoImp({required this.databaseService});
   @override
-  Future<Either<Failure, List>> getAllTransactionsOfClient(int clientId) async {
+  Future<Either<Failure, List>> getAllTransactionsOfClient(
+    int clientId, {
+    int page = 1,
+  }) async {
     try {
       final data = await databaseService.getData(
         endpoint: BackendEndPoint.transactionsClient,
         rowid: clientId.toString(),
+        quary: {"page": page},
       );
       List transactions = [];
       for (var element in data["result"]) {

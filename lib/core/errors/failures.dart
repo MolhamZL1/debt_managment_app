@@ -6,50 +6,77 @@ abstract class Failure {
 }
 
 class ServerFailure extends Failure {
-  ServerFailure({required super.errMessage});
+  const ServerFailure({required super.errMessage});
+
   factory ServerFailure.fromDioError(DioException dioError) {
     switch (dioError.type) {
       case DioExceptionType.connectionTimeout:
-        return ServerFailure(errMessage: "Connection timeout");
-      case DioExceptionType.sendTimeout:
-        return ServerFailure(errMessage: "Send timeout");
-      case DioExceptionType.receiveTimeout:
-        return ServerFailure(errMessage: "receive timeout");
-      case DioExceptionType.badCertificate:
-        return ServerFailure(errMessage: "Bad certificate");
-      case DioExceptionType.badResponse:
-        // return ServerFailure(
-        //   errMessage:
-        //       dioError.response?.statusCode == 400
-        //           ? dioError.response!.data["error"]
-        //           : "Something went wrong",
-        // );
-        return ServerFailure.fromResponse(
-          dioError.response?.statusCode,
-          dioError.response,
+        return const ServerFailure(
+          errMessage: "انتهت مهلة الاتصال، يرجى المحاولة مرة أخرى.",
         );
+
+      case DioExceptionType.sendTimeout:
+        return const ServerFailure(
+          errMessage: "انتهت مهلة إرسال الطلب، يرجى المحاولة مرة أخرى.",
+        );
+
+      case DioExceptionType.receiveTimeout:
+        return const ServerFailure(
+          errMessage: "انتهت مهلة استلام البيانات، يرجى المحاولة مرة أخرى.",
+        );
+
+      case DioExceptionType.badCertificate:
+        return const ServerFailure(errMessage: "شهادة الاتصال غير صالحة.");
+
+      case DioExceptionType.badResponse:
+        return ServerFailure.fromResponse(dioError.response);
+
       case DioExceptionType.cancel:
-        return ServerFailure(errMessage: "Request was canceled");
+        return const ServerFailure(errMessage: "تم إلغاء الطلب.");
+
       case DioExceptionType.connectionError:
-        return ServerFailure(errMessage: "No Internet connection");
+        return const ServerFailure(errMessage: "لا يوجد اتصال بالإنترنت.");
+
       case DioExceptionType.unknown:
-        return ServerFailure(errMessage: "Unexpected Error, Please try later");
+        return const ServerFailure(
+          errMessage: "حدث خطأ غير متوقع، يرجى المحاولة لاحقًا.",
+        );
     }
   }
-  factory ServerFailure.fromResponse(int? statusCode, Response? response) {
-    if (statusCode == 400 || statusCode == 401 || statusCode == 403) {
-      return ServerFailure(errMessage: response!.data["message"]);
+
+  factory ServerFailure.fromResponse(Response<dynamic>? response) {
+    final statusCode = response?.statusCode;
+
+    if (statusCode == 400) {
+      return const ServerFailure(
+        errMessage:
+            "البيانات المرسلة غير صحيحة، يرجى التحقق والمحاولة مرة أخرى.",
+      );
+    } else if (statusCode == 401) {
+      return const ServerFailure(
+        errMessage: "غير مصرح، يرجى انشاء حساب او تسجيل الدخول مرة أخرى.",
+      );
+    } else if (statusCode == 403) {
+      return const ServerFailure(
+        errMessage: "لا تملك صلاحية لتنفيذ هذه العملية.",
+      );
     } else if (statusCode == 404) {
+      return const ServerFailure(
+        errMessage: "الطلب غير موجود، يرجى المحاولة لاحقًا.",
+      );
+    } else if (statusCode == 422) {
       return ServerFailure(
-        errMessage: "Your request not found, Please try later!",
+        errMessage:
+            response?.data['message'] ??
+            "حدث خطأ في التحقق من البيانات، يرجى المحاولة مرة أخرى.",
       );
     } else if (statusCode == 500) {
-      return ServerFailure(
-        errMessage: "Internal server error, Please try later",
+      return const ServerFailure(
+        errMessage: "حدث خطأ في الخادم، يرجى المحاولة لاحقًا.",
       );
     } else {
-      return ServerFailure(
-        errMessage: "Opps There was an error, Please try again",
+      return const ServerFailure(
+        errMessage: "عذرًا، حدث خطأ غير متوقع، يرجى المحاولة مرة أخرى.",
       );
     }
   }

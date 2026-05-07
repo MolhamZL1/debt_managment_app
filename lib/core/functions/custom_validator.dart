@@ -1,6 +1,21 @@
 import 'package:form_builder_validators/form_builder_validators.dart';
 
 class CustomValidator {
+  static String? emailOrPhoneNumberValidator(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'هذا الحقل مطلوب';
+    }
+    final emailRegex = RegExp(
+      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
+    );
+    final phoneRegex = RegExp(r'^\+?[0-9]{9,15}$');
+
+    if (!emailRegex.hasMatch(value) && !phoneRegex.hasMatch(value)) {
+      return 'الرجاء إدخال بريد إلكتروني صالح أو رقم هاتف صالح';
+    }
+    return null;
+  }
+
   static String? emailValidator(String? value) {
     return FormBuilderValidators.compose([
       FormBuilderValidators.required(),

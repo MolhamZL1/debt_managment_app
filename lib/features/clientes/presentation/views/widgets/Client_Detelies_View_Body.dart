@@ -1,12 +1,9 @@
-import 'package:debt_managment_app/features/main/presntation/views/widgets/adddebtBottomSheet.dart';
-import 'package:debt_managment_app/features/main/presntation/views/widgets/addpaymentBottomSheet.dart';
 import 'package:flutter/material.dart';
 
 import '../../../domain/entities/client_entity.dart';
 import '../DebtsClientView.dart';
 import '../PaidClientsView.dart';
 import '../TransactionClientsView.dart';
-import 'ActionButtonsClientDetails.dart';
 import 'ClientDetailsHeaderCard.dart';
 
 class ClientDeteliesViewBody extends StatelessWidget {

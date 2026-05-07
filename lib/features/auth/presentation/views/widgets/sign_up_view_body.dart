@@ -4,7 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 
-import '../../../../../core/theme/app_text_styles.dart';
+import '../../../../../core/utils/show_err_dialog.dart';
+import '../verf_code_view.dart';
 import 'AuthImage.dart';
 import 'SignUpTextFieldSection.dart';
 
@@ -25,14 +26,33 @@ class _SignUpViewBodyState extends State<SignUpViewBody> {
         children: [
           SizedBox(height: 48),
           AuthImage(),
-          const Padding(
+          Padding(
             padding: EdgeInsets.symmetric(vertical: 32),
-            child: Text('إنشاء حساب', style: AppTextStyles.headlineSmall),
+            child: Text(
+              'إنشاء حساب',
+              style: Theme.of(context).textTheme.headlineSmall,
+            ),
           ),
           SignUpTextFieldSection(formKey: _formKey),
           SizedBox(
             width: 200,
-            child: BlocBuilder<SignUpCubit, SignUpState>(
+            child: BlocConsumer<SignUpCubit, SignUpState>(
+              listener: (context, state) {
+                if (state is SignUpFailure) {
+                  showerrorDialog(
+                    context: context,
+                    title: "فشل إنشاء الحساب",
+                    description: state.errMessage,
+                  );
+                }
+                if (state is SignUpSuccess) {
+                  Navigator.pushReplacementNamed(
+                    context,
+                    VerfCodeView.routename,
+                    arguments: _formKey.currentState?.value['email'],
+                  );
+                }
+              },
               builder: (context, state) {
                 return ElevatedButton(
                   onPressed: () {
@@ -79,9 +99,9 @@ class _SignUpViewBodyState extends State<SignUpViewBody> {
               const Text('  لديك حساب؟', style: TextStyle(color: Colors.grey)),
               GestureDetector(
                 onTap: () => Navigator.pop(context),
-                child: const Text(
+                child: Text(
                   ' تسجيل الدخول',
-                  style: AppTextStyles.bodyMedium,
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ),
             ],

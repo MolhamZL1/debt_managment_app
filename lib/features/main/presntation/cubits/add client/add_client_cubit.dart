@@ -14,11 +14,15 @@ class AddClientCubit extends Cubit<AddClientState> {
     String? phone,
   }) async {
     emit(AddClientLoading());
-    try {
-      await clientesRepo.addCliente(name: name, address: address, phone: phone);
-      emit(AddClientSuccess());
-    } catch (e) {
-      emit(AddClientFailure(e.toString()));
-    }
+
+    final result = await clientesRepo.addCliente(
+      name: name,
+      address: address,
+      phone: phone,
+    );
+    result.fold(
+      (l) => emit(AddClientFailure(l.errMessage)),
+      (r) => emit(AddClientSuccess()),
+    );
   }
 }

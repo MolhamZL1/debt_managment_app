@@ -1,5 +1,5 @@
-import 'package:debt_managment_app/core/theme/app_text_styles.dart';
 import 'package:debt_managment_app/features/auth/presentation/cubits/sign%20in/sign_in_cubit.dart';
+import 'package:debt_managment_app/features/auth/presentation/views/forget_password_view.dart';
 import 'package:debt_managment_app/features/auth/presentation/views/sign_up_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,20 +27,25 @@ class _SignInViewBodyState extends State<SignInViewBody> {
         children: [
           SizedBox(height: 48),
           AuthImage(),
-          const Padding(
+          Padding(
             padding: EdgeInsets.symmetric(vertical: 32),
-            child: Text('تسجيل الدخول', style: AppTextStyles.headlineSmall),
+            child: Text(
+              'تسجيل الدخول',
+              style: Theme.of(context).textTheme.headlineSmall,
+            ),
           ),
           SignInTextFieldSection(formKey: _formKey),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 24),
             child: GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Navigator.pushNamed(context, ForgetPasswordView.routename);
+              },
               child: Text(
                 ' هل نسيت كلمة المرور؟',
-                style: AppTextStyles.bodyMedium.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+                style: Theme.of(
+                  context,
+                ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
               ),
             ),
           ),
@@ -87,6 +92,7 @@ class _SignInViewBodyState extends State<SignInViewBody> {
               ),
             ],
           ),
+          SizedBox(height: 16),
         ],
       ),
     );

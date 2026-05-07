@@ -42,15 +42,17 @@ class PaymentClientRepoImp implements PaymentClientRepo {
 
   @override
   Future<Either<Failure, List<PaymentEntity>>> getAllPaymentsOfClient(
-    int clientId,
-  ) async {
+    int clientId, {
+    int page = 1,
+  }) async {
     try {
       final data = await databaseService.getData(
         endpoint: BackendEndPoint.paymentsClinet,
         rowid: clientId.toString(),
+        quary: {"page": page},
       );
       List<PaymentEntity> payments = List<PaymentEntity>.from(
-        data["result"].map((e) => PaymentModel.fromJson(e).toEntity()),
+        data["result"]["data"].map((e) => PaymentModel.fromJson(e).toEntity()),
       );
       return Right(payments);
     } catch (e) {

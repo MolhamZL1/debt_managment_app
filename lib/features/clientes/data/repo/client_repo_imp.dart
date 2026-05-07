@@ -35,19 +35,33 @@ class ClientRepoImp implements ClientesRepo {
   }
 
   @override
-  Future<Either<Failure, void>> deleteCliente(int clienteId) {
-    // TODO: implement deleteCliente
-    throw UnimplementedError();
+  Future<Either<Failure, void>> deleteCliente(int clienteId) async {
+    try {
+      await databaseService.deleteData(
+        endpoint: BackendEndPoint.deleteClient,
+        rowid: clienteId.toString(),
+      );
+
+      return Right(null);
+    } catch (e) {
+      if (e is DioException) {
+        return Left(ServerFailure.fromDioError(e));
+      } else {
+        return Left(ServerFailure(errMessage: e.toString()));
+      }
+    }
   }
 
   @override
   Future<Either<Failure, List<ClientEntity>>> getAllClientes({
     required String category,
+    int page = 1,
   }) async {
     try {
       final data = await databaseService.getData(
         endpoint: BackendEndPoint.clientes,
         rowid: category,
+        quary: {"page": page},
       );
       List<ClientEntity> clientes = List<ClientEntity>.from(
         data["result"].map((e) => ClientModel.fromJson(e).toEntity()),

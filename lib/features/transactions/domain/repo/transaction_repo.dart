@@ -5,5 +5,6 @@ import 'package:debt_managment_app/features/transactions/domain/entities/transac
 abstract class TransactionRepo {
   Future<Either<Failure, List<TransactionEntity>>> getAllTransactions({
     required String category,
+    int page = 1,
   });
 }

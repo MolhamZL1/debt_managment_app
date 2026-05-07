@@ -58,12 +58,19 @@ class TransactionDebtItem extends StatelessWidget {
         ),
         trailing: Chip(
           backgroundColor: bg,
-          label: Text(
-            '${tx.amount}  دين',
-            style: TextStyle(
-              color: fg,
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
+          label: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              "~"
+              '${tx.getFormattedAmount()}'
+              " ل.س"
+              " "
+              'دين',
+              style: TextStyle(
+                color: fg,
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ),
@@ -116,7 +123,9 @@ class TransactionPaymentItem extends StatelessWidget {
         trailing: Chip(
           backgroundColor: bg,
           label: Text(
-            '${tx.amount}'
+            "~"
+            '${tx.getFormattedAmount()}'
+            " ل.س"
             " "
             "دفعة",
             style: TextStyle(

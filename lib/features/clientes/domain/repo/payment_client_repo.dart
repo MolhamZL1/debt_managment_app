@@ -10,8 +10,9 @@ abstract class PaymentClientRepo {
     String? description,
   );
   Future<Either<Failure, List<PaymentEntity>>> getAllPaymentsOfClient(
-    int clientId,
-  );
+    int clientId, {
+    int page = 1,
+  });
   Future<Either<Failure, void>> deletePaymentFromClient(int paymentId);
   Future<Either<Failure, void>> updatePaymentFromClient(
     int paymentId,
