@@ -1,3 +1,4 @@
+import 'package:debt_managment_app/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class TextHeaderSettings extends StatelessWidget {
@@ -7,8 +8,14 @@ class TextHeaderSettings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsetsDirectional.only(start: 6, end: 6, bottom: 8),
-      child: Text(title, style: TextStyle(fontWeight: FontWeight.w700)),
+      padding: const EdgeInsetsDirectional.only(start: 4, end: 4, bottom: 10),
+      child: Text(
+        title,
+        style: Theme.of(context).textTheme.titleSmall?.copyWith(
+          color: AppColors.primary,
+          fontWeight: FontWeight.w900,
+        ),
+      ),
     );
   }
 }

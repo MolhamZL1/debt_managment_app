@@ -3,199 +3,148 @@ import 'package:debt_managment_app/core/utils/app_images.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-/// ====== معلومات قابلة للتعديل بسهولة ======
 class AppBrand {
   static const String appName = 'سجّلها';
-  static const String tagline = 'أسهل طريقة لإدارة الديون والمتابعة الذكية';
+  static const String tagline = 'إدارة الديون والمدفوعات ببساطة';
   static const String mission =
-      'تمكين الأفراد وأصحاب المحال من تسجيل الديون والمدفوعات بسرعة، '
-      'ومتابعة الأرصدة بشكل موثوق وبواجهة عربية بسيطة.';
-  static const String vision =
-      'أن يصبح سجّلها التطبيق العربي المرجعي لإدارة التعاملات المالية اليومية '
-      'بدون تعقيد، مع دعم العمل دون إنترنت قريباً.';
+      'نساعد الأفراد وأصحاب الأعمال الصغيرة على تسجيل الديون والدفعات بسرعة، ومتابعة الأرصدة بوضوح وبدون تعقيد.';
   static const List<String> values = [
     'الخصوصية أولاً',
-    'البساطة والسرعة',
-    'الشفافية في الأرقام',
-    'التحسين المستمر بناءً على ملاحظاتكم',
+    'واجهة عربية بسيطة',
+    'عمل محلي دون إنترنت',
+    'أرقام واضحة وسهلة المراجعة',
   ];
-
   static const String email = 'molhamsa49@gmail.com';
   static const String whatsapp = '+963 988159532';
-  static const String website =
-      'https://sajilha.app'; // ضع رابط موقعك الرسمي أو صفحة التواصل الاجتماعي
   static const String version = '1.0.0';
 }
 
-/// يمكن عرض أعضاء الفريق (اختياري)
-class TeamMember {
-  final String name;
-  final String role;
-  final String? avatarUrl; // ضع null إن لم تتوفر صورة
-
-  const TeamMember({required this.name, required this.role, this.avatarUrl});
-}
-
-/// ====== صفحة "من نحن" ======
 class AboutUsPage extends StatelessWidget {
   const AboutUsPage({super.key});
   static const String routename = '/about_us';
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-
     return Scaffold(
       appBar: AppBar(title: const Text('من نحن')),
       body: ListView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
         children: [
-          _Header(
-            title: AppBrand.appName,
-            subtitle: AppBrand.tagline,
-            color: AppColors.primary,
-          ),
-
+          const _AboutHero(),
           const SizedBox(height: 16),
           _SectionCard(
             title: 'رسالتنا',
+            icon: Icons.flag_outlined,
             child: Text(
               AppBrand.mission,
-              style: textTheme.bodyMedium?.copyWith(height: 1.6),
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                height: 1.6,
+                color:
+                    Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white70
+                        : AppColors.textGrey,
+              ),
             ),
           ),
-
           const SizedBox(height: 12),
           _SectionCard(
-            title: 'رؤيتنا',
-            child: Text(
-              AppBrand.vision,
-              style: textTheme.bodyMedium?.copyWith(height: 1.6),
-            ),
-          ),
-
-          const SizedBox(height: 12),
-          _SectionCard(
-            title: 'قيمنا',
+            title: 'ما يميز التطبيق',
+            icon: Icons.workspace_premium_outlined,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                for (final v in AppBrand.values)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 4),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.check_circle,
-                          color: AppColors.primary,
-                          size: 20,
-                        ),
-                        const SizedBox(width: 8),
-                        Expanded(child: Text(v, style: textTheme.bodyMedium)),
-                      ],
-                    ),
-                  ),
-              ],
+              children:
+                  AppBrand.values
+                      .map((value) => _ValueRow(value: value))
+                      .toList(),
             ),
           ),
-
           const SizedBox(height: 12),
           _SectionCard(
             title: 'تواصل معنا',
+            icon: Icons.contact_support_outlined,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _ContactRow(
-                  icon: Icons.email,
-                  label: 'البريد الإلكتروني',
-                  value: AppBrand.email,
+                _ContactButton(
+                  icon: Icons.email_outlined,
+                  label: AppBrand.email,
                   onTap: () => launchUrl(Uri.parse('mailto:${AppBrand.email}')),
                 ),
                 const SizedBox(height: 8),
-                _ContactRow(
-                  icon: Icons.phone,
-                  label: 'واتساب',
-                  value: AppBrand.whatsapp,
+                _ContactButton(
+                  icon: Icons.chat_outlined,
+                  label: 'واتساب ${AppBrand.whatsapp}',
                   onTap:
                       () => launchUrl(
                         Uri.parse('https://wa.me/${AppBrand.whatsapp}'),
                       ),
                 ),
-                const SizedBox(height: 8),
-                _ContactRow(
-                  icon: Icons.language,
-                  label: 'الموقع',
-                  value: AppBrand.website,
-                  onTap: () => launchUrl(Uri.parse(AppBrand.website)),
-                ),
               ],
             ),
           ),
-
-          const SizedBox(height: 12),
+          const SizedBox(height: 16),
           Center(
             child: Text(
-              'الإصدار: ${AppBrand.version}',
-              style: textTheme.bodySmall?.copyWith(color: Colors.grey[600]),
-              textAlign: TextAlign.center,
+              'الإصدار ${AppBrand.version}',
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color:
+                    Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white54
+                        : AppColors.textGrey,
+                fontWeight: FontWeight.w700,
+              ),
             ),
           ),
-          const SizedBox(height: 24),
         ],
       ),
     );
   }
 }
 
-/// ====== Widgets داخلية صغيرة لصفحة من نحن ======
-
-class _Header extends StatelessWidget {
-  final String title;
-  final String subtitle;
-  final Color color;
-  const _Header({
-    required this.title,
-    required this.subtitle,
-    required this.color,
-  });
+class _AboutHero extends StatelessWidget {
+  const _AboutHero();
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(18),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.06),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: color.withOpacity(0.15)),
+        gradient: const LinearGradient(
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+          colors: [AppColors.primary, Color(0xFF22C55E), Color(0xFF0F766E)],
+        ),
+        borderRadius: BorderRadius.circular(26),
       ),
       child: Row(
         children: [
           Container(
-            padding: const EdgeInsets.all(14),
+            width: 68,
+            height: 68,
+            padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: color.withOpacity(0.12),
-              shape: BoxShape.circle,
+              color: Colors.white.withOpacity(.16),
+              borderRadius: BorderRadius.circular(22),
             ),
-            child: Image.asset(AppImages.imagesAppIcon, width: 32, height: 32),
+            child: Image.asset(AppImages.imagesAppIcon),
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: 14),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  title,
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: color,
+                  AppBrand.appName,
+                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w900,
                   ),
                 ),
                 const SizedBox(height: 6),
                 Text(
-                  subtitle,
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodyMedium?.copyWith(height: 1.4),
+                  AppBrand.tagline,
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: Colors.white.withOpacity(.88),
+                    height: 1.45,
+                  ),
                 ),
               ],
             ),
@@ -207,107 +156,99 @@ class _Header extends StatelessWidget {
 }
 
 class _SectionCard extends StatelessWidget {
-  final String title;
-  final Widget child;
-
-  const _SectionCard({required this.title, required this.child});
-
-  @override
-  Widget build(BuildContext context) {
-    final titleStyle = Theme.of(
-      context,
-    ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700);
-
-    return GestureDetector(
-      child: Card(
-        elevation: 0,
-        clipBehavior: Clip.antiAlias,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-        child: Container(
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.black12),
-            borderRadius: BorderRadius.circular(14),
-          ),
-          padding: const EdgeInsets.fromLTRB(14, 12, 14, 14),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(title, style: titleStyle),
-              const SizedBox(height: 8),
-              child,
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _TeamTile extends StatelessWidget {
-  final TeamMember member;
-  final Color color;
-  const _TeamTile({required this.member, required this.color});
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      contentPadding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
-      leading: CircleAvatar(
-        backgroundColor: color.withOpacity(0.12),
-        foregroundColor: color,
-        radius: 22,
-        backgroundImage:
-            (member.avatarUrl != null) ? NetworkImage(member.avatarUrl!) : null,
-        child: (member.avatarUrl == null) ? const Icon(Icons.person) : null,
-      ),
-      title: Text(
-        member.name,
-        style: const TextStyle(fontWeight: FontWeight.w600),
-      ),
-      subtitle: Text(member.role),
-    );
-  }
-}
-
-class _ContactRow extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final String value;
-  final VoidCallback? onTap;
-
-  const _ContactRow({
+  const _SectionCard({
+    required this.title,
     required this.icon,
-    required this.label,
-    required this.value,
-    this.onTap,
+    required this.child,
   });
 
+  final String title;
+  final IconData icon;
+  final Widget child;
+
   @override
   Widget build(BuildContext context) {
-    final rowContent = Row(
-      children: [
-        Icon(icon, color: AppColors.primary, size: 20),
-        const SizedBox(width: 8),
-        Text('$label: ', style: const TextStyle(fontWeight: FontWeight.w600)),
-        Expanded(
-          child: SelectableText(
-            value,
-            maxLines: null,
-            style: const TextStyle(height: 1.4, color: Colors.blueAccent),
-          ),
-        ),
-      ],
-    );
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    return onTap == null
-        ? rowContent
-        : InkWell(
-          onTap: onTap,
-          borderRadius: BorderRadius.circular(8),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 2),
-            child: rowContent,
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: isDark ? AppColors.cardDark : Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color:
+              isDark
+                  ? Colors.white.withOpacity(.08)
+                  : Colors.black.withOpacity(.05),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(icon, color: AppColors.primary),
+              const SizedBox(width: 8),
+              Text(
+                title,
+                style: Theme.of(
+                  context,
+                ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w900),
+              ),
+            ],
           ),
-        );
+          const SizedBox(height: 12),
+          child,
+        ],
+      ),
+    );
+  }
+}
+
+class _ValueRow extends StatelessWidget {
+  const _ValueRow({required this.value});
+
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 6),
+      child: Row(
+        children: [
+          const Icon(Icons.check_circle_rounded, color: AppColors.primary),
+          const SizedBox(width: 8),
+          Expanded(child: Text(value)),
+        ],
+      ),
+    );
+  }
+}
+
+class _ContactButton extends StatelessWidget {
+  const _ContactButton({
+    required this.icon,
+    required this.label,
+    required this.onTap,
+  });
+
+  final IconData icon;
+  final String label;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return OutlinedButton.icon(
+      onPressed: onTap,
+      icon: Icon(icon),
+      label: Text(label),
+      style: OutlinedButton.styleFrom(
+        minimumSize: const Size(double.infinity, 46),
+        alignment: Alignment.centerRight,
+        foregroundColor: AppColors.primary,
+        side: BorderSide(color: AppColors.primary.withOpacity(.35)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+      ),
+    );
   }
 }

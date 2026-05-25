@@ -12,7 +12,6 @@ import '../../features/auth/presentation/views/sign_up_view.dart';
 import '../../features/clientes/presentation/views/client_detelies_view.dart';
 import '../../features/main/presntation/views/main_view.dart';
 import '../../features/settings/presentation/view/help_view.dart';
-import '../../features/settings/presentation/view/profile_view.dart';
 import '../../features/settings/presentation/view/terms_and_conditions_view.dart';
 import '../../features/splash/splash_view.dart';
 
@@ -64,8 +63,7 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (_) => const HelpPage());
     case AboutUsPage.routename:
       return MaterialPageRoute(builder: (_) => const AboutUsPage());
-    case ProfileView.routename:
-      return MaterialPageRoute(builder: (_) => const ProfileView());
+
     case PrivacyPolicyView.routename:
       return MaterialPageRoute(builder: (_) => const PrivacyPolicyView());
     case TermsAndConditionsView.routename:

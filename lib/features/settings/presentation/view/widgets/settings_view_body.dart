@@ -1,8 +1,9 @@
-import 'package:debt_managment_app/core/utils/data.dart';
+import 'package:debt_managment_app/core/theme/app_colors.dart';
 import 'package:debt_managment_app/features/settings/presentation/view/about_us_view.dart';
 import 'package:debt_managment_app/features/settings/presentation/view/help_view.dart';
+import 'package:debt_managment_app/features/settings/presentation/view/privacy_policy_view.dart';
+import 'package:debt_managment_app/features/settings/presentation/view/terms_and_conditions_view.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import 'CustomThemeModeSwitcher.dart';
 import 'SettingsCardSection.dart';
@@ -16,88 +17,128 @@ class SettingsViewBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     return ListView(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 28),
       children: [
-        //  const TextHeaderSettings('الحساب'),
-
-        // SettingsCardSection(
-        //   children: [
-        //     SettingsTile(
-        //       title: 'معلومات الحساب',
-        //       subtitle: 'محلي بدون تسجيل دخول',
-        //       leadingIcon: Icons.person_outline,
-        //       trailingWidget: const Text('وضع Offline'),
-        //     ),
-        //   ],
-        // ),
-        // const SizedBox(height: 16),
-        const TextHeaderSettings('التفضيلات'),
+        const TextHeaderSettings('التطبيق'),
         SettingsCardSection(
           children: [
             const SettingsTile(
               title: 'اللغة',
               subtitle: 'العربية',
-              leadingIcon: Icons.public,
+              leadingIcon: Icons.language_rounded,
+              accentColor: Color(0xFF2563EB),
+              trailingWidget: _StatusChip(label: 'AR'),
             ),
-            const Divider(),
+            const _SettingsDivider(),
             SettingsTile(
-              title: 'الثيم',
-              subtitle: isDark ? 'داكن' : 'فاتح',
-              leadingIcon: Icons.brightness_6_outlined,
+              title: 'المظهر',
+              subtitle: isDark ? 'الوضع الداكن مفعل' : 'الوضع الفاتح مفعل',
+              leadingIcon: Icons.brightness_6_rounded,
+              accentColor: const Color(0xFFF59E0B),
               trailingWidget: const CustomThemeModeSwitcher(),
             ),
           ],
         ),
-
-        const SizedBox(height: 16),
-        const TextHeaderSettings('المساعدة والدعم'),
+        const SizedBox(height: 22),
+        const TextHeaderSettings('المساعدة والمعلومات'),
         SettingsCardSection(
           children: [
-            GestureDetector(
-              onTap: () {
-                launchUrl(Uri.parse(Data.privacyPolicyUrl));
-              },
-              child: const SettingsTile(
-                title: "سياسة الخصوصية",
-                leadingIcon: Icons.privacy_tip_outlined,
-              ),
+            SettingsTile(
+              title: 'المساعدة',
+              subtitle: 'خطوات الاستخدام والتواصل مع الدعم',
+              leadingIcon: Icons.help_outline_rounded,
+              accentColor: const Color(0xFF16A34A),
+              onTap: () => Navigator.pushNamed(context, HelpPage.routename),
             ),
-            const Divider(),
-            GestureDetector(
-              onTap: () {
-                launchUrl(Uri.parse(Data.termsAndConditionsUrl));
-              },
-              child: const SettingsTile(
-                title: "الشروط و الاحكام",
-                leadingIcon: Icons.gavel_outlined,
-              ),
+            const _SettingsDivider(),
+            SettingsTile(
+              title: 'من نحن',
+              subtitle: 'فكرة التطبيق ورسالتنا ومعلومات التواصل',
+              leadingIcon: Icons.info_outline_rounded,
+              accentColor: const Color(0xFF7C3AED),
+              onTap: () => Navigator.pushNamed(context, AboutUsPage.routename),
             ),
-            const Divider(),
-            GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(context, HelpPage.routename);
-              },
-              child: const SettingsTile(
-                title: 'المساعدة',
-                leadingIcon: Icons.help_outline,
-              ),
+            const _SettingsDivider(),
+            SettingsTile(
+              title: 'سياسة الخصوصية',
+              subtitle: 'كيف يحافظ التطبيق على بياناتك محليًا',
+              leadingIcon: Icons.privacy_tip_outlined,
+              accentColor: const Color(0xFF0891B2),
+              onTap:
+                  () =>
+                      Navigator.pushNamed(context, PrivacyPolicyView.routename),
             ),
-            const Divider(),
-            GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(context, AboutUsPage.routename);
-              },
-              child: const SettingsTile(
-                title: 'من نحن',
-                leadingIcon: Icons.info_outline,
-              ),
+            const _SettingsDivider(),
+            SettingsTile(
+              title: 'الشروط والأحكام',
+              subtitle: 'قواعد الاستخدام والمسؤولية',
+              leadingIcon: Icons.gavel_rounded,
+              accentColor: const Color(0xFFDC2626),
+              onTap:
+                  () => Navigator.pushNamed(
+                    context,
+                    TermsAndConditionsView.routename,
+                  ),
             ),
           ],
         ),
-
-        const SizedBox(height: 12),
-        const Center(child: Text('سجلها الإصدار 1.0.0')),
+        const SizedBox(height: 20),
+        Center(
+          child: Text(
+            'سجّلها الإصدار 1.0.0',
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              color: isDark ? Colors.white54 : AppColors.textGrey,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ),
       ],
+    );
+  }
+}
+
+class _StatusChip extends StatelessWidget {
+  const _StatusChip({required this.label});
+
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      decoration: BoxDecoration(
+        color:
+            isDark
+                ? Colors.white.withOpacity(.08)
+                : AppColors.primary.withOpacity(.09),
+        borderRadius: BorderRadius.circular(100),
+      ),
+      child: Text(
+        label,
+        style: Theme.of(context).textTheme.labelMedium?.copyWith(
+          color: isDark ? Colors.white : AppColors.primary,
+          fontWeight: FontWeight.w900,
+        ),
+      ),
+    );
+  }
+}
+
+class _SettingsDivider extends StatelessWidget {
+  const _SettingsDivider();
+
+  @override
+  Widget build(BuildContext context) {
+    return Divider(
+      height: 1,
+      indent: 72,
+      endIndent: 14,
+      color:
+          Theme.of(context).brightness == Brightness.dark
+              ? Colors.white.withOpacity(.07)
+              : Colors.black.withOpacity(.06),
     );
   }
 }

@@ -6,6 +6,8 @@ class SettingsTile extends StatelessWidget {
   final String? subtitle;
   final IconData? leadingIcon;
   final Widget? trailingWidget;
+  final VoidCallback? onTap;
+  final Color? accentColor;
 
   const SettingsTile({
     super.key,
@@ -13,26 +15,66 @@ class SettingsTile extends StatelessWidget {
     this.leadingIcon,
     this.subtitle,
     this.trailingWidget,
+    this.onTap,
+    this.accentColor,
   });
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-      title: Text(
-        title,
-        style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+    final color = accentColor ?? AppColors.primary;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final mutedColor = isDark ? Colors.white60 : AppColors.textGrey;
+
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
+          child: Row(
+            children: [
+              Container(
+                width: 46,
+                height: 46,
+                decoration: BoxDecoration(
+                  color: color.withOpacity(isDark ? .20 : .12),
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Icon(leadingIcon, size: 22, color: color),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                        fontWeight: FontWeight.w900,
+                      ),
+                    ),
+                    if (subtitle != null) ...[
+                      const SizedBox(height: 3),
+                      Text(
+                        subtitle!,
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: mutedColor,
+                          height: 1.35,
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+              const SizedBox(width: 10),
+              trailingWidget ??
+                  (onTap == null
+                      ? const SizedBox.shrink()
+                      : Icon(Icons.chevron_left_rounded, color: mutedColor)),
+            ],
+          ),
+        ),
       ),
-      subtitle:
-          subtitle == null
-              ? null
-              : Text(subtitle!, style: const TextStyle(fontSize: 12)),
-      leading: CircleAvatar(
-        radius: 20,
-        backgroundColor: AppColors.primary.withOpacity(.15),
-        child: Icon(leadingIcon, size: 20, color: AppColors.primary),
-      ),
-      trailing: trailingWidget,
     );
   }
 }
