@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../generated/l10n.dart';
+
 class CustomErrorMessage extends StatefulWidget {
   const CustomErrorMessage({
     super.key,
@@ -51,6 +53,7 @@ class _CustomErrorMessageState extends State<CustomErrorMessage>
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final errorColor = colorScheme.error;
+    final l10n = S.of(context);
 
     return FadeTransition(
       opacity: _fadeAnimation,
@@ -85,7 +88,7 @@ class _CustomErrorMessageState extends State<CustomErrorMessage>
                 child: ElevatedButton.icon(
                   onPressed: widget.onReload,
                   icon: const Icon(Icons.refresh_rounded),
-                  label: const Text('إعادة المحاولة'),
+                  label: Text(l10n.retry),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: colorScheme.primary,
                     foregroundColor: colorScheme.onPrimary,

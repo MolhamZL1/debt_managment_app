@@ -3,9 +3,10 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 
+import '../../../../../generated/l10n.dart';
+import '../../../../../core/services/get_it_service.dart';
 import '../../../domain/entities/ClientSearchDropDownEntity.dart';
 import '../../../domain/repo/ClientSearchDropDown_repo.dart';
-import '../../../../../core/services/get_it_service.dart';
 
 class ClientSearchField extends StatefulWidget {
   const ClientSearchField({super.key});
@@ -25,9 +26,10 @@ class _ClientSearchFieldState extends State<ClientSearchField> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = S.of(context);
     return FormBuilderField<ClientSearchDropDownEntity>(
       name: 'client',
-      validator: (v) => v == null ? 'يرجى اختيار عميل من القائمة' : null,
+      validator: (v) => v == null ? l10n.chooseClientValidation : null,
       builder: (field) {
         final v = field.value;
         if (v != null && _ctrl.text != v.name) {
@@ -48,7 +50,7 @@ class _ClientSearchFieldState extends State<ClientSearchField> {
               focusNode: focusNode,
               textInputAction: TextInputAction.search,
               decoration: InputDecoration(
-                hintText: 'ابحث عن اسم العميل',
+                hintText: l10n.searchClientNameHint,
                 prefixIcon: const Icon(Icons.person_outline),
                 errorText: field.errorText,
                 suffixIcon:
@@ -59,7 +61,7 @@ class _ClientSearchFieldState extends State<ClientSearchField> {
                             if (field.value != null) field.didChange(null);
                           },
                           icon: const Icon(Icons.clear),
-                          tooltip: 'مسح',
+                          tooltip: l10n.clearField,
                         )
                         : null,
               ),
@@ -78,9 +80,9 @@ class _ClientSearchFieldState extends State<ClientSearchField> {
               ),
 
           emptyBuilder:
-              (_) => const Padding(
-                padding: EdgeInsets.all(12),
-                child: Text('لا يوجد عميل بهذا الاسم'),
+              (_) => Padding(
+                padding: const EdgeInsets.all(12),
+                child: Text(l10n.noClientWithName),
               ),
           loadingBuilder:
               (_) => SizedBox(
@@ -94,9 +96,9 @@ class _ClientSearchFieldState extends State<ClientSearchField> {
                 ),
               ),
           errorBuilder:
-              (_, __) => const Padding(
-                padding: EdgeInsets.all(12),
-                child: Text('حدث خطأ أثناء البحث'),
+              (_, __) => Padding(
+                padding: const EdgeInsets.all(12),
+                child: Text(l10n.clientSearchError),
               ),
 
           onSelected: (s) {

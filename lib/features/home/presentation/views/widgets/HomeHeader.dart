@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../core/theme/app_colors.dart';
+import '../../../../../generated/l10n.dart';
 
 class HomeHeader extends StatelessWidget {
   const HomeHeader({super.key, required this.totalDebts});
   final double totalDebts;
   @override
   Widget build(BuildContext context) {
+    final l10n = S.of(context);
     return Container(
       padding: EdgeInsets.symmetric(vertical: 32, horizontal: 16),
       decoration: BoxDecoration(
@@ -24,7 +26,7 @@ class HomeHeader extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
-            'إجمالي الديون',
+            l10n.totalDebts,
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
               color: Colors.white,
               shadows: [
@@ -43,7 +45,7 @@ class HomeHeader extends StatelessWidget {
             child: Text(
               "$totalDebts"
               " "
-              "ل.س",
+              "${l10n.currencySyp}",
               style: Theme.of(context).textTheme.headlineLarge?.copyWith(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,

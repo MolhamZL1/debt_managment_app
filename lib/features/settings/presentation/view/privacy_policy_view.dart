@@ -1,4 +1,5 @@
 import 'package:debt_managment_app/core/theme/app_colors.dart';
+import 'package:debt_managment_app/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
 class PrivacyPolicyView extends StatelessWidget {
@@ -7,26 +8,17 @@ class PrivacyPolicyView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const _PolicyScaffold(
-      title: 'سياسة الخصوصية',
+    final l10n = S.of(context);
+    return _PolicyScaffold(
+      title: l10n.privacyPolicy,
       icon: Icons.privacy_tip_outlined,
-      intro:
-          'سجّلها يعمل محليًا حاليًا، لذلك تبقى بيانات العملاء والديون والدفعات على جهازك.',
+      intro: l10n.privacyIntro,
       items: [
+        _PolicyItem(title: l10n.localStorage, body: l10n.localStorageBody),
+        _PolicyItem(title: l10n.noLogin, body: l10n.noLoginBody),
         _PolicyItem(
-          title: 'التخزين المحلي',
-          body:
-              'يتم حفظ البيانات في قاعدة بيانات محلية داخل الجهاز ولا يحتاج التطبيق إلى خادم لعرضها أو تعديلها.',
-        ),
-        _PolicyItem(
-          title: 'لا يوجد تسجيل دخول',
-          body:
-              'لا يتم استخدام حسابات أو رموز وصول أو جلسات مصادقة في مسار التشغيل الحالي.',
-        ),
-        _PolicyItem(
-          title: 'مسؤولية النسخ الاحتياطي',
-          body:
-              'قد يؤدي حذف التطبيق أو بياناته من إعدادات النظام إلى حذف السجلات المحلية.',
+          title: l10n.backupResponsibility,
+          body: l10n.backupResponsibilityBody,
         ),
       ],
     );

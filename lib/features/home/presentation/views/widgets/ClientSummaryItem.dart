@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../generated/l10n.dart';
+
 class ClientSummaryItem extends StatelessWidget {
   final String title;
   final int value;
@@ -17,6 +19,7 @@ class ClientSummaryItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bg = color.withOpacity(0.10);
+    final l10n = S.of(context);
 
     return Container(
       padding: const EdgeInsets.all(10),
@@ -69,7 +72,7 @@ class ClientSummaryItem extends StatelessWidget {
                 ),
                 const SizedBox(width: 4),
                 Text(
-                  'عميل',
+                  l10n.clientUnit,
                   style: TextStyle(
                     fontSize: 12,
                     color: Theme.of(

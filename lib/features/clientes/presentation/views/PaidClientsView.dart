@@ -9,6 +9,7 @@ import '../../../../core/services/get_it_service.dart';
 import '../../../../core/widgets/CustomEmptyDataMessageCustomEmptyDataMessage.dart';
 import '../../../../core/widgets/CustomErrorMessage.dart';
 import '../../../../core/widgets/CustomLoading.dart';
+import '../../../../generated/l10n.dart';
 
 class PaidClientsView extends StatefulWidget {
   const PaidClientsView({super.key, required this.clientId});
@@ -38,6 +39,7 @@ class _PaidClientsViewState extends State<PaidClientsView>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    final l10n = S.of(context);
     return BlocProvider(
       create:
           (context) =>
@@ -57,7 +59,7 @@ class _PaidClientsViewState extends State<PaidClientsView>
             );
           } else if (state is FetchPaymentsClientsDataState) {
             if (state.payments.isEmpty) {
-              return CustomEmptyDataMessage(message: "لا يوجد دفعات مسجلة");
+              return CustomEmptyDataMessage(message: l10n.noRegisteredPayments);
             }
 
             final showFooter =
@@ -91,7 +93,7 @@ class _PaidClientsViewState extends State<PaidClientsView>
                                 context
                                     .read<FetchPaymentsClientsCubit>()
                                     .fetchMorePaymentsOfClient(),
-                        child: const Text('إعادة المحاولة'),
+                        child: Text(l10n.retry),
                       ),
                     );
                   }

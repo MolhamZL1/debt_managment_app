@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:debt_managment_app/features/main/domain/entities/ClientSearchDropDownEntity.dart';
 import 'package:debt_managment_app/features/main/domain/repo/ClientSearchDropDown_repo.dart';
+import 'package:debt_managment_app/generated/l10n.dart';
 import 'package:meta/meta.dart';
 
 part 'search_state.dart';
@@ -15,7 +16,7 @@ class SearchCubit extends Cubit<SearchState> {
 
       emit(SearchSuccess(results: result));
     } catch (e) {
-      emit(SearchFailure(message: "حدث خطأ ما، يرجى المحاولة مرة أخرى"));
+      emit(SearchFailure(message: S.current.searchGenericError));
     }
   }
 }

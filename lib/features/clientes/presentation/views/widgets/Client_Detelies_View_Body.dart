@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../generated/l10n.dart';
 import '../../../domain/entities/client_entity.dart';
 import '../DebtsClientView.dart';
 import '../PaidClientsView.dart';
@@ -12,6 +13,7 @@ class ClientDeteliesViewBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = S.of(context);
     return DefaultTabController(
       length: 3,
       child: NestedScrollView(
@@ -33,11 +35,11 @@ class ClientDeteliesViewBody extends StatelessWidget {
               SliverPersistentHeader(
                 pinned: true,
                 delegate: _SliverTabBarDelegate(
-                  const TabBar(
+                  TabBar(
                     tabs: [
-                      Tab(text: 'الديون'),
-                      Tab(text: 'الدفعات'),
-                      Tab(text: 'كشف الحساب'),
+                      Tab(text: l10n.debts),
+                      Tab(text: l10n.payments),
+                      Tab(text: l10n.accountStatement),
                     ],
                   ),
                 ),

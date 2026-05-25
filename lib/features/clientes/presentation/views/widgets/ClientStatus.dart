@@ -3,6 +3,7 @@ import 'package:debt_managment_app/features/clientes/domain/entities/client_enti
 import 'package:flutter/material.dart';
 
 import '../../../../../core/theme/app_colors.dart';
+import '../../../../../generated/l10n.dart';
 
 class ClientStatus extends StatelessWidget {
   final ClientEntity clientEntity;
@@ -11,6 +12,7 @@ class ClientStatus extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = S.of(context);
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
@@ -26,22 +28,25 @@ class ClientStatus extends StatelessWidget {
           ),
           child:
               clientEntity.isDebt()
-                  ? const Text("مدين", style: TextStyle(color: AppColors.error))
-                  : const Text(
-                    "غير مدين",
+                  ? Text(
+                    l10n.indebted,
+                    style: const TextStyle(color: AppColors.error),
+                  )
+                  : Text(
+                    l10n.notIndebted,
                     style: TextStyle(color: AppColors.primary),
                   ),
         ),
         Spacer(),
         clientEntity.isDebt()
             ? _item(
-              "الديون",
-              "${clientEntity.amount.abs()} ل.س",
+              l10n.debts,
+              "${clientEntity.amount.abs()} ${l10n.currencySyp}",
               color: Color(0xFFE11D48),
             )
             : _item(
-              "الرصيد",
-              "${clientEntity.amount.abs()} ل.س",
+              l10n.balance,
+              "${clientEntity.amount.abs()} ${l10n.currencySyp}",
               color: Colors.green,
             ),
       ],

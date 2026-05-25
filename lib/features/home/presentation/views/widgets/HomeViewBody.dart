@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../generated/l10n.dart';
 import '../../../../transactions/presentation/view/widgets/Transaction_Item_Card.dart';
 import '../../../domain/entities/home_view_entity.dart';
 import 'ClientsSummaryRow.dart';
@@ -15,6 +16,7 @@ class HomeViewBody extends StatelessWidget {
     final hasRecentDebts = homeViewEntity.recentDebts.isNotEmpty;
     final hasRecentPayments = homeViewEntity.recentPayments.isNotEmpty;
     final hasAnyActivity = hasRecentDebts || hasRecentPayments;
+    final l10n = S.of(context);
 
     return ListView(
       children: [
@@ -35,7 +37,7 @@ class HomeViewBody extends StatelessWidget {
 
               if (hasRecentDebts) ...[
                 Text(
-                  'اخر الديون',
+                  l10n.recentDebts,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const SizedBox(height: 4),
@@ -47,7 +49,7 @@ class HomeViewBody extends StatelessWidget {
 
               if (hasRecentPayments) ...[
                 Text(
-                  'اخر الدفعات',
+                  l10n.recentPayments,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const SizedBox(height: 4),

@@ -1,4 +1,5 @@
 import 'package:debt_managment_app/features/transactions/domain/entities/transaction_entity.dart';
+import 'package:debt_managment_app/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../clientes/presentation/views/client_detelies_view.dart';
@@ -24,6 +25,7 @@ class TransactionDebtItem extends StatelessWidget {
   Widget build(BuildContext context) {
     const bg = Color(0xFFFFEBEE);
     const fg = Color(0xFFC62828);
+    final l10n = S.of(context);
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       child: ListTile(
@@ -63,9 +65,9 @@ class TransactionDebtItem extends StatelessWidget {
             child: Text(
               "~"
               '${tx.getFormattedAmount()}'
-              " ل.س"
+              " ${l10n.currencySyp}"
               " "
-              'دين',
+              "${l10n.debt}",
               style: TextStyle(
                 color: fg,
                 fontSize: 14,
@@ -88,6 +90,7 @@ class TransactionPaymentItem extends StatelessWidget {
   Widget build(BuildContext context) {
     const bg = Color(0xFFE8F5E9);
     const fg = Color(0xFF2E7D32);
+    final l10n = S.of(context);
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       child: ListTile(
@@ -125,9 +128,9 @@ class TransactionPaymentItem extends StatelessWidget {
           label: Text(
             "~"
             '${tx.getFormattedAmount()}'
-            " ل.س"
+            " ${l10n.currencySyp}"
             " "
-            "دفعة",
+            "${l10n.pay}",
             style: TextStyle(
               color: fg,
               fontSize: 14,

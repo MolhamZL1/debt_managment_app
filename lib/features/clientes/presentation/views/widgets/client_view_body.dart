@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/widgets/CustomEmptyDataMessageCustomEmptyDataMessage.dart';
 import '../../../../../core/widgets/CustomErrorMessage.dart';
 import '../../../../../core/widgets/CustomLoading.dart';
+import '../../../../../generated/l10n.dart';
 import '../../cubits/fetch clients/fetch_clients_cubit.dart';
 import 'HeaderClientsSection.dart';
 import 'clients_list.dart';
@@ -25,6 +26,7 @@ class ClientViewBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = S.of(context);
     return NotificationListener<ScrollNotification>(
       onNotification: (notification) => _onScroll(notification, context),
       child: CustomScrollView(
@@ -52,7 +54,7 @@ class ClientViewBody extends StatelessWidget {
                 if (state.clients.isEmpty) {
                   return SliverFillRemaining(
                     hasScrollBody: false,
-                    child: CustomEmptyDataMessage(message: 'لا يوجد عملاء'),
+                    child: CustomEmptyDataMessage(message: l10n.noClients),
                   );
                 }
 
@@ -75,7 +77,7 @@ class ClientViewBody extends StatelessWidget {
                                     context
                                         .read<FetchClientsCubit>()
                                         .fetchMoreClients(),
-                            child: const Text('إعادة المحاولة'),
+                            child: Text(l10n.retry),
                           ),
                         ),
                       ),

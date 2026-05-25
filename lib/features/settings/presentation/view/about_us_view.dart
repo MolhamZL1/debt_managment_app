@@ -1,19 +1,10 @@
 import 'package:debt_managment_app/core/theme/app_colors.dart';
 import 'package:debt_managment_app/core/utils/app_images.dart';
+import 'package:debt_managment_app/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AppBrand {
-  static const String appName = 'سجّلها';
-  static const String tagline = 'إدارة الديون والمدفوعات ببساطة';
-  static const String mission =
-      'نساعد الأفراد وأصحاب الأعمال الصغيرة على تسجيل الديون والدفعات بسرعة، ومتابعة الأرصدة بوضوح وبدون تعقيد.';
-  static const List<String> values = [
-    'الخصوصية أولاً',
-    'واجهة عربية بسيطة',
-    'عمل محلي دون إنترنت',
-    'أرقام واضحة وسهلة المراجعة',
-  ];
   static const String email = 'molhamsa49@gmail.com';
   static const String whatsapp = '+963 988159532';
   static const String version = '1.0.0';
@@ -25,18 +16,19 @@ class AboutUsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = S.of(context);
     return Scaffold(
-      appBar: AppBar(title: const Text('من نحن')),
+      appBar: AppBar(title: Text(l10n.aboutUs)),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
         children: [
           const _AboutHero(),
           const SizedBox(height: 16),
           _SectionCard(
-            title: 'رسالتنا',
+            title: l10n.ourMission,
             icon: Icons.flag_outlined,
             child: Text(
-              AppBrand.mission,
+              l10n.brandMission,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 height: 1.6,
                 color:
@@ -48,18 +40,21 @@ class AboutUsPage extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           _SectionCard(
-            title: 'ما يميز التطبيق',
+            title: l10n.whatMakesAppDifferent,
             icon: Icons.workspace_premium_outlined,
             child: Column(
               children:
-                  AppBrand.values
-                      .map((value) => _ValueRow(value: value))
-                      .toList(),
+                  [
+                    l10n.brandValuePrivacy,
+                    l10n.brandValueArabicUi,
+                    l10n.brandValueOffline,
+                    l10n.brandValueClearNumbers,
+                  ].map((value) => _ValueRow(value: value)).toList(),
             ),
           ),
           const SizedBox(height: 12),
           _SectionCard(
-            title: 'تواصل معنا',
+            title: l10n.contactUs,
             icon: Icons.contact_support_outlined,
             child: Column(
               children: [
@@ -71,7 +66,7 @@ class AboutUsPage extends StatelessWidget {
                 const SizedBox(height: 8),
                 _ContactButton(
                   icon: Icons.chat_outlined,
-                  label: 'واتساب ${AppBrand.whatsapp}',
+                  label: '${l10n.whatsapp} ${AppBrand.whatsapp}',
                   onTap:
                       () => launchUrl(
                         Uri.parse('https://wa.me/${AppBrand.whatsapp}'),
@@ -83,7 +78,7 @@ class AboutUsPage extends StatelessWidget {
           const SizedBox(height: 16),
           Center(
             child: Text(
-              'الإصدار ${AppBrand.version}',
+              '${l10n.versionShort} ${AppBrand.version}',
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                 color:
                     Theme.of(context).brightness == Brightness.dark
@@ -104,6 +99,7 @@ class _AboutHero extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = S.of(context);
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -132,7 +128,7 @@ class _AboutHero extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  AppBrand.appName,
+                  l10n.appName,
                   style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                     color: Colors.white,
                     fontWeight: FontWeight.w900,
@@ -140,7 +136,7 @@ class _AboutHero extends StatelessWidget {
                 ),
                 const SizedBox(height: 6),
                 Text(
-                  AppBrand.tagline,
+                  l10n.brandTagline,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: Colors.white.withOpacity(.88),
                     height: 1.45,

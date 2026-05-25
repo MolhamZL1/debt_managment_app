@@ -3,6 +3,7 @@ import 'package:debt_managment_app/features/clientes/presentation/views/client_v
 import 'package:debt_managment_app/features/home/presentation/views/home_view.dart';
 import 'package:debt_managment_app/features/settings/presentation/view/settings_view.dart';
 import 'package:debt_managment_app/features/transactions/presentation/view/transaction_view.dart';
+import 'package:debt_managment_app/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -39,6 +40,14 @@ class MainView extends StatelessWidget {
       ],
       child: BlocBuilder<NavBarCubit, int>(
         builder: (context, state) {
+          final l10n = S.of(context);
+          final titles = [
+            l10n.appName,
+            l10n.clients,
+            l10n.transactions,
+            l10n.settings,
+          ];
+
           return SafeArea(
             top: false,
             child: Scaffold(
@@ -49,9 +58,7 @@ class MainView extends StatelessWidget {
                 child: const Icon(Icons.add),
               ),
               appBar: AppBar(
-                title: Text(
-                  ["سجلها", "العملاء", "التحويلات", "الإعدادات"][state],
-                ),
+                title: Text(titles[state]),
                 leading: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Image.asset(AppImages.imagesAppIcon),
@@ -63,9 +70,9 @@ class MainView extends StatelessWidget {
                   // ),
                 ],
               ),
-              bottomNavigationBar: CustomNavBar(),
+              bottomNavigationBar: const CustomNavBar(),
               body:
-                  [
+                  const [
                     HomeView(),
                     ClientView(),
                     TransactionView(),

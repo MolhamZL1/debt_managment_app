@@ -1,5 +1,6 @@
 import 'package:debt_managment_app/core/functions/open_whatsapp.dart';
 import 'package:debt_managment_app/core/theme/app_colors.dart';
+import 'package:debt_managment_app/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../core/functions/call_number.dart';
@@ -12,6 +13,7 @@ class ClientDetailsHeaderCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = S.of(context);
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Padding(
@@ -30,7 +32,7 @@ class ClientDetailsHeaderCard extends StatelessWidget {
                           const Icon(Icons.phone_outlined, size: 16),
                           const SizedBox(width: 6),
                           Text(
-                            clientEntity.phoneNumber ?? "غير معروف",
+                            clientEntity.phoneNumber ?? l10n.unknown,
                             textDirection: TextDirection.ltr,
                           ),
                         ],
@@ -40,7 +42,7 @@ class ClientDetailsHeaderCard extends StatelessWidget {
                         children: [
                           const Icon(Icons.location_on_outlined, size: 16),
                           const SizedBox(width: 6),
-                          Text(clientEntity.address ?? "غير معروف"),
+                          Text(clientEntity.address ?? l10n.unknown),
                         ],
                       ),
                     ],
@@ -64,9 +66,9 @@ class ClientDetailsHeaderCard extends StatelessWidget {
                             color: AppColors.success.withAlpha(50),
                             borderRadius: BorderRadius.circular(16),
                           ),
-                          child: const Text(
-                            "اتصال",
-                            style: TextStyle(color: AppColors.primary),
+                          child: Text(
+                            l10n.call,
+                            style: const TextStyle(color: AppColors.primary),
                           ),
                         ),
                       ),
@@ -84,9 +86,9 @@ class ClientDetailsHeaderCard extends StatelessWidget {
                             color: AppColors.success.withAlpha(50),
                             borderRadius: BorderRadius.circular(16),
                           ),
-                          child: const Text(
-                            "واتساب",
-                            style: TextStyle(color: AppColors.primary),
+                          child: Text(
+                            l10n.whatsapp,
+                            style: const TextStyle(color: AppColors.primary),
                           ),
                         ),
                       ),

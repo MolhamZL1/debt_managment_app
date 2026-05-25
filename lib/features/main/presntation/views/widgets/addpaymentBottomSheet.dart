@@ -2,6 +2,7 @@ import 'package:debt_managment_app/core/functions/custom_validator.dart';
 import 'package:debt_managment_app/core/utils/show_err_dialog.dart';
 import 'package:debt_managment_app/features/clientes/domain/repo/payment_client_repo.dart';
 import 'package:debt_managment_app/core/cubits/add%20payment/add_payment_cubit.dart';
+import 'package:debt_managment_app/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -25,19 +26,23 @@ Future<dynamic> addpaymentBottomSheet(BuildContext context) {
     enableDrag: false,
     builder: (ctx) {
       final bottomInset = MediaQuery.of(ctx).viewInsets.bottom;
+      final l10n = S.of(ctx);
       return BlocProvider(
         create: (context) => AddPaymentCubit(getIt.get<PaymentClientRepo>()),
         child: BlocConsumer<AddPaymentCubit, AddPaymentState>(
           listener: (blocContext, state) {
             if (state is AddPaymentSuccess) {
               Navigator.pop(ctx, true);
-              customshowSnackBar(context, massege: "تم اضافة الدفعة بنجاح");
+              customshowSnackBar(
+                context,
+                massege: l10n.paymentAddedSuccessfully,
+              );
             }
             if (state is AddPaymentError) {
               Navigator.pop(ctx);
               showerrorDialog(
                 context: context,
-                title: "فشل إضافة دفعة",
+                title: l10n.addPaymentFailed,
                 description: state.errMessage,
               );
             }
@@ -60,37 +65,37 @@ Future<dynamic> addpaymentBottomSheet(BuildContext context) {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           Text(
-                            "إضافة دفعة جديدة",
+                            l10n.addNewPayment,
                             textAlign: TextAlign.start,
                             style: Theme.of(ctx).textTheme.headlineSmall,
                           ),
                           const SizedBox(height: 24),
 
-                          const TextHeaderSettings('العميل'),
-                          ClientSearchField(),
+                          TextHeaderSettings(l10n.client),
+                          const ClientSearchField(),
                           const SizedBox(height: 12),
-                          const TextHeaderSettings('المبلغ'),
+                          TextHeaderSettings(l10n.amount),
                           FormBuilderTextField(
                             name: 'amount',
                             keyboardType: const TextInputType.numberWithOptions(
                               decimal: true,
                               signed: false,
                             ),
-                            decoration: const InputDecoration(
-                              hintText: "0.0 ل.س",
-                              prefixIcon: Icon(Icons.money_outlined),
+                            decoration: InputDecoration(
+                              hintText: "0.0 ${l10n.currencySyp}",
+                              prefixIcon: const Icon(Icons.money_outlined),
                             ),
                             validator: CustomValidator.amountValidator,
                           ),
 
                           const SizedBox(height: 12),
-                          const TextHeaderSettings('ملاحظة'),
+                          TextHeaderSettings(l10n.note),
                           FormBuilderTextField(
                             name: 'note',
                             maxLength: 100,
-                            decoration: const InputDecoration(
-                              hintText: "ملاحظة (اختياري)",
-                              prefixIcon: Icon(Icons.note_alt_outlined),
+                            decoration: InputDecoration(
+                              hintText: l10n.optionalNote,
+                              prefixIcon: const Icon(Icons.note_alt_outlined),
                             ),
                           ),
                           const SizedBox(height: 16),
@@ -102,7 +107,7 @@ Future<dynamic> addpaymentBottomSheet(BuildContext context) {
                                       isLoading
                                           ? null
                                           : () => Navigator.pop(ctx),
-                                  child: const Text("إلغاء"),
+                                  child: Text(l10n.cancel),
                                 ),
                               ),
                               const SizedBox(width: 12),
@@ -151,7 +156,7 @@ Future<dynamic> addpaymentBottomSheet(BuildContext context) {
                                               strokeWidth: 2,
                                             ),
                                           )
-                                          : const Text("تسديد"),
+                                          : Text(l10n.pay),
                                 ),
                               ),
                             ],

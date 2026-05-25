@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/widgets/CustomEmptyDataMessageCustomEmptyDataMessage.dart';
 import '../../../../core/widgets/CustomErrorMessage.dart';
 import '../../../../core/widgets/CustomLoading.dart';
+import '../../../../generated/l10n.dart';
 import 'widgets/Debt_Item_Card.dart';
 
 class DebtsClientView extends StatefulWidget {
@@ -37,6 +38,7 @@ class _DebtsClientViewState extends State<DebtsClientView>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    final l10n = S.of(context);
     return BlocProvider(
       create:
           (context) =>
@@ -56,7 +58,7 @@ class _DebtsClientViewState extends State<DebtsClientView>
             );
           } else if (state is FetchDebtsClientDataState) {
             if (state.debts.isEmpty) {
-              return CustomEmptyDataMessage(message: "لا يوجد ديون مسجلة");
+              return CustomEmptyDataMessage(message: l10n.noRegisteredDebts);
             }
 
             final showFooter =
@@ -94,7 +96,7 @@ class _DebtsClientViewState extends State<DebtsClientView>
                                 context
                                     .read<FetchDebtsClientCubit>()
                                     .fetchMoreDebtsClient(),
-                        child: const Text('إعادة المحاولة'),
+                        child: Text(l10n.retry),
                       ),
                     );
                   }

@@ -2,6 +2,7 @@ import 'package:debt_managment_app/features/clientes/domain/repo/clientes_repo.d
 import 'package:debt_managment_app/features/clientes/presentation/cubits/delete%20client/delete_client_cubit.dart';
 import 'package:debt_managment_app/features/clientes/presentation/cubits/fetch%20client/fetch_client_cubit.dart';
 import 'package:debt_managment_app/features/main/presntation/views/main_view.dart';
+import 'package:debt_managment_app/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -22,21 +23,22 @@ class ClientDeteliesView extends StatelessWidget {
   final String name;
 
   Future<void> _confirmAndDelete(BuildContext context) async {
+    final l10n = S.of(context);
     final isConfirmed =
         await showDialog<bool>(
           context: context,
           builder:
               (dialogContext) => AlertDialog(
-                title: const Text('تأكيد الحذف'),
-                content: const Text('هل أنت متأكد من حذف هذا العميل؟'),
+                title: Text(l10n.confirmDelete),
+                content: Text(l10n.deleteClientQuestion),
                 actions: [
                   TextButton(
                     onPressed: () => Navigator.pop(dialogContext, false),
-                    child: const Text('إلغاء'),
+                    child: Text(l10n.cancel),
                   ),
                   FilledButton(
                     onPressed: () => Navigator.pop(dialogContext, true),
-                    child: const Text('حذف'),
+                    child: Text(l10n.delete),
                   ),
                 ],
               ),
@@ -66,15 +68,16 @@ class ClientDeteliesView extends StatelessWidget {
       ],
       child: BlocConsumer<DeleteClientCubit, DeleteClientState>(
         listener: (context, state) {
+          final l10n = S.of(context);
           if (state is DeleteClientError) {
             showerrorDialog(
               context: context,
-              title: 'حدث خطأ',
+              title: l10n.genericError,
               description: state.message,
             );
           } else if (state is DeleteClientSuccess) {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('تم حذف العميل بنجاح')),
+              SnackBar(content: Text(l10n.clientDeletedSuccessfully)),
             );
             Navigator.pushNamedAndRemoveUntil(
               context,

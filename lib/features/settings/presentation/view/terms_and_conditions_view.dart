@@ -1,4 +1,5 @@
 import 'package:debt_managment_app/core/theme/app_colors.dart';
+import 'package:debt_managment_app/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
 class TermsAndConditionsView extends StatelessWidget {
@@ -8,23 +9,15 @@ class TermsAndConditionsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    const items = [
-      (
-        'الاستخدام الشخصي',
-        'التطبيق مخصص لتسجيل ومتابعة الديون والدفعات بطريقة تنظيمية ولا يعد بديلًا عن الاستشارة القانونية أو المحاسبية.',
-      ),
-      (
-        'دقة البيانات',
-        'المستخدم مسؤول عن إدخال البيانات ومراجعتها والتأكد من صحة المبالغ والتواريخ.',
-      ),
-      (
-        'البيانات المحلية',
-        'بما أن التطبيق يعمل دون خادم، فإن الحفاظ على الجهاز ونسخ البيانات احتياطيًا مسؤولية المستخدم.',
-      ),
+    final l10n = S.of(context);
+    final items = [
+      (l10n.termsPersonalUse, l10n.termsPersonalUseBody),
+      (l10n.termsDataAccuracy, l10n.termsDataAccuracyBody),
+      (l10n.termsLocalData, l10n.termsLocalDataBody),
     ];
 
     return Scaffold(
-      appBar: AppBar(title: const Text('الشروط والأحكام')),
+      appBar: AppBar(title: Text(l10n.termsAndConditions)),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
         children: [
@@ -45,7 +38,7 @@ class TermsAndConditionsView extends StatelessWidget {
                 const SizedBox(width: 14),
                 Expanded(
                   child: Text(
-                    'باستخدام سجّلها، أنت توافق على استخدامه كأداة تنظيم محلية لإدارة سجلاتك.',
+                    l10n.termsIntro,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       height: 1.55,
                       fontWeight: FontWeight.w700,

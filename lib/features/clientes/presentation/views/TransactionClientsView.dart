@@ -8,6 +8,7 @@ import '../../../../core/services/get_it_service.dart';
 import '../../../../core/widgets/CustomEmptyDataMessageCustomEmptyDataMessage.dart';
 import '../../../../core/widgets/CustomErrorMessage.dart';
 import '../../../../core/widgets/CustomLoading.dart';
+import '../../../../generated/l10n.dart';
 import 'widgets/Debt_Item_Card.dart';
 import 'widgets/payment_item_card.dart';
 
@@ -39,6 +40,7 @@ class _TransactionClientsViewState extends State<TransactionClientsView>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    final l10n = S.of(context);
 
     return BlocProvider(
       create:
@@ -61,7 +63,7 @@ class _TransactionClientsViewState extends State<TransactionClientsView>
               } else if (state is FetchTransactionClientDataState) {
                 if (state.transactions.isEmpty) {
                   return CustomEmptyDataMessage(
-                    message: "لا يوجد ديون او دفعات مسجلة",
+                    message: l10n.noClientTransactions,
                   );
                 }
 
@@ -104,7 +106,7 @@ class _TransactionClientsViewState extends State<TransactionClientsView>
                                     context
                                         .read<FetchTransactionClientCubit>()
                                         .fetchMoreTransactionClient(),
-                            child: const Text('إعادة المحاولة'),
+                            child: Text(l10n.retry),
                           ),
                         );
                       }

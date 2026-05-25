@@ -34,6 +34,7 @@ class DebtManagmentApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      onGenerateTitle: (context) => S.of(context).appName,
 
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,

@@ -2,6 +2,7 @@ import 'package:debt_managment_app/features/clientes/presentation/cubits/fetch%2
 import 'package:debt_managment_app/features/home/presentation/cubits/cubit/home_view_cubit.dart';
 import 'package:debt_managment_app/features/main/presntation/cubits/nav_bar/nav_bar_cubit.dart';
 import 'package:debt_managment_app/features/transactions/presentation/cubits/cubit/fetch_all_transactions_cubit.dart';
+import 'package:debt_managment_app/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,12 +16,13 @@ Future<dynamic> floatActionButtonBottomSheet(BuildContext parentContext) {
     context: parentContext,
     showDragHandle: true,
     builder: (sheetContext) {
+      final l10n = S.of(sheetContext);
       return Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           BottomSheetListTile(
-            title: "إضافة عميل جديد",
-            subtitle: "تسجيل عميل لمتابعة ديونه",
+            title: l10n.addNewClient,
+            subtitle: l10n.addClientSubtitle,
             leadingIcon: Icons.person_add,
             color: Colors.yellow,
             onTap: () async {
@@ -32,8 +34,8 @@ Future<dynamic> floatActionButtonBottomSheet(BuildContext parentContext) {
             },
           ),
           BottomSheetListTile(
-            title: "إضافة دين جديد",
-            subtitle: "تسجيل دين جديد لعميل",
+            title: l10n.addNewDebt,
+            subtitle: l10n.addDebtSubtitle,
             leadingIcon: Icons.sync_alt,
             color: Colors.red,
             onTap: () async {
@@ -45,8 +47,8 @@ Future<dynamic> floatActionButtonBottomSheet(BuildContext parentContext) {
             },
           ),
           BottomSheetListTile(
-            title: "إضافة دفعة جديدة",
-            subtitle: "تسجيل دفعة جديدة لعميل",
+            title: l10n.addNewPayment,
+            subtitle: l10n.addPaymentSubtitle,
             leadingIcon: Icons.monetization_on,
             color: Colors.green,
             onTap: () async {

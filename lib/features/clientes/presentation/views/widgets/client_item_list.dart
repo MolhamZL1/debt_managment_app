@@ -1,5 +1,6 @@
 import 'package:debt_managment_app/features/clientes/domain/entities/client_entity.dart';
 import 'package:debt_managment_app/features/clientes/presentation/views/client_detelies_view.dart';
+import 'package:debt_managment_app/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
 class ClientItemList extends StatelessWidget {
@@ -12,6 +13,7 @@ class ClientItemList extends StatelessWidget {
     final balanceColor =
         clientEntity.isDebt() ? Colors.red[100] : Colors.green[100];
     final textbalanceColor = clientEntity.isDebt() ? Colors.red : Colors.green;
+    final l10n = S.of(context);
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -40,7 +42,7 @@ class ClientItemList extends StatelessWidget {
               children: [
                 const Icon(Icons.phone_outlined, size: 16),
                 Text(
-                  clientEntity.phoneNumber ?? "غير معروف",
+                  clientEntity.phoneNumber ?? l10n.unknown,
                   style: TextStyle(
                     color:
                         Theme.of(context).brightness == Brightness.dark
@@ -56,7 +58,7 @@ class ClientItemList extends StatelessWidget {
               children: [
                 const Icon(Icons.location_on_outlined, size: 16),
                 Text(
-                  clientEntity.address ?? "غير معروف",
+                  clientEntity.address ?? l10n.unknown,
                   style: TextStyle(
                     color:
                         Theme.of(context).brightness == Brightness.dark
@@ -68,7 +70,7 @@ class ClientItemList extends StatelessWidget {
             ),
             SizedBox(height: 4),
             Text(
-              "آخر حركة: ${clientEntity.lastTransaction ?? "لا يوجد بعد"}",
+              "${l10n.lastActivity}: ${clientEntity.lastTransaction ?? l10n.noActivityYet}",
               style: TextStyle(
                 color:
                     Theme.of(context).brightness == Brightness.dark
@@ -87,8 +89,8 @@ class ClientItemList extends StatelessWidget {
           child: Text(
             "~"
             "${clientEntity.getFormattedAmount()}"
-            " ل.س"
-            " ${clientEntity.isDebt() ? "دين" : "رصيد"}",
+            " ${l10n.currencySyp}"
+            " ${clientEntity.isDebt() ? l10n.debt : l10n.balance}",
             style: TextStyle(
               color: textbalanceColor,
               fontSize: 14,

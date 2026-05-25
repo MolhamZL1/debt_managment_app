@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/widgets/CustomLoading.dart';
+import '../../../../../generated/l10n.dart';
 import '../../../../main/domain/entities/ClientSearchDropDownEntity.dart';
 import '../../cubits/search/search_cubit.dart';
 
@@ -15,7 +16,7 @@ class ClientSearchDelegate extends SearchDelegate {
   String _lastQueried = '';
 
   @override
-  String get searchFieldLabel => 'ابحث بالاسم …';
+  String get searchFieldLabel => S.current.searchByName;
   @override
   InputDecorationTheme? get searchFieldDecorationTheme => InputDecorationTheme(
     border: OutlineInputBorder(
@@ -103,7 +104,7 @@ class _ResultsList extends StatelessWidget {
         } else if (state is SearchSuccess) {
           final results = state.results;
           if (results.isEmpty) {
-            return const Center(child: Text('لا يوجد عملاء بهذا الاسم'));
+            return Center(child: Text(S.of(context).noClientWithName));
           }
           return ListView.separated(
             itemCount: results.length,
@@ -118,7 +119,7 @@ class _ResultsList extends StatelessWidget {
             },
           );
         }
-        return const Center(child: Text('اكتب للبدء بالبحث…'));
+        return Center(child: Text(S.of(context).startSearchTyping));
       },
     );
   }

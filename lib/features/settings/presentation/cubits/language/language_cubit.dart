@@ -6,13 +6,11 @@ import '../../../../../core/services/local_storage_service.dart';
 enum AppLanguage { ar, en, system }
 
 class LanguageCubit extends Cubit<Locale?> {
-  LanguageCubit() : super(Locale("ar")) {
+  LanguageCubit() : super(const Locale('ar')) {
     _loadLanguage();
   }
 
   static const _storageKey = LocalStorageKeys.language;
-
-  //static const supportedLocales = <Locale>[Locale('en'), Locale('ar')];
 
   Future<void> _loadLanguage() async {
     final saved = await LocalStorageService.getItem(_storageKey);
@@ -24,10 +22,10 @@ class LanguageCubit extends Cubit<Locale?> {
         emit(const Locale('en'));
         break;
       case 'system':
-        emit(Locale("ar"));
+        emit(null);
         break;
       default:
-        emit(Locale("ar"));
+        emit(const Locale('ar'));
     }
   }
 
@@ -48,10 +46,9 @@ class LanguageCubit extends Cubit<Locale?> {
     }
   }
 
-  // /// كود اللغة الحالي للعرض في الإعدادات
-  // String get currentCode {
-  //   final s = state;
-  //   if (s == null) return 'system';
-  //   return s.languageCode; // 'ar' أو 'en'
-  // }
+  AppLanguage get currentLanguage {
+    final current = state;
+    if (current == null) return AppLanguage.system;
+    return current.languageCode == 'en' ? AppLanguage.en : AppLanguage.ar;
+  }
 }

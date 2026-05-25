@@ -2,6 +2,7 @@ import 'package:debt_managment_app/features/clientes/presentation/cubits/fetch%2
 import 'package:debt_managment_app/features/clientes/presentation/cubits/search/search_cubit.dart';
 import 'package:debt_managment_app/features/clientes/presentation/views/client_detelies_view.dart';
 import 'package:debt_managment_app/features/main/domain/entities/ClientSearchDropDownEntity.dart';
+import 'package:debt_managment_app/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/widgets/category_list.dart';
@@ -12,6 +13,7 @@ class HeaderClientsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = S.of(context);
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 8),
       decoration: BoxDecoration(
@@ -48,7 +50,7 @@ class HeaderClientsSection extends StatelessWidget {
                 );
               },
               decoration: InputDecoration(
-                hintText: 'البحث بالاسم أو رقم الهاتف...',
+                hintText: l10n.searchClientsHint,
                 prefixIcon: const Icon(Icons.search),
               ),
             ),
@@ -56,7 +58,7 @@ class HeaderClientsSection extends StatelessWidget {
           SizedBox(
             height: 52,
             child: CategoriesList(
-              categories: ["الكل", "مدين", "متأخر", "صافي"],
+              categories: [l10n.all, l10n.debt, l10n.late, l10n.clear],
               onCategorySelected: (selectedIndex) {
                 context.read<FetchClientsCubit>().fetchClients(
                   category:

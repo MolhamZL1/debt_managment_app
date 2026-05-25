@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/widgets/CustomEmptyDataMessageCustomEmptyDataMessage.dart';
 import '../../../../../core/widgets/CustomErrorMessage.dart';
 import '../../../../../core/widgets/CustomLoading.dart';
+import '../../../../../generated/l10n.dart';
 import 'HeaderTransactionSection.dart';
 import 'TransactionsList.dart';
 
@@ -25,6 +26,7 @@ class TransactionViewBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = S.of(context);
     return NotificationListener<ScrollNotification>(
       onNotification: (notification) => _onScroll(notification, context),
       child: CustomScrollView(
@@ -52,7 +54,7 @@ class TransactionViewBody extends StatelessWidget {
                 if (state.transactions.isEmpty) {
                   return SliverFillRemaining(
                     hasScrollBody: false,
-                    child: CustomEmptyDataMessage(message: 'لا يوجد تحويلات'),
+                    child: CustomEmptyDataMessage(message: l10n.noTransactions),
                   );
                 }
 
@@ -75,7 +77,7 @@ class TransactionViewBody extends StatelessWidget {
                                     context
                                         .read<FetchAllTransactionsCubit>()
                                         .fetchMoreTransactions(),
-                            child: const Text('إعادة المحاولة'),
+                            child: Text(l10n.retry),
                           ),
                         ),
                       ),

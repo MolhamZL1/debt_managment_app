@@ -1,6 +1,7 @@
 import 'package:debt_managment_app/core/functions/custom_validator.dart';
 import 'package:debt_managment_app/core/utils/show_err_dialog.dart';
 import 'package:debt_managment_app/features/clientes/domain/repo/debt_client_repo.dart';
+import 'package:debt_managment_app/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -25,19 +26,20 @@ Future<dynamic> adddebtBottomSheet(BuildContext context) {
     enableDrag: false,
     builder: (ctx) {
       final bottomInset = MediaQuery.of(ctx).viewInsets.bottom;
+      final l10n = S.of(ctx);
       return BlocProvider(
         create: (context) => AddDebtCubit(getIt.get<DebtClientRepo>()),
         child: BlocConsumer<AddDebtCubit, AddDebtState>(
           listener: (blocContext, state) {
             if (state is AddDebtSuccess) {
               Navigator.pop(ctx, true);
-              customshowSnackBar(context, massege: "تم حفظ الدين بنجاح");
+              customshowSnackBar(context, massege: l10n.debtSavedSuccessfully);
             }
             if (state is AddDebtError) {
               Navigator.pop(ctx);
               showerrorDialog(
                 context: context,
-                title: "فشل إضافة الدين",
+                title: l10n.addDebtFailed,
                 description: state.errMessage,
               );
             }
@@ -60,37 +62,37 @@ Future<dynamic> adddebtBottomSheet(BuildContext context) {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           Text(
-                            "إضافة دين جديد",
+                            l10n.addNewDebt,
                             textAlign: TextAlign.start,
                             style: Theme.of(ctx).textTheme.headlineSmall,
                           ),
                           const SizedBox(height: 24),
 
-                          const TextHeaderSettings('العميل'),
-                          ClientSearchField(),
+                          TextHeaderSettings(l10n.client),
+                          const ClientSearchField(),
                           const SizedBox(height: 12),
-                          const TextHeaderSettings('المبلغ'),
+                          TextHeaderSettings(l10n.amount),
                           FormBuilderTextField(
                             name: 'amount',
                             keyboardType: const TextInputType.numberWithOptions(
                               decimal: true,
                               signed: false,
                             ),
-                            decoration: const InputDecoration(
-                              hintText: "0.0 ل.س",
-                              prefixIcon: Icon(Icons.money_outlined),
+                            decoration: InputDecoration(
+                              hintText: "0.0 ${l10n.currencySyp}",
+                              prefixIcon: const Icon(Icons.money_outlined),
                             ),
                             validator: CustomValidator.amountValidator,
                           ),
 
                           const SizedBox(height: 12),
-                          const TextHeaderSettings('ملاحظة'),
+                          TextHeaderSettings(l10n.note),
                           FormBuilderTextField(
                             name: 'note',
                             maxLength: 100,
-                            decoration: const InputDecoration(
-                              hintText: "ملاحظة (اختياري)",
-                              prefixIcon: Icon(Icons.note_alt_outlined),
+                            decoration: InputDecoration(
+                              hintText: l10n.optionalNote,
+                              prefixIcon: const Icon(Icons.note_alt_outlined),
                             ),
                           ),
                           const SizedBox(height: 16),
@@ -102,7 +104,7 @@ Future<dynamic> adddebtBottomSheet(BuildContext context) {
                                       isLoading
                                           ? null
                                           : () => Navigator.pop(ctx),
-                                  child: const Text("إلغاء"),
+                                  child: Text(l10n.cancel),
                                 ),
                               ),
                               const SizedBox(width: 12),
@@ -151,7 +153,7 @@ Future<dynamic> adddebtBottomSheet(BuildContext context) {
                                               strokeWidth: 2,
                                             ),
                                           )
-                                          : const Text("حفظ"),
+                                          : Text(l10n.save),
                                 ),
                               ),
                             ],

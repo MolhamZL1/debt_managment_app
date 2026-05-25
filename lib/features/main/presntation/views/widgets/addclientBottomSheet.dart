@@ -3,6 +3,7 @@ import 'package:debt_managment_app/core/utils/custom_snack_bar.dart';
 import 'package:debt_managment_app/core/utils/show_err_dialog.dart';
 import 'package:debt_managment_app/features/clientes/domain/repo/clientes_repo.dart';
 import 'package:debt_managment_app/features/main/presntation/cubits/add%20client/add_client_cubit.dart';
+import 'package:debt_managment_app/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -23,6 +24,7 @@ Future<bool?> addclientBottomSheet(BuildContext parentContext) {
     enableDrag: false,
     builder: (sheetContext) {
       final bottomInset = MediaQuery.of(sheetContext).viewInsets.bottom;
+      final l10n = S.of(sheetContext);
       return BlocProvider(
         create: (_) => AddClientCubit(getIt.get<ClientesRepo>()),
         child: BlocConsumer<AddClientCubit, AddClientState>(
@@ -32,7 +34,7 @@ Future<bool?> addclientBottomSheet(BuildContext parentContext) {
 
               customshowSnackBar(
                 parentContext,
-                massege: "تمت إضافة العميل بنجاح",
+                massege: l10n.clientAddedSuccessfully,
               );
             }
 
@@ -41,7 +43,7 @@ Future<bool?> addclientBottomSheet(BuildContext parentContext) {
 
               showerrorDialog(
                 context: parentContext,
-                title: "فشلت إضافة العميل",
+                title: l10n.addClientFailed,
                 description: state.errorMessage,
               );
             }
@@ -64,36 +66,36 @@ Future<bool?> addclientBottomSheet(BuildContext parentContext) {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           Text(
-                            "إضافة عميل جديد",
+                            l10n.addNewClient,
                             textAlign: TextAlign.start,
                             style:
                                 Theme.of(sheetContext).textTheme.headlineSmall,
                           ),
                           const SizedBox(height: 24),
 
-                          const TextHeaderSettings('اسم العميل'),
+                          TextHeaderSettings(l10n.clientName),
                           FormBuilderTextField(
                             name: 'name',
                             keyboardType: TextInputType.name,
                             textInputAction: TextInputAction.next,
-                            decoration: const InputDecoration(
-                              hintText: "اسم العميل",
-                              prefixIcon: Icon(Icons.person_outlined),
+                            decoration: InputDecoration(
+                              hintText: l10n.clientName,
+                              prefixIcon: const Icon(Icons.person_outlined),
                             ),
                             validator: CustomValidator.nameValidator,
                           ),
 
                           const SizedBox(height: 12),
-                          const TextHeaderSettings('رقم الموبايل'),
+                          TextHeaderSettings(l10n.phoneNumber),
                           FormBuilderTextField(
                             name: 'phone',
                             keyboardType: const TextInputType.numberWithOptions(
                               decimal: true,
                               signed: false,
                             ),
-                            decoration: const InputDecoration(
-                              hintText: "( اختياري )",
-                              prefixIcon: Icon(Icons.phone_outlined),
+                            decoration: InputDecoration(
+                              hintText: l10n.optional,
+                              prefixIcon: const Icon(Icons.phone_outlined),
                             ),
                             validator: (v) {
                               return v == null
@@ -103,13 +105,15 @@ Future<bool?> addclientBottomSheet(BuildContext parentContext) {
                           ),
 
                           const SizedBox(height: 12),
-                          const TextHeaderSettings('العنوان'),
+                          TextHeaderSettings(l10n.address),
                           FormBuilderTextField(
                             name: 'address',
                             maxLength: 100,
-                            decoration: const InputDecoration(
-                              hintText: "( اختياري )",
-                              prefixIcon: Icon(Icons.location_on_outlined),
+                            decoration: InputDecoration(
+                              hintText: l10n.optional,
+                              prefixIcon: const Icon(
+                                Icons.location_on_outlined,
+                              ),
                             ),
                             validator: (v) {
                               return v == null
@@ -127,7 +131,7 @@ Future<bool?> addclientBottomSheet(BuildContext parentContext) {
                                       isLoading
                                           ? null
                                           : () => Navigator.pop(sheetContext),
-                                  child: const Text("إلغاء"),
+                                  child: Text(l10n.cancel),
                                 ),
                               ),
                               const SizedBox(width: 12),
@@ -163,7 +167,7 @@ Future<bool?> addclientBottomSheet(BuildContext parentContext) {
                                               strokeWidth: 2,
                                             ),
                                           )
-                                          : const Text("حفظ"),
+                                          : Text(l10n.save),
                                 ),
                               ),
                             ],

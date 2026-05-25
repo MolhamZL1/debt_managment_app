@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../core/utils/app_images.dart';
+import '../../../../../generated/l10n.dart';
 
 class EmptyHomeStateSection extends StatelessWidget {
   const EmptyHomeStateSection({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = S.of(context);
     return Center(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
@@ -19,12 +21,12 @@ class EmptyHomeStateSection extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             Text(
-              'أهلاً بك في تطبيق سجلها 👋',
+              l10n.emptyHomeTitle,
               style: Theme.of(context).textTheme.titleLarge,
             ),
             const SizedBox(height: 8),
             Text(
-              'ابدأ بإضافة أول عميل أو أول دين\nعن طريق الضغط على زر (+) في الاسفل .',
+              l10n.emptyHomeSubtitle,
               textAlign: TextAlign.center,
               style: Theme.of(
                 context,

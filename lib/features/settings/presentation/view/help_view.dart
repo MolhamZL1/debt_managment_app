@@ -1,5 +1,6 @@
 import 'package:debt_managment_app/core/functions/open_whatsapp.dart';
 import 'package:debt_managment_app/core/theme/app_colors.dart';
+import 'package:debt_managment_app/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
 class HelpPage extends StatelessWidget {
@@ -8,39 +9,40 @@ class HelpPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = S.of(context);
     return Scaffold(
-      appBar: AppBar(title: const Text('المساعدة')),
+      appBar: AppBar(title: Text(l10n.help)),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
         children: [
           const _HelpHero(),
           const SizedBox(height: 16),
           _HelpSection(
-            title: 'كيف تستخدم التطبيق؟',
-            children: const [
+            title: l10n.helpHowToUse,
+            children: [
               _HelpStep(
                 number: '1',
-                title: 'أضف عميلًا',
-                description: 'اضغط زر الإضافة في الأسفل واختر إضافة عميل جديد.',
+                title: l10n.helpStepAddClientTitle,
+                description: l10n.helpStepAddClientDescription,
               ),
               _HelpStep(
                 number: '2',
-                title: 'سجّل دينًا أو دفعة',
-                description: 'اختر العميل ثم أدخل المبلغ والملاحظة إن وجدت.',
+                title: l10n.helpStepAddDebtPaymentTitle,
+                description: l10n.helpStepAddDebtPaymentDescription,
               ),
               _HelpStep(
                 number: '3',
-                title: 'راجع كشف الحساب',
-                description: 'افتح تفاصيل العميل لمتابعة الديون والدفعات.',
+                title: l10n.helpStepReviewStatementTitle,
+                description: l10n.helpStepReviewStatementDescription,
               ),
             ],
           ),
           const SizedBox(height: 14),
           _HelpSection(
-            title: 'الدعم الفني',
+            title: l10n.technicalSupport,
             children: [
               Text(
-                'لأي استفسار أو اقتراح، يمكنك التواصل معنا عبر واتساب.',
+                l10n.technicalSupportDescription,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color:
                       Theme.of(context).brightness == Brightness.dark
@@ -55,7 +57,7 @@ class HelpPage extends StatelessWidget {
                 child: ElevatedButton.icon(
                   onPressed: () => openWhatsApp(context, "+963988159532"),
                   icon: const Icon(Icons.chat_outlined),
-                  label: const Text('تواصل معنا على واتساب'),
+                  label: Text(l10n.contactUsWhatsapp),
                 ),
               ),
             ],
@@ -71,6 +73,7 @@ class _HelpHero extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = S.of(context);
     return Container(
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
@@ -99,14 +102,14 @@ class _HelpHero extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'مركز المساعدة',
+                  l10n.helpCenter,
                   style: Theme.of(
                     context,
                   ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w900),
                 ),
                 const SizedBox(height: 5),
                 Text(
-                  'إرشادات سريعة لاستخدام سجّلها بكفاءة.',
+                  l10n.helpHeroSubtitle,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     color:
                         Theme.of(context).brightness == Brightness.dark

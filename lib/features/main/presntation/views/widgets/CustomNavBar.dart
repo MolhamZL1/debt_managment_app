@@ -1,42 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../generated/l10n.dart';
 import '../../cubits/nav_bar/nav_bar_cubit.dart';
 
 class CustomNavBar extends StatelessWidget {
   const CustomNavBar({super.key});
-
-  static const _items = [
-    _NavItem(
-      icon: Icons.home_rounded,
-      outlinedIcon: Icons.home_outlined,
-      label: 'الرئيسية',
-    ),
-    _NavItem(
-      icon: Icons.people_rounded,
-      outlinedIcon: Icons.people_outline_rounded,
-      label: 'العملاء',
-    ),
-    _NavItem(
-      icon: Icons.swap_horiz_rounded,
-      outlinedIcon: Icons.swap_horiz_outlined,
-      label: 'التحويلات',
-    ),
-    _NavItem(
-      icon: Icons.settings_rounded,
-      outlinedIcon: Icons.settings_outlined,
-      label: 'الإعدادات',
-    ),
-  ];
 
   @override
   Widget build(BuildContext context) {
     final currentIndex = context.watch<NavBarCubit>().currentIndex;
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final l10n = S.of(context);
+    final items = [
+      _NavItem(
+        icon: Icons.home_rounded,
+        outlinedIcon: Icons.home_outlined,
+        label: l10n.home,
+      ),
+      _NavItem(
+        icon: Icons.people_rounded,
+        outlinedIcon: Icons.people_outline_rounded,
+        label: l10n.clients,
+      ),
+      _NavItem(
+        icon: Icons.swap_horiz_rounded,
+        outlinedIcon: Icons.swap_horiz_outlined,
+        label: l10n.transactions,
+      ),
+      _NavItem(
+        icon: Icons.settings_rounded,
+        outlinedIcon: Icons.settings_outlined,
+        label: l10n.settings,
+      ),
+    ];
 
     return Directionality(
-      textDirection: TextDirection.rtl,
+      textDirection: Directionality.of(context),
       child: Container(
         margin: const EdgeInsets.fromLTRB(16, 0, 16, 24),
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
@@ -54,9 +55,9 @@ class CustomNavBar extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: List.generate(
-            _items.length,
+            items.length,
             (index) => _NavBarItem(
-              item: _items[index],
+              item: items[index],
               isSelected: currentIndex == index,
               onTap: () => context.read<NavBarCubit>().changeIndex(index),
             ),

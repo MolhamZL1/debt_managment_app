@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../generated/l10n.dart';
+
 class ActionButtonsClientDetails extends StatelessWidget {
   final VoidCallback onAddDebt;
   final VoidCallback onAddPayment;
@@ -12,6 +14,7 @@ class ActionButtonsClientDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = S.of(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       child: Row(
@@ -20,7 +23,7 @@ class ActionButtonsClientDetails extends StatelessWidget {
             child: ElevatedButton.icon(
               onPressed: onAddDebt,
               icon: const Icon(Icons.add),
-              label: const Text("إضافة دين"),
+              label: Text(l10n.addNewDebt),
             ),
           ),
           const SizedBox(width: 12),
@@ -28,7 +31,7 @@ class ActionButtonsClientDetails extends StatelessWidget {
             child: TextButton.icon(
               onPressed: onAddPayment,
               icon: const Icon(Icons.add),
-              label: const Text("تسجيل دفعة"),
+              label: Text(l10n.addNewPayment),
             ),
           ),
         ],
