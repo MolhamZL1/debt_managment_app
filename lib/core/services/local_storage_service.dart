@@ -3,7 +3,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 abstract class LocalStorageKeys {
   static const String themeMode = 'theme_mode';
   static const String language = "language";
+  static const String currency = "currency";
   static const String user = "user";
+  static const String privacyPolicyAccepted = "privacy_policy_accepted";
+  static const String termsAccepted = "terms_accepted";
 }
 
 class LocalStorageService {
@@ -42,6 +45,12 @@ class LocalStorageService {
   static Future<void> markOnboardingSeen() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(_onboardingSeenKey, true);
+  }
+
+  static Future<void> markLegalAccepted() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(LocalStorageKeys.privacyPolicyAccepted, true);
+    await prefs.setBool(LocalStorageKeys.termsAccepted, true);
   }
 
   static Future<bool> hasSeenOnboarding() async {

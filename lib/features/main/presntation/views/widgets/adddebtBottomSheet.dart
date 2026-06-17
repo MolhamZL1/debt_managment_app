@@ -1,4 +1,5 @@
 import 'package:debt_managment_app/core/functions/custom_validator.dart';
+import 'package:debt_managment_app/core/utils/currency_formatter.dart';
 import 'package:debt_managment_app/core/utils/show_err_dialog.dart';
 import 'package:debt_managment_app/features/clientes/domain/repo/debt_client_repo.dart';
 import 'package:debt_managment_app/generated/l10n.dart';
@@ -79,7 +80,7 @@ Future<dynamic> adddebtBottomSheet(BuildContext context) {
                               signed: false,
                             ),
                             decoration: InputDecoration(
-                              hintText: "0.0 ${l10n.currencySyp}",
+                              hintText: "0.0 ${selectedCurrencySymbol(ctx)}",
                               prefixIcon: const Icon(Icons.money_outlined),
                             ),
                             validator: CustomValidator.amountValidator,

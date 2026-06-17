@@ -1,4 +1,5 @@
 import 'package:debt_managment_app/core/theme/app_text_styles.dart';
+import 'package:debt_managment_app/core/utils/currency_formatter.dart';
 import 'package:debt_managment_app/features/clientes/domain/entities/client_entity.dart';
 import 'package:flutter/material.dart';
 
@@ -41,12 +42,12 @@ class ClientStatus extends StatelessWidget {
         clientEntity.isDebt()
             ? _item(
               l10n.debts,
-              "${clientEntity.amount.abs()} ${l10n.currencySyp}",
+              formatCurrency(context, clientEntity.amount.abs()),
               color: Color(0xFFE11D48),
             )
             : _item(
               l10n.balance,
-              "${clientEntity.amount.abs()} ${l10n.currencySyp}",
+              formatCurrency(context, clientEntity.amount.abs()),
               color: Colors.green,
             ),
       ],

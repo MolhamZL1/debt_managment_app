@@ -1,3 +1,4 @@
+import 'package:debt_managment_app/core/utils/currency_formatter.dart';
 import 'package:debt_managment_app/features/clientes/domain/entities/client_entity.dart';
 import 'package:debt_managment_app/features/clientes/presentation/views/client_detelies_view.dart';
 import 'package:debt_managment_app/generated/l10n.dart';
@@ -89,7 +90,7 @@ class ClientItemList extends StatelessWidget {
           child: Text(
             "~"
             "${clientEntity.getFormattedAmount()}"
-            " ${l10n.currencySyp}"
+            " ${selectedCurrencySymbol(context)}"
             " ${clientEntity.isDebt() ? l10n.debt : l10n.balance}",
             style: TextStyle(
               color: textbalanceColor,

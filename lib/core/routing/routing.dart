@@ -2,7 +2,6 @@ import 'package:debt_managment_app/features/auth/presentation/views/sign_in_view
 import 'package:debt_managment_app/features/auth/presentation/views/verf_code_view.dart';
 import 'package:debt_managment_app/features/onboarding/presentation/views/onboarding_view.dart';
 import 'package:debt_managment_app/features/settings/presentation/view/about_us_view.dart';
-import 'package:debt_managment_app/features/settings/presentation/view/privacy_policy_view.dart';
 import 'package:flutter/material.dart';
 
 import '../../features/auth/presentation/views/check_code_reset_password.dart';
@@ -12,7 +11,6 @@ import '../../features/auth/presentation/views/sign_up_view.dart';
 import '../../features/clientes/presentation/views/client_detelies_view.dart';
 import '../../features/main/presntation/views/main_view.dart';
 import '../../features/settings/presentation/view/help_view.dart';
-import '../../features/settings/presentation/view/terms_and_conditions_view.dart';
 import '../../features/splash/splash_view.dart';
 
 Route<dynamic>? onGenerateRoute(RouteSettings settings) {
@@ -64,10 +62,6 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
     case AboutUsPage.routename:
       return MaterialPageRoute(builder: (_) => const AboutUsPage());
 
-    case PrivacyPolicyView.routename:
-      return MaterialPageRoute(builder: (_) => const PrivacyPolicyView());
-    case TermsAndConditionsView.routename:
-      return MaterialPageRoute(builder: (_) => const TermsAndConditionsView());
     default:
       return MaterialPageRoute(builder: (context) => Scaffold());
   }

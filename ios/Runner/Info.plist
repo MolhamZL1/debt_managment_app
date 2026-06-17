@@ -11,6 +11,8 @@
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
 	<string>Sajilha</string>
+	<key>NSContactsUsageDescription</key>
+	<string>يستخدم التطبيق جهات الاتصال لتعبئة اسم العميل ورقم هاتفه عند إضافته.</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>

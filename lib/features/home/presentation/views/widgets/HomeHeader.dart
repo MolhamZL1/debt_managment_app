@@ -1,3 +1,4 @@
+import 'package:debt_managment_app/core/utils/currency_formatter.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../core/theme/app_colors.dart';
@@ -43,9 +44,7 @@ class HomeHeader extends StatelessWidget {
             fit: BoxFit.scaleDown,
             alignment: Alignment.centerRight,
             child: Text(
-              "$totalDebts"
-              " "
-              "${l10n.currencySyp}",
+              formatCurrency(context, totalDebts),
               style: Theme.of(context).textTheme.headlineLarge?.copyWith(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,

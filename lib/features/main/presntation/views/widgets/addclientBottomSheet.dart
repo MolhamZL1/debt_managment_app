@@ -1,4 +1,5 @@
 import 'package:debt_managment_app/core/functions/custom_validator.dart';
+import 'package:debt_managment_app/core/services/contact_picker_service.dart';
 import 'package:debt_managment_app/core/utils/custom_snack_bar.dart';
 import 'package:debt_managment_app/core/utils/show_err_dialog.dart';
 import 'package:debt_managment_app/features/clientes/domain/repo/clientes_repo.dart';
@@ -14,6 +15,7 @@ import '../../../../settings/presentation/view/widgets/TextHeaderSettings.dart';
 
 Future<bool?> addclientBottomSheet(BuildContext parentContext) {
   final formKey = GlobalKey<FormBuilderState>();
+  const contactPickerService = ContactPickerService();
 
   return showModalBottomSheet<bool>(
     context: parentContext,
@@ -70,6 +72,20 @@ Future<bool?> addclientBottomSheet(BuildContext parentContext) {
                             textAlign: TextAlign.start,
                             style:
                                 Theme.of(sheetContext).textTheme.headlineSmall,
+                          ),
+                          const SizedBox(height: 12),
+                          OutlinedButton.icon(
+                            onPressed:
+                                isLoading
+                                    ? null
+                                    : () => _fillFromContacts(
+                                      context: sheetContext,
+                                      formKey: formKey,
+                                      contactPickerService:
+                                          contactPickerService,
+                                    ),
+                            icon: const Icon(Icons.contacts_outlined),
+                            label: const Text('اختيار من جهات الاتصال'),
                           ),
                           const SizedBox(height: 24),
 
@@ -184,4 +200,45 @@ Future<bool?> addclientBottomSheet(BuildContext parentContext) {
       );
     },
   );
+}
+
+Future<void> _fillFromContacts({
+  required BuildContext context,
+  required GlobalKey<FormBuilderState> formKey,
+  required ContactPickerService contactPickerService,
+}) async {
+  final result = await contactPickerService.pickContact();
+
+  if (!context.mounted || result.failure == ContactPickerFailure.canceled) {
+    return;
+  }
+
+  final contact = result.contact;
+  if (contact != null) {
+    formKey.currentState?.patchValue({
+      'name': contact.name,
+      'phone': contact.phone,
+    });
+    return;
+  }
+
+  showerrorDialog(
+    context: context,
+    title: 'تعذر اختيار جهة الاتصال',
+    description: _contactPickerErrorMessage(result.failure),
+  );
+}
+
+String _contactPickerErrorMessage(ContactPickerFailure? failure) {
+  return switch (failure) {
+    ContactPickerFailure.permissionDenied =>
+      'لم يتم منح صلاحية قراءة جهات الاتصال.',
+    ContactPickerFailure.permissionPermanentlyDenied =>
+      'صلاحية جهات الاتصال مرفوضة. افتح إعدادات التطبيق وفعّلها ثم حاول مرة أخرى.',
+    ContactPickerFailure.noPhoneNumber =>
+      'جهة الاتصال المختارة لا تحتوي على رقم هاتف.',
+    ContactPickerFailure.unsupported =>
+      'اختيار جهات الاتصال غير مدعوم على هذا الجهاز.',
+    _ => 'حدث خطأ غير متوقع أثناء قراءة جهة الاتصال.',
+  };
 }

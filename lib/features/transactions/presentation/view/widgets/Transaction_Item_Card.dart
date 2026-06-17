@@ -1,3 +1,4 @@
+import 'package:debt_managment_app/core/utils/currency_formatter.dart';
 import 'package:debt_managment_app/features/transactions/domain/entities/transaction_entity.dart';
 import 'package:debt_managment_app/generated/l10n.dart';
 import 'package:flutter/material.dart';
@@ -65,7 +66,7 @@ class TransactionDebtItem extends StatelessWidget {
             child: Text(
               "~"
               '${tx.getFormattedAmount()}'
-              " ${l10n.currencySyp}"
+              " ${selectedCurrencySymbol(context)}"
               " "
               "${l10n.debt}",
               style: TextStyle(
@@ -128,7 +129,7 @@ class TransactionPaymentItem extends StatelessWidget {
           label: Text(
             "~"
             '${tx.getFormattedAmount()}'
-            " ${l10n.currencySyp}"
+            " ${selectedCurrencySymbol(context)}"
             " "
             "${l10n.pay}",
             style: TextStyle(

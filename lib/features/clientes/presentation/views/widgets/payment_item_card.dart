@@ -1,4 +1,5 @@
 import 'package:debt_managment_app/core/entities/payment_entity.dart';
+import 'package:debt_managment_app/core/utils/currency_formatter.dart';
 import 'package:flutter/material.dart';
 import '../../../../../core/theme/app_colors.dart';
 
@@ -29,7 +30,7 @@ class PaymentItemCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: Text(
-                      "${paymentEntity.amount} ل.س دفعة",
+                      "${formatCurrency(context, paymentEntity.amount)} دفعة",
                       style: TextStyle(color: AppColors.success),
                     ),
                   ),

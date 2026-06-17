@@ -49,6 +49,8 @@ class SettingsTile extends StatelessWidget {
                   children: [
                     Text(
                       title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.titleSmall?.copyWith(
                         fontWeight: FontWeight.w900,
                       ),
@@ -57,6 +59,8 @@ class SettingsTile extends StatelessWidget {
                       const SizedBox(height: 3),
                       Text(
                         subtitle!,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           color: mutedColor,
                           height: 1.35,
@@ -67,10 +71,14 @@ class SettingsTile extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 10),
-              trailingWidget ??
-                  (onTap == null
-                      ? const SizedBox.shrink()
-                      : Icon(Icons.chevron_left_rounded, color: mutedColor)),
+              ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 96),
+                child:
+                    trailingWidget ??
+                    (onTap == null
+                        ? const SizedBox.shrink()
+                        : Icon(Icons.chevron_left_rounded, color: mutedColor)),
+              ),
             ],
           ),
         ),
